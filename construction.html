@@ -31,7 +31,7 @@ nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:c
 .nav-dot { width:8px;height:8px;background:#22C55E;border-radius:50%;animation:pulse 2.5s ease infinite; }
 .nav-status { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted); }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
-.hero { min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 52px 80px;gap:60px;position:relative;overflow:hidden; }
+.hero { min-height:auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:96px 52px 48px;gap:60px;position:relative;overflow:hidden; }
 .hero::after { content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(139,79,26,0.08) 0%,transparent 65%);pointer-events:none; }
 .hero-left { position:relative;z-index:1; }
 .hero-tag { display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;opacity:0;animation:fadeUp .7s .1s forwards;box-shadow:var(--shadow); }
@@ -64,7 +64,7 @@ section { padding:100px 52px; }
 .section-eyebrow::after { content:'';flex:0 0 28px;height:1px;background:var(--accent); }
 .section-heading { font-family:'Instrument Serif',serif;font-size:clamp(36px,4vw,56px);line-height:1.05;letter-spacing:-0.025em; }
 .section-heading em { font-style:italic;color:var(--accent); }
-.about { background:var(--surface); }
+.about { background:var(--surface);padding-top:56px;padding-bottom:56px; }
 .about-inner { display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start; }
 .about-body { font-size:15px;line-height:1.9;color:var(--muted);margin-top:28px; }
 .about-body p + p { margin-top:18px; }
@@ -172,7 +172,7 @@ footer { padding:28px 52px;display:flex;justify-content:space-between;align-item
 <nav>
   <div class="nav-logo">Ben <em>Yacker</em></div>
   <div class="nav-links">
-    <a href="#about">About</a><a href="#projects">Work</a>
+    <a href="#about">About</a>
     <a href="#experience">Experience</a><a href="#gallery">Gallery</a><a href="#skills">Skills</a>
     <a href="#education">Education</a>
   </div>
@@ -232,40 +232,6 @@ footer { padding:28px 52px;display:flex;justify-content:space-between;align-item
       <div class="tools-grid"><div class="tool-chip hl">Owner's Representation</div><div class="tool-chip hl">Owner Design Reviews (SD/DD/CD)</div><div class="tool-chip hl">Tenant Coordination</div><div class="tool-chip hl">Budget & Schedule Control</div><div class="tool-chip">Change Order Management</div><div class="tool-chip">Subcontractor Procurement</div><div class="tool-chip">Procore</div><div class="tool-chip">MS Project</div><div class="tool-chip">Primavera P6</div><div class="tool-chip">Bluebeam</div><div class="tool-chip">Multi-State Permitting</div><div class="tool-chip">RFI/Submittal Management</div></div>
     </div>
   </div>
-</section>
-
-<!-- PROJECTS -->
-<section class="projects" id="projects">
-  <div class="section-eyebrow reveal">Featured projects</div>
-  <h2 class="section-heading reveal">Featured<br><em>work.</em></h2>
-  <div class="projects-grid">
-    <div class="project-card reveal ">
-      <div class="project-img"><img src="https://www.brightwater-condos.com/wp-content/uploads/2021/04/Brightwater_EXTERIOR_12.jpg" alt="Brightwater" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;"></div>
-      <div class="project-body">
-        <div class="project-meta">Master-Planned Community</div>
-        <div class="project-name">Brightwater</div>
-        <div class="project-desc">~$3B USD waterfront community. Full lifecycle from groundbreaking through occupancy. 2,500+ condos, 400+ townhomes, 300K+ sq ft retail. Owner design reviews, change order management, tenant coordination. Zero LTI.</div>
-        <div class="project-stat"><div class="project-stat-item"><strong>~$3B USD</strong>Dev. Value</div><div class="project-stat-item"><strong>$150M+</strong>Phase Budgets</div><div class="project-stat-item"><strong>Zero LTI</strong>Safety</div></div>
-      </div>
-    </div>
-    <div class="project-card reveal reveal-delay-reveal-delay-1">
-      <div class="project-img"><img src="applegreen_plaza.jpg" alt="Applegreen Program" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;" onerror="this.style.display='none';this.parentElement.innerHTML+='<div><div style="background:linear-gradient(135deg,#0D2B3E 0%,#1A5C7A 55%,#0F8A6B 100%);width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:24px 20px;box-sizing:border-box;"><div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);font-family:Outfit,sans-serif;">Active Program</div><div style="font-family:Instrument Serif,serif;font-size:20px;color:white;line-height:1.2;">Applegreen<br>EV + Retail Program</div><div style="display:flex;gap:16px;"><div><div style="font-family:Instrument Serif,serif;font-size:22px;color:white;">$1B+</div><div style="font-size:9px;color:rgba(255,255,255,.4);font-family:Outfit,sans-serif;font-weight:600;text-transform:uppercase;">Program</div></div><div><div style="font-family:Instrument Serif,serif;font-size:22px;color:white;">35+</div><div style="font-size:9px;color:rgba(255,255,255,.4);font-family:Outfit,sans-serif;font-weight:600;text-transform:uppercase;">Sites</div></div><div><div style="font-family:Instrument Serif,serif;font-size:22px;color:white;">400kW</div><div style="font-size:9px;color:rgba(255,255,255,.4);font-family:Outfit,sans-serif;font-weight:600;text-transform:uppercase;">DC Fast</div></div></div></div></div>'"></div>
-      <div class="project-body">
-        <div class="project-meta">Retail &amp; Infrastructure &middot; Multi-State</div>
-        <div class="project-name">Applegreen Program</div>
-        <div class="project-desc">Full-build retail travel center construction and EV infrastructure deployment across 35+ active locations in NY, NJ, PA, and DE. $1B+ capital program with design-build delivery.</div>
-        <div class="project-stat"><div class="project-stat-item"><strong>$1B+</strong>Program Value</div><div class="project-stat-item"><strong>$200M+</strong>Active Value</div><div class="project-stat-item"><strong>35+</strong>Sites</div></div>
-      </div>
-    </div>
-    <div class="project-card reveal reveal-delay-reveal-delay-2">
-      <div class="project-img"><img src="https://www.brightwater-condos.com/wp-content/uploads/2022/06/s-mason.jpeg" alt="The Mason at Brightwater" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;"></div>
-      <div class="project-body">
-        <div class="project-meta">Mixed-Use Residential</div>
-        <div class="project-name">The Mason at Brightwater</div>
-        <div class="project-desc">9-storey boutique residence and townhome collection. Coordinated all trade packages from slab through occupancy. Owner design reviews, budget reconciliation, and investment committee reporting.</div>
-        <div class="project-stat"><div class="project-stat-item"><strong>25+</strong>Trade Packages</div><div class="project-stat-item"><strong>400+</strong>RFIs Managed</div><div class="project-stat-item"><strong>On Schedule</strong>Delivery</div></div>
-      </div>
-    </div></div>
 </section>
 
 <!-- EXPERIENCE -->

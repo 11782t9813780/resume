@@ -391,6 +391,12 @@ body{background:radial-gradient(1300px 900px at 60% -10%,#0c1422 0%,var(--bg) 60
 
 /* ---------------------- GLOSSARY (hover-to-define) ---------------------- */
 const GLOSSARY = {
+  sd:{t:"SD — Schematic Design",d:"The first design phase: overall layout, massing and major systems at a concept level (~30%). Sets program, scope and budget direction before detail is locked in.",u:"Owner reviews at SD fix program and budget — the cheapest moment to change anything."},
+  dd:{t:"DD — Design Development",d:"The middle phase: systems, materials and dimensions get defined and coordinated (~60%). Where most constructability and clash issues surface.",u:"Push for constructability and MEP coordination at DD — far cheaper than a field fix later."},
+  cd:{t:"CD — Construction Documents",d:"The final, build-ready drawings and specs (~90–100%) used to permit, bid and build.",u:"Owner CD review confirms the set is permittable and complete before it goes out to bid."},
+  constructability:{t:"Constructability review",d:"An owner/builder review of the design for whether it can actually be built efficiently — clearances, sequencing, access and trade coordination.",u:"Running constructability reviews at DD is exactly the owner-side value you gave across $4B+ of projects."},
+  mep:{t:"MEP — Mechanical, Electrical, Plumbing",d:"The building's core systems — HVAC/cooling, power distribution and plumbing. The dominant coordination and cost driver on data-center and high-rise work.",u:"Lead with MEP coordination — it's where owner design reviews catch the costliest clashes."},
+  proforma:{t:"Pro forma",d:"The financial model for a development — projected costs, revenue and returns. Design and change decisions are judged against it.",u:"Tie design choices back to the pro forma to show you think like an owner, not just a builder."},
   pue:{t:"PUE — Power Usage Effectiveness",d:"Total facility energy ÷ IT energy. 1.0 is perfect; the best hyperscale fleets run ~1.09 vs an industry average near 1.56.",u:"Anchor every efficiency answer to PUE, then name a lever (free cooling, ML setpoints)."},
   wue:{t:"WUE — Water Usage Effectiveness",d:"Litres of water used per kWh of IT energy. Newer designs target near-zero water via closed-loop liquid cooling.",u:"Drop 'WUE' next to 'PUE' to show you think about water, not just power."},
   "ml-cooling":{t:"ML-driven cooling",d:"Using machine-learning models to tune cooling setpoints in real time. Google cut data-center cooling energy ~40% this way.",u:"Signals you'd instrument and optimize operations, not just build and walk away."},
@@ -1562,6 +1568,14 @@ MODULES.curveball=makePick('curveball',[
   {q:"\"What would your harshest critic say about you?\"",opts:[{t:"A real, manageable critique + how you've worked on it",ok:1,why:"Self-awareness without self-destruction."},{t:"\"Nothing — everyone loves me.\""},{t:"Trash a former colleague"}]},
   {q:"You don't know the answer to a technical question. You…",opts:[{t:"Say what you do know, how you'd find out, and a related example",ok:1,why:"Honesty plus a method beats bluffing — interviewers respect the reasoning."},{t:"Bluff a confident-sounding answer"},{t:"Freeze and just say \"I don't know.\""}]}
 ],{obj:"Stay composed when the question comes out of left field.",sub:"Discovery, self-awareness, and reasoning out loud win these."});
+MODULES.designreview=makePick('designreview',[
+  {q:"You're the owner's rep and the architect issues the [[sd|Schematic Design]] package. Your most important review at SD is…",opts:[{t:"Confirm the design meets the program, budget and [[proforma|pro forma]] before detail is locked in",ok:1,why:"SD is the cheapest moment to change anything — align program, scope and budget before [[dd|DD]] and [[cd|CDs]] multiply the cost of every change."},{t:"Check the door-hardware schedule"},{t:"Approve the final paint colors"}]},
+  {q:"At [[dd|Design Development]] you notice the electrical room can't fit the gear with code clearances. Best move:",opts:[{t:"Run a [[constructability]] review now and resolve it before [[cd|CDs]] are issued",ok:1,why:"Catching clashes at DD is the core value of owner design review — a field fix can cost 10×+ and hit the [[criticalpath|critical path]]."},{t:"Wait until the GC finds it in the field"},{t:"Issue a [[changeorder|change order]] after construction starts"}]},
+  {q:"Which lists the design phases in the order you review them?",opts:[{t:"[[sd|Schematic Design]] → [[dd|Design Development]] → [[cd|Construction Documents]]",ok:1,why:"Design matures from concept (SD) to defined, coordinated systems (DD) to a build-ready set (CD)."},{t:"CD → DD → SD"},{t:"DD → SD → CD"}]},
+  {q:"The [[cd|CD]] set comes back over budget and the team proposes [[valueeng|value engineering]]. As the owner you…",opts:[{t:"Pursue VE that protects performance and program — trim cost, not the power, [[redundancy]] or [[mep|MEP]] capacity that matters",ok:1,why:"VE should preserve design intent and performance — never quietly cut reliability to hit a number."},{t:"Cut a redundancy level quietly to hit the number"},{t:"Refuse to consider any change"}]},
+  {q:"On a data-center design review, the highest-stakes [[mep|MEP]] item to verify early is…",opts:[{t:"That [[mv|medium-voltage]] power and cooling capacity match the rack [[density]] and redundancy target",ok:1,why:"Power and cooling capacity are the binding design decisions — an error here is catastrophic and ruinously expensive to fix late."},{t:"The breakroom layout"},{t:"The signage fonts"}]},
+  {q:"A late owner-requested design change lands during [[cd|CDs]]. You…",opts:[{t:"Log it, price the cost and schedule impact against the [[proforma|pro forma]], and get a documented decision before it's drawn",ok:1,why:"Change governance protects budget and schedule — price and document every change against the pro forma before it's drawn."},{t:"Let the architect just add it"},{t:"Refuse all changes outright"}]}
+],{obj:"Make the owner-side calls at each design gate — SD, DD, CD.",sub:"Owner design reviews (SD/DD/CD) are your lane — exactly what these roles ask for.",recap:["Review early: [[sd|SD]] locks program & budget, [[dd|DD]] surfaces [[constructability]], [[cd|CD]] must be build-ready.","[[valueeng|VE]] trims cost without cutting performance or [[redundancy]].","Price and document every change against the [[proforma|pro forma]]."]});
 
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1575,7 +1589,8 @@ MOD_META.push(
   {id:'safety',name:'Safety Stop',tag:'Judgment',emoji:'🦺',color:'#FB923C',skill:'power',cat:'Delivery & PM'},
   {id:'metrics',name:'Your Numbers',tag:'Recall',emoji:'🔢',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
   {id:'clash',name:'Stakeholder Clash',tag:'Judgment',emoji:'⚔️',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
-  {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'}
+  {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'},
+  {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

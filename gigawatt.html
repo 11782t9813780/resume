@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<title>GIGAWATT — Ben Yacker's Interview Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+button{font-family:'Outfit',sans-serif;color:var(--txt)}
+.frag,.jg-opt,.chip,.cool-opt,.dlg-choice,.pcard,.option{color:var(--txt)}
+:root{
+  --bg:#04050a; --panel:rgba(15,19,30,0.82); --panel2:rgba(22,27,42,0.92); --stroke:rgba(255,255,255,0.10); --stroke2:rgba(255,255,255,0.2);
+  --txt:#EAF0FA; --muted:rgba(234,240,250,0.55); --muted2:rgba(234,240,250,0.32);
+  --c:#39C0E8; --c2:#7DE2FF; --cSoft:rgba(57,192,232,0.14);
+  --good:#34D399; --goodSoft:rgba(52,211,153,0.15); --bad:#FB7185; --badSoft:rgba(251,113,133,0.15); --gold:#FBBF24; --hot:#FB923C;
+  --power:#FBBF24; --cool:#38BDF8; --story:#A78BFA; --vocab:#34D399;
+  --shadow:0 20px 60px rgba(0,0,0,0.55);
+}
+html,body{height:100%;overflow:hidden}
+body{background:radial-gradient(1300px 900px at 60% -10%,#0c1422 0%,var(--bg) 60%),var(--bg);color:var(--txt);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;position:fixed;inset:0;touch-action:manipulation}
+#bg{position:fixed;inset:0;z-index:0}
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 95% at 50% 45%,transparent 52%,rgba(0,0,0,0.6) 100%)}
+#grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#flash{position:fixed;inset:0;z-index:30;pointer-events:none;opacity:0;mix-blend-mode:screen}
+.layer{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:84px 22px 28px;overflow-y:auto;overflow-x:hidden}
+.layer::-webkit-scrollbar{width:8px}.layer::-webkit-scrollbar-thumb{background:var(--stroke2);border-radius:8px}
+.hidden{display:none!important}
+.wrap{width:100%;max-width:1060px;margin:auto}
+.center{text-align:center}
+.muted{color:var(--muted)} .mono{font-family:'Space Mono',monospace}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--c);font-weight:700}
+.display{font-family:'Instrument Serif',serif;line-height:1.02;letter-spacing:-0.02em}
+.btn{font-family:'Outfit';font-weight:700;font-size:14px;letter-spacing:.01em;border:none;cursor:pointer;border-radius:100px;padding:14px 28px;display:inline-flex;align-items:center;gap:9px;transition:transform .18s,box-shadow .25s,filter .2s,background .2s;color:#04121a}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-primary{background:linear-gradient(110deg,var(--c2),var(--c));box-shadow:0 12px 34px -10px var(--c)}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-ghost{background:rgba(255,255,255,0.05);color:var(--txt);border:1px solid var(--stroke2)}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
+.btn-lg{padding:17px 38px;font-size:15px}
+.panel{background:var(--panel);border:1px solid var(--stroke);border-radius:24px;padding:34px;backdrop-filter:blur(16px);box-shadow:var(--shadow)}
+
+/* ---------- glossary term + tooltip ---------- */
+.term{color:var(--c2);font-weight:700;border-bottom:1.5px dotted var(--c);cursor:help;white-space:nowrap}
+.term:hover,.term:focus{background:var(--cSoft);outline:none;border-radius:3px}
+#tip{position:fixed;z-index:200;max-width:320px;background:var(--panel2);border:1px solid var(--c);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);opacity:0;transform:translateY(6px);transition:opacity .16s,transform .16s;pointer-events:none;backdrop-filter:blur(16px)}
+#tip.show{opacity:1;transform:none}
+#tip .tt{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);font-weight:700;margin-bottom:4px}
+#tip .tn{font-weight:700;font-size:15px;margin-bottom:5px}
+#tip .td{font-size:13px;line-height:1.55;color:var(--muted)}
+#tip .tu{font-size:12.5px;line-height:1.5;color:var(--c2);margin-top:8px;border-top:1px solid var(--stroke);padding-top:8px}
+#tip .tu b{color:var(--c2)}
+
+/* ---------- HUD ---------- */
+#hud{position:fixed;top:0;left:0;right:0;z-index:14;display:flex;align-items:center;justify-content:space-between;padding:13px 22px;opacity:0;transform:translateY(-12px);transition:.4s;pointer-events:none}
+#hud.on{opacity:1;transform:none}
+#hud>*{pointer-events:auto}
+.hud-rank{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:8px 14px;backdrop-filter:blur(12px)}
+.hud-rank .rk-ic{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--c),#05060a);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:17px}
+.hud-rank .rk-t{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);font-weight:700}
+.hud-rank .rk-v{font-size:14px;font-weight:700;line-height:1.1}
+.hud-skills{display:flex;gap:8px}
+.skill{display:flex;flex-direction:column;gap:4px;background:var(--panel);border:1px solid var(--stroke);border-radius:12px;padding:8px 12px;min-width:88px;backdrop-filter:blur(12px)}
+.skill .sk-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.skill .sk-n{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.skill .sk-v{font-family:'Space Mono',monospace;font-size:10px;font-weight:700}
+.skill .sk-bar{height:5px;border-radius:10px;background:rgba(255,255,255,.08);overflow:hidden}
+.skill .sk-fill{height:100%;width:0;border-radius:10px;transition:width .7s cubic-bezier(.2,1,.3,1)}
+.skill.power .sk-fill{background:var(--power)}.skill.power .sk-v{color:var(--power)}
+.skill.cool .sk-fill{background:var(--cool)}.skill.cool .sk-v{color:var(--cool)}
+.skill.story .sk-fill{background:var(--story)}.skill.story .sk-v{color:var(--story)}
+.skill.vocab .sk-fill{background:var(--vocab)}.skill.vocab .sk-v{color:var(--vocab)}
+.hud-xp{display:flex;flex-direction:column;align-items:flex-end;background:var(--panel);border:1px solid var(--stroke);border-radius:12px;padding:8px 14px;backdrop-filter:blur(12px)}
+.hud-xp .xv{font-family:'Space Mono',monospace;font-weight:700;color:var(--gold);font-size:15px}
+.hud-xp .xl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:700}
+
+/* ---------- start ---------- */
+.badge-pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--stroke2);background:var(--panel);border-radius:100px;padding:8px 18px;font-size:12px;font-weight:600;color:var(--muted);backdrop-filter:blur(10px);margin-bottom:26px}
+.live{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 10px var(--good);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.title{font-family:'Instrument Serif',serif;font-size:clamp(60px,13vw,168px);line-height:.86;letter-spacing:-0.04em;background:linear-gradient(180deg,#fff,#86a6c6);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 44px rgba(57,192,232,.28))}
+.title .em{font-style:italic;background:linear-gradient(110deg,var(--c),#7DE2FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{font-size:clamp(15px,2.1vw,20px);color:rgba(234,240,250,0.86);max-width:600px;margin:22px auto 0;line-height:1.65;font-weight:400;text-shadow:0 1px 18px rgba(0,0,0,0.92),0 0 2px rgba(0,0,0,0.6)}
+#start{background:radial-gradient(ellipse 78% 66% at 50% 44%, rgba(4,5,10,0.82) 0%, rgba(4,5,10,0.5) 42%, transparent 82%)}
+#start .title{text-shadow:0 6px 50px rgba(0,0,0,0.8)}
+#start .badge-pill,#start .eyebrow{text-shadow:0 1px 12px rgba(0,0,0,0.85)}
+.subtitle b{color:var(--txt);font-weight:600}
+.start-actions{display:flex;gap:13px;flex-wrap:wrap;justify-content:center;margin-top:34px}
+.credits{margin-top:34px;font-size:12px;color:var(--muted2);max-width:640px;line-height:1.85}.credits b{color:var(--muted)}
+
+/* ---------- hub map ---------- */
+.hub-head{text-align:center;margin-bottom:22px}
+.readiness{max-width:520px;margin:14px auto 0}
+.readiness .rd-top{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px}
+.readiness .rd-track{height:10px;border-radius:10px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--stroke)}
+.readiness .rd-fill{height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--c),var(--good));transition:width 1s cubic-bezier(.2,1,.3,1)}
+.hub-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.hchip{font-size:12px;color:var(--muted);border:1px solid var(--stroke);background:var(--panel);border-radius:100px;padding:6px 13px;backdrop-filter:blur(10px)}
+.hchip b{color:var(--txt)} .hchip.hot{border-color:var(--c);color:var(--c2)} .hchip.hot b{color:var(--c2)}
+.daily-tile{display:flex;align-items:center;gap:16px;margin:18px 0 4px;border:1px solid var(--c);border-radius:20px;padding:18px 22px;cursor:pointer;background:linear-gradient(120deg,var(--cSoft),var(--panel));backdrop-filter:blur(14px);transition:transform .2s,box-shadow .25s}
+.daily-tile:hover{transform:translateY(-3px);box-shadow:0 16px 40px -14px var(--c)}
+.dt-ic{width:54px;height:54px;border-radius:15px;background:linear-gradient(135deg,var(--c),#05060a);display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0}
+.dt-body{flex:1;text-align:left}
+.dt-name{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dt-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--c);border:1px solid var(--c);border-radius:7px;padding:2px 7px}
+.dt-desc{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5} .dt-desc b{color:var(--c2)}
+.dt-go{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:#04121a;background:var(--c2);border-radius:100px;padding:10px 18px;white-space:nowrap;flex-shrink:0}
+.dy-phase{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);font-weight:700;margin-bottom:14px;text-align:center}
+.flash{border:1px solid var(--c);border-radius:18px;background:linear-gradient(160deg,var(--cSoft),rgba(0,0,0,.25));padding:26px 28px;text-align:center;animation:popIn .4s cubic-bezier(.2,1.3,.4,1) both}
+.fl-term{font-family:'Instrument Serif',serif;font-size:clamp(34px,6vw,52px);line-height:1.05;color:var(--c2)}
+.fl-full{font-size:13px;color:var(--muted);margin-top:4px;font-weight:600}
+.fl-def{font-size:15.5px;line-height:1.6;color:var(--txt);margin-top:16px;max-width:560px;margin-inline:auto}
+.fl-use{font-size:13.5px;line-height:1.55;color:var(--c2);margin-top:14px;border-top:1px solid var(--stroke);padding-top:14px;max-width:560px;margin-inline:auto}
+.fl-use b{color:var(--c2)}
+.dq-q{text-align:center;font-size:12px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.dq-def{text-align:center;font-size:17px;line-height:1.55;max-width:560px;margin:0 auto 18px;color:var(--txt)}
+.dq-typewrap{display:flex;gap:8px;max-width:460px;margin:0 auto}
+.dq-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--stroke2);border-radius:12px;padding:13px 16px;color:var(--txt);font-family:'Outfit';font-size:16px;outline:none}
+.dq-input:focus{border-color:var(--c);background:rgba(255,255,255,.08)}
+.dq-tf{text-align:center;font-size:16px;line-height:1.6;max-width:580px;margin:0 auto 18px;background:rgba(255,255,255,.03);border:1px solid var(--stroke);border-radius:14px;padding:18px 20px}
+.tf-row{display:flex;gap:12px;max-width:440px;margin:0 auto;justify-content:center}
+.tf-btn{flex:1;border:1px solid var(--stroke2);background:var(--panel2);border-radius:13px;padding:15px;cursor:pointer;font-size:16px;font-weight:700;transition:.13s;color:var(--txt)}
+.tf-btn:hover{border-color:var(--c);transform:translateY(-2px)}
+.tf-btn.correct{border-color:var(--good);background:var(--goodSoft)}.tf-btn.wrong{border-color:var(--bad);background:var(--badSoft)}
+.dq-reveal{margin-top:18px;border:1px solid var(--stroke);border-radius:14px;padding:15px 18px;background:var(--panel)}
+.dq-reveal.ok{border-color:var(--good)}.dq-reveal.no{border-color:var(--bad)}
+.dq-r1{font-size:16px;font-weight:700;margin-bottom:6px}
+.dq-rd{font-size:14px;line-height:1.6;color:var(--muted)}
+.dq-use{font-size:13px;line-height:1.55;color:var(--c2);margin-top:8px;border-top:1px solid var(--stroke);padding-top:8px}.dq-use b{color:var(--c2)}
+.flip-rate{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.match-cols{display:grid;grid-template-columns:1fr 1.5fr;gap:12px}
+.mcol{display:flex;flex-direction:column;gap:9px}
+.mterm,.mdef{text-align:left;border:1px solid var(--stroke2);background:var(--panel2);border-radius:12px;padding:13px 15px;cursor:pointer;font-size:14px;line-height:1.4;transition:.13s;color:var(--txt)}
+.mterm{font-weight:700}.mterm:hover,.mdef:hover{border-color:var(--c);transform:translateX(2px)}
+.mterm.sel,.mdef.sel{border-color:var(--c);background:var(--cSoft)}
+.mterm.done,.mdef.done{border-color:var(--good);background:var(--goodSoft);opacity:.55;pointer-events:none}
+.mterm.bad,.mdef.bad{border-color:var(--bad);background:var(--badSoft)}
+@media(max-width:720px){.match-cols{grid-template-columns:1fr}}
+/* sequence engine */
+.seq-teach{display:flex;flex-direction:column;gap:6px;margin:16px 0}
+.seq-tnode{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--stroke2);background:var(--panel2);border-radius:13px;padding:12px 16px}
+.seq-tn{width:26px;height:26px;border-radius:50%;background:var(--mc);color:#04121a;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.seq-tt{font-weight:700;font-size:14.5px}.seq-td{font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+.seq-down{color:var(--muted2);text-align:center;font-size:13px;margin:-2px 0}
+.seq-slots{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.seq-slot{display:flex;align-items:center;gap:12px;border:1.5px dashed var(--stroke2);border-radius:12px;padding:11px 16px;min-height:50px;transition:.25s}
+.seq-slot.filled{border-style:solid;border-color:var(--mc);background:var(--cSoft)}
+.seq-num{width:24px;height:24px;border-radius:50%;border:1px solid var(--stroke2);display:flex;align-items:center;justify-content:center;font-family:'Space Mono';font-size:12px;color:var(--muted);flex-shrink:0}
+.seq-slot.filled .seq-num{background:var(--mc);color:#04121a;border-color:var(--mc)}
+.seq-lab{font-size:14px;font-weight:600}
+.seq-tray{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.seq-chip{border:1px solid var(--stroke2);background:var(--panel2);border-radius:11px;padding:12px 16px;cursor:pointer;font-size:14px;font-weight:600;transition:.15s;color:var(--txt)}
+.seq-chip:hover{border-color:var(--mc);transform:translateY(-2px)}.seq-chip.used{opacity:.25;pointer-events:none}
+/* sort engine */
+.sbk-row,.sort-buckets{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.sbk,.sort-bk{border:1px solid var(--stroke2);border-radius:14px;padding:15px;text-align:center;background:var(--panel2)}
+.sbk b,.sort-bk b{display:block;font-size:16px}.sbk span,.sort-bk span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.sbk.a,.sort-bk.a{border-color:var(--good)}.sbk.b,.sort-bk.b{border-color:var(--gold)}
+.sort-bk{cursor:pointer;transition:.15s}.sort-bk:hover{transform:translateY(-3px);filter:brightness(1.12)}
+.sort-progress{text-align:center;font-family:'Space Mono';font-size:12px;color:var(--muted);margin-bottom:14px}
+.sort-card{border:1px solid var(--mc);background:var(--panel2);border-radius:16px;padding:26px 22px;text-align:center;font-size:18px;font-weight:600;max-width:520px;margin:0 auto;transition:transform .45s cubic-bezier(.4,0,.6,1),opacity .45s}
+.sort-card.fly-a{transform:translateX(-240px) rotate(-12deg);opacity:0}.sort-card.fly-b{transform:translateX(240px) rotate(12deg);opacity:0}
+.sort-card.wrong{border-color:var(--bad);animation:shk .4s}
+/* hunt engine */
+.hunt-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px}
+.hunt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px}
+.hunt-chip{border:1px solid var(--stroke2);background:var(--panel2);border-radius:12px;padding:14px;cursor:pointer;font-size:13.5px;font-weight:600;transition:.15s;color:var(--txt);animation:popIn .4s both}
+.hunt-chip:hover{border-color:var(--mc);transform:translateY(-2px)}
+.hunt-chip.good{border-color:var(--good);background:var(--goodSoft);transform:scale(1.04)}
+.hunt-chip.bad{border-color:var(--bad);background:var(--badSoft)}.hunt-chip.done{pointer-events:none}
+/* decide engine */
+.decide-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:8px}
+.decide-card{border:1px solid var(--stroke2);background:var(--panel2);border-radius:16px;padding:18px;cursor:pointer;text-align:left;transition:.18s;color:var(--txt)}
+.decide-card:hover{border-color:var(--mc);transform:translateY(-3px)}
+.dc-name{font-weight:700;font-size:16px;margin-bottom:10px}
+.dc-stats{display:flex;flex-direction:column;gap:7px}
+.dc-stat{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+.dc-stat span{width:58px;flex-shrink:0;text-transform:uppercase;letter-spacing:.05em}
+.dc-bar{flex:1;height:7px;border-radius:10px;background:rgba(255,255,255,.08);overflow:hidden}
+.dc-bar i{display:block;height:100%;background:var(--mc);border-radius:10px;animation:barGrow .8s cubic-bezier(.2,1,.3,1) both}
+@keyframes barGrow{from{width:0}}
+.decide-card.correct{border-color:var(--good);background:var(--goodSoft)}.decide-card.wrong{border-color:var(--bad);background:var(--badSoft)}
+@media(max-width:720px){.sbk-row,.sort-buckets{grid-template-columns:1fr 1fr}.decide-opts{grid-template-columns:1fr}}
+.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:8px}
+.cat-head{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 10px;gap:10px}
+.cat-name{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:9px}
+.cat-name::before{content:'';width:18px;height:2px;background:var(--c);border-radius:2px}
+.cat-count{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted2);font-weight:700}
+.sort-card{border:1px solid var(--stroke2);background:var(--panel2);border-radius:16px;padding:24px 22px;text-align:center;font-size:18px;font-weight:600;margin:0 auto 18px;max-width:540px;animation:popIn .4s cubic-bezier(.2,1.3,.4,1) both}
+.sort-buckets{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.sort-bucket{border:1px solid var(--stroke2);background:var(--panel2);border-radius:13px;padding:14px 20px;cursor:pointer;font-size:15px;font-weight:700;color:var(--txt);transition:.14s;flex:1;min-width:120px}
+.sort-bucket:hover{border-color:var(--c);transform:translateY(-2px)}
+.sort-bucket.correct{border-color:var(--good);background:var(--goodSoft)}.sort-bucket.wrong{border-color:var(--bad);background:var(--badSoft)}
+.mod{position:relative;border:1px solid var(--stroke);background:var(--panel);border-radius:20px;padding:22px;text-align:left;cursor:pointer;overflow:hidden;transition:transform .25s,border-color .25s;backdrop-filter:blur(12px)}
+.mod:hover{transform:translateY(-4px);border-color:var(--mc)}
+.mod .glow{position:absolute;inset:0;background:radial-gradient(220px 120px at 100% 0%,var(--mcSoft),transparent 70%);pointer-events:none}
+.mod.locked{opacity:.5;cursor:not-allowed}
+.mod-top{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+.mod-ic{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--mc),#05060a);display:flex;align-items:center;justify-content:center;font-size:25px;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.mod-name{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.mod-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mc);font-weight:700}
+.mod-desc{font-size:13.5px;line-height:1.6;color:var(--muted);min-height:44px}
+.mod-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.mod-mastery{display:flex;gap:4px}
+.dot3{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.14)}.dot3.on{background:var(--mc);box-shadow:0 0 8px var(--mc)}
+.mod-go{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--mc);letter-spacing:.06em}
+.mod.boss{grid-column:1/-1;background:linear-gradient(120deg,rgba(251,191,36,.1),var(--panel));border-color:var(--gold)}
+.mod.boss .mod-ic{background:linear-gradient(135deg,var(--gold),#5a3d06)}
+.mod.boss .mod-tag,.mod.boss .mod-go{color:var(--gold)}
+.mod.boss.locked .mod-go{color:var(--muted2)}
+
+/* ---------- character / dialogue ---------- */
+#dialogue{position:fixed;left:0;right:0;bottom:0;z-index:18;display:flex;justify-content:center;padding:0 18px 22px;pointer-events:none}
+#dialogue.show .dlg{transform:translateY(0);opacity:1}
+.dlg{pointer-events:auto;width:100%;max-width:760px;background:var(--panel2);border:1px solid var(--stroke2);border-radius:20px;padding:20px 22px 18px;box-shadow:var(--shadow);backdrop-filter:blur(18px);transform:translateY(30px);opacity:0;transition:transform .4s cubic-bezier(.2,1,.3,1),opacity .4s}
+.dlg-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.dlg-av{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#04121a;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.dlg-nm{font-weight:700;font-size:15px}.dlg-rl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.dlg-body{font-size:15px;line-height:1.65;color:var(--txt)}
+.dlg-choices{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.dlg-choice{text-align:left;border:1px solid var(--stroke2);background:rgba(255,255,255,.03);border-radius:12px;padding:13px 16px;cursor:pointer;font-family:'Outfit';font-size:14.5px;color:var(--txt);font-weight:500;transition:.15s;display:flex;gap:12px;align-items:flex-start}
+.dlg-choice:hover{border-color:var(--c);background:rgba(255,255,255,.06);transform:translateX(3px)}
+.dlg-choice .ck{font-family:'Space Mono',monospace;font-weight:700;color:var(--muted);flex-shrink:0}
+.dlg-choice.correct{border-color:var(--good);background:var(--goodSoft)}
+.dlg-choice.wrong{border-color:var(--bad);background:var(--badSoft)}
+.dlg-next{display:flex;justify-content:flex-end;margin-top:12px}
+.dlg-tap{font-size:11px;color:var(--muted2);font-family:'Space Mono',monospace;letter-spacing:.1em;text-align:right;margin-top:8px}
+
+/* ---------- module shell ---------- */
+#module{z-index:10}
+.m-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.m-title{display:flex;align-items:center;gap:12px}
+.m-title .mi{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--mc),#05060a);display:flex;align-items:center;justify-content:center;font-size:21px}
+.m-title h2{font-size:21px;font-weight:700;letter-spacing:-.01em}.m-title .ms{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mc);font-weight:700}
+.m-obj{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--stroke);border-radius:12px;padding:9px 15px}
+.m-obj b{color:var(--txt)}
+.m-stage{border:1px solid var(--stroke);background:rgba(8,11,18,.5);border-radius:20px;padding:24px;backdrop-filter:blur(8px);position:relative;min-height:340px}
+.m-back{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit';font-weight:600;font-size:13px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--stroke2);border-radius:100px;padding:8px 16px;cursor:pointer;margin-bottom:14px;transition:.18s}
+.m-back:hover{color:var(--txt);border-color:var(--c);transform:translateX(-3px)}
+.teach-chain{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:18px 0}
+.tc-node{border:1px solid var(--power);background:rgba(251,191,36,.08);border-radius:14px;padding:13px 15px;text-align:center;min-width:90px;animation:popIn .4s cubic-bezier(.2,1.3,.4,1) both}
+.tc-e{font-size:25px}.tc-n{font-size:12px;font-weight:700;margin-top:4px}
+.tc-ar{color:var(--muted2);font-size:16px}
+
+/* power module */
+.pw-prompt{font-size:15px;line-height:1.6;margin-bottom:16px}
+.pw-chain{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0 18px;min-height:62px;align-items:center}
+.pw-slot{width:96px;height:58px;border:1.5px dashed var(--stroke2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted2);text-align:center;font-weight:600;position:relative}
+.pw-slot.filled{border-style:solid;border-color:var(--power);background:rgba(251,191,36,.1);color:var(--txt)}
+.pw-slot .ar{position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:14px}
+.pw-tray{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+.chip{border:1px solid var(--stroke2);background:var(--panel2);border-radius:12px;padding:11px 16px;cursor:pointer;font-size:13.5px;font-weight:600;transition:.15s;display:flex;align-items:center;gap:8px}
+.chip:hover{border-color:var(--power);transform:translateY(-2px)}
+.chip.used{opacity:.32;pointer-events:none}
+.chip .ce{font-size:17px}
+.pw-cards{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.pcard{border:1px solid var(--stroke2);background:var(--panel2);border-radius:14px;padding:16px 20px;cursor:pointer;text-align:center;transition:.15s;min-width:120px}
+.pcard:hover{border-color:var(--power);transform:translateY(-3px)}
+.pcard .pv{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;color:var(--power)}
+.pcard .pl{font-size:11px;color:var(--muted);margin-top:2px}
+.pcard.correct{border-color:var(--good);background:var(--goodSoft)}.pcard.wrong{border-color:var(--bad);background:var(--badSoft)}
+
+/* thermal module */
+.th-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.th-wave{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;color:var(--cool)}
+.heat-track{flex:1;height:9px;border-radius:10px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--stroke);max-width:240px}
+.heat-fill{height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--good),var(--gold),var(--bad));transition:width .3s}
+.racks{display:grid;grid-template-columns:repeat(auto-fit,minmax(82px,1fr));gap:11px}
+.rack{border:1px solid var(--stroke2);border-radius:13px;padding:14px 8px;text-align:center;cursor:pointer;transition:.2s;position:relative;background:rgba(255,255,255,.03)}
+.rack .rk-d{font-family:'Space Mono',monospace;font-weight:700;font-size:17px}
+.rack .rk-l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);font-weight:700;margin-top:3px}
+.rack.hot{border-color:var(--hot);box-shadow:0 0 0 1px var(--hot),0 0 22px -4px var(--hot);animation:hotpulse 1.1s infinite}
+@keyframes hotpulse{0%,100%{box-shadow:0 0 0 1px var(--hot),0 0 16px -6px var(--hot)}50%{box-shadow:0 0 0 1px var(--bad),0 0 30px -2px var(--bad)}}
+.rack.cooled{border-color:var(--cool);background:rgba(56,189,248,.12);cursor:default;animation:none}
+.rack.cooled .rk-d{color:var(--cool)}
+.rack.hot .rk-d{color:var(--hot)}
+.cool-menu{position:fixed;z-index:40;background:var(--panel2);border:1px solid var(--cool);border-radius:14px;padding:8px;box-shadow:var(--shadow);display:grid;gap:6px;backdrop-filter:blur(14px)}
+.cool-opt{display:flex;align-items:center;gap:10px;border:1px solid var(--stroke2);border-radius:10px;padding:9px 13px;cursor:pointer;font-size:13px;font-weight:600;transition:.12s;white-space:nowrap}
+.cool-opt:hover{border-color:var(--cool);background:rgba(56,189,248,.1)}
+.cool-opt .co-r{margin-left:auto;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+
+/* star forge */
+.sf-prompt{border:1px solid var(--story);background:rgba(167,139,250,.08);border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.5;margin-bottom:16px}
+.sf-prompt b{color:var(--story)}
+.sf-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.sf-slot{border:1.5px dashed var(--stroke2);border-radius:13px;padding:13px 15px;min-height:74px;transition:.2s}
+.sf-slot .sl-k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--story);font-weight:700;margin-bottom:4px}
+.sf-slot .sl-h{font-size:11px;color:var(--muted2);font-weight:600}
+.sf-slot.filled{border-style:solid;border-color:var(--story);background:rgba(167,139,250,.08)}
+.sf-slot.filled .sl-c{font-size:13px;line-height:1.45;margin-top:3px;color:var(--txt)}
+.sf-slot.ok{border-color:var(--good);background:var(--goodSoft)}.sf-slot.no{border-color:var(--bad);background:var(--badSoft)}
+.sf-frags{display:flex;flex-direction:column;gap:8px}
+.frag{text-align:left;border:1px solid var(--stroke2);background:var(--panel2);border-radius:11px;padding:11px 14px;cursor:pointer;font-size:13.5px;line-height:1.45;transition:.15s}
+.frag:hover{border-color:var(--story);transform:translateX(3px)}
+.frag.used{opacity:.3;pointer-events:none}
+.frag.sel{border-color:var(--story);background:rgba(167,139,250,.14)}
+
+/* jargon */
+.jg-hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.jg-lives{display:flex;gap:5px}.jg-life{font-size:18px;color:var(--bad)}.jg-life.lost{opacity:.2}
+.jg-combo{font-family:'Space Mono',monospace;font-weight:700;color:var(--gold)}
+.jg-ring{position:relative;width:54px;height:54px}
+.jg-ring svg{transform:rotate(-90deg)}
+.jg-term{text-align:center;margin:8px 0 20px}
+.jg-term .jt{font-family:'Instrument Serif',serif;font-size:clamp(34px,7vw,58px);line-height:1.05}
+.jg-term .js{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:4px}
+.jg-opts{display:grid;gap:10px;max-width:620px;margin:0 auto}
+.jg-opt{text-align:left;border:1px solid var(--stroke2);background:var(--panel2);border-radius:13px;padding:14px 17px;cursor:pointer;font-size:14px;line-height:1.45;transition:.13s}
+.jg-opt:hover{border-color:var(--vocab);transform:translateY(-2px)}
+.jg-opt.correct{border-color:var(--good);background:var(--goodSoft)}.jg-opt.wrong{border-color:var(--bad);background:var(--badSoft)}
+
+/* panel finale */
+.pn-stage{display:grid;grid-template-columns:1fr;gap:0}
+.pn-meters{display:flex;gap:12px;margin-bottom:14px}
+.meter{flex:1;background:var(--panel);border:1px solid var(--stroke);border-radius:12px;padding:10px 14px}
+.meter .mh{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px}
+.meter .mt{height:7px;border-radius:10px;background:rgba(255,255,255,.08);overflow:hidden}
+.meter .mf{height:100%;width:50%;border-radius:10px;transition:width .5s}
+.meter.rapport .mf{background:linear-gradient(90deg,var(--story),var(--c))}.meter.rapport .mv{color:var(--c)}
+.meter.depth .mf{background:linear-gradient(90deg,var(--gold),var(--good))}.meter.depth .mv{color:var(--gold)}
+.meter .mv{font-family:'Space Mono',monospace}
+
+/* results */
+.result{max-width:660px;margin:auto;text-align:center}
+.stars{display:flex;gap:12px;justify-content:center;margin:16px 0}
+.star{font-size:46px;color:rgba(255,255,255,.12);transition:.4s}.star.lit{color:var(--gold);text-shadow:0 0 22px rgba(251,191,36,.6)}
+.result-stat{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.rs{background:var(--panel);border:1px solid var(--stroke);border-radius:13px;padding:13px 20px;min-width:110px}
+.rs .v{font-family:'Space Mono',monospace;font-size:22px;font-weight:700}.rs .l{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:700;margin-top:2px}
+.offer-stamp{display:inline-block;border:3px solid var(--good);color:var(--good);border-radius:14px;padding:12px 28px;font-family:'Space Mono',monospace;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:17px;transform:rotate(-3deg);box-shadow:0 0 40px rgba(52,211,153,.3);margin:6px 0}
+.rank-badge{font-family:'Instrument Serif',serif;font-size:clamp(30px,5vw,52px);background:linear-gradient(110deg,var(--gold),#FDE68A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.learn-recap{text-align:left;border:1px solid var(--stroke);border-radius:14px;background:var(--panel);padding:16px 18px;margin-top:16px}
+.learn-recap h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c);font-weight:700;margin-bottom:8px}
+.learn-recap li{font-size:13.5px;line-height:1.6;color:var(--muted);margin-left:18px;margin-bottom:4px}
+
+/* toast */
+#toast{position:fixed;top:74px;left:50%;transform:translateX(-50%) translateY(-18px);z-index:50;opacity:0;background:var(--panel2);border:1px solid var(--gold);border-radius:14px;padding:11px 18px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.4s;max-width:92vw}
+#toast.show{opacity:1;transform:translateX(-50%)}
+#toast .ti{font-size:21px}#toast .tt{font-weight:700;font-size:13.5px}#toast .td{font-size:11.5px;color:var(--muted)}
+
+/* controls + transition */
+#controls{position:fixed;bottom:16px;right:16px;z-index:16;display:flex;gap:8px}
+.ctrl{width:40px;height:40px;border-radius:11px;border:1px solid var(--stroke2);background:var(--panel);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(12px);font-size:16px;transition:.2s}
+.ctrl:hover{color:var(--txt);border-color:var(--c);transform:translateY(-2px)}
+#trans{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:radial-gradient(circle at 50% 50%,#06121c,#000)}
+#trans.run{animation:tr 1.6s ease-in-out forwards}
+@keyframes tr{0%{opacity:0}20%{opacity:1}80%{opacity:1}100%{opacity:0}}
+#trans .tlbl{font-family:'Space Mono',monospace;letter-spacing:.36em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+#trans .ttl{font-family:'Instrument Serif',serif;font-size:clamp(34px,6vw,64px);color:var(--c2)}
+.fade-in{animation:fadeIn .5s cubic-bezier(.2,1,.3,1) both}@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.pop-in{animation:popIn .45s cubic-bezier(.2,1.3,.4,1) both}@keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+.shake{animation:shk .4s}@keyframes shk{0%,100%{transform:translate(0,0)}25%{transform:translate(-7px,3px)}50%{transform:translate(6px,-3px)}75%{transform:translate(-4px,2px)}}
+@media(max-width:720px){
+  .layer{padding:74px 14px 24px}.panel{padding:22px}.modules{grid-template-columns:1fr}.sf-slots{grid-template-columns:1fr}
+  .hud-skills{display:none}.m-head{gap:10px}
+}
+</style>
+</head>
+<body>
+<div id="bg"></div><div id="vignette"></div><div id="grain"></div><div id="flash"></div>
+
+<div id="hud">
+  <div class="hud-rank"><div class="rk-ic" id="rkIc">▽</div><div><div class="rk-t">Rank</div><div class="rk-v" id="rkV">Coordinator</div></div></div>
+  <div class="hud-skills" id="hudSkills"></div>
+  <div class="hud-xp"><div class="xv" id="xpV">0 XP</div><div class="xl" id="xpL">Readiness 0%</div></div>
+</div>
+
+<div class="layer" id="start"></div>
+<div class="layer hidden" id="hub"></div>
+<div class="layer hidden" id="module"></div>
+
+<div id="dialogue"></div>
+<div id="tip"></div>
+<div id="toast"><span class="ti">🏆</span><div><div class="tt" id="toastT">Achievement</div><div class="td" id="toastD"></div></div></div>
+<div id="trans"><div class="tlbl" id="transL">Loading</div><div class="ttl" id="transT"></div></div>
+
+<div id="controls">
+  <div class="ctrl" id="btnSound" title="Sound">♪</div>
+  <div class="ctrl" id="btnHub" title="Campus map">⌂</div>
+  <div class="ctrl" id="btnHelp" title="How to play">?</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* =====================================================================
+   GIGAWATT — Ben Yacker's 3D Interview Arena
+   A learn-by-playing interview trainer for a data-center construction PM.
+   ===================================================================== */
+
+/* ---------------------- GLOSSARY (hover-to-define) ---------------------- */
+const GLOSSARY = {
+  pue:{t:"PUE — Power Usage Effectiveness",d:"Total facility energy ÷ IT energy. 1.0 is perfect; the best hyperscale fleets run ~1.09 vs an industry average near 1.56.",u:"Anchor every efficiency answer to PUE, then name a lever (free cooling, ML setpoints)."},
+  wue:{t:"WUE — Water Usage Effectiveness",d:"Litres of water used per kWh of IT energy. Newer designs target near-zero water via closed-loop liquid cooling.",u:"Drop 'WUE' next to 'PUE' to show you think about water, not just power."},
+  "ml-cooling":{t:"ML-driven cooling",d:"Using machine-learning models to tune cooling setpoints in real time. Google cut data-center cooling energy ~40% this way.",u:"Signals you'd instrument and optimize operations, not just build and walk away."},
+  redundancy:{t:"Redundancy (N, N+1, 2N)",d:"Spare capacity so a failure doesn't drop the load. N = exactly enough; N+1 = one spare; 2N = a fully duplicated system.",u:"Match redundancy to the reliability tier — and never quietly cut it to save schedule."},
+  n1:{t:"N+1 redundancy",d:"Enough capacity to run the load plus one spare unit, so any single component can fail or be serviced with no downtime.",u:"The default for concurrently-maintainable (Tier III) electrical and cooling systems."},
+  "2n":{t:"2N redundancy",d:"A fully mirrored system — two complete, independent paths. Tolerates a full path failure. Used in fault-tolerant (Tier IV) designs.",u:"Know 2N vs N+1: cost vs resilience is a judgment call interviewers probe."},
+  tier3:{t:"Uptime Tier III — Concurrently Maintainable",d:"Any single component can be taken offline for service with zero IT downtime. Typically N+1, dual-path distribution.",u:"Say 'concurrently maintainable' — it's the phrase that proves you know the standard."},
+  tier4:{t:"Uptime Tier IV — Fault Tolerant",d:"Survives any single failure with no impact — fully 2N. The highest commercial reliability tier.",u:"Contrast Tier IV (fault tolerant) with Tier III (concurrently maintainable) to show depth."},
+  mv:{t:"Medium Voltage (MV)",d:"Roughly 1 kV–35 kV distribution (campuses often 13.8–34.5 kV). The level data-center power arrives and is stepped down from.",u:"Your Applegreen MV interconnection work maps directly to data-center power delivery."},
+  interconnection:{t:"Utility interconnection",d:"The formal process of connecting a large new load to the grid — load studies, applications, and utility-side upgrades. Often the longest lead item.",u:"Start interconnection studies on day one — it's the #1 thing that gates 'speed-to-power.'"},
+  transformer:{t:"Transformer (kVA/MVA sizing)",d:"Steps voltage up/down. Sized in kVA/MVA to the load plus headroom. Long lead times (often 1–2+ years).",u:"You sized 500–2,000 kVA units at Applegreen — concrete proof you own power delivery."},
+  switchgear:{t:"Switchgear",d:"The assembly of breakers and busbars that distributes and protects power circuits. Paralleling switchgear ties multiple sources/generators together.",u:"Name 'paralleling switchgear' to sound like an owner who's energized real sites."},
+  ups:{t:"UPS — Uninterruptible Power Supply",d:"Battery (or flywheel) system that carries the IT load during the seconds between a utility loss and generators picking up.",u:"UPS bridges the gap; generators carry the long haul. Know the handoff."},
+  ats:{t:"ATS — Automatic Transfer Switch",d:"Automatically switches the load from utility to generator power when it detects an outage.",u:"Part of the standby-power story: utility → ATS → generator, with UPS bridging."},
+  genset:{t:"Generator (genset)",d:"On-site engine (usually diesel or gas) that supplies standby power during a utility outage. A major long-lead, high-cost item.",u:"Standby power = generators + UPS + ATS. You integrated these at Applegreen."},
+  energization:{t:"Energization",d:"The milestone of safely bringing electrical systems live for the first time — the moment a site truly has power.",u:"You led energization commissioning — that's the exact muscle data centers need."},
+  cx:{t:"Commissioning (Cx)",d:"The structured process of testing and verifying that systems perform as designed, from component checks up to integrated load tests.",u:"Never let 'speed' answers skip Cx — interviewers test whether you protect it."},
+  ist:{t:"IST — Integrated Systems Test",d:"The highest level of commissioning: run the whole facility under simulated full load (the 'pull-the-plug' test) to prove it all works together.",u:"Mentioning IST / Level 5 Cx shows you understand mission-critical handover."},
+  density:{t:"Rack power density",d:"Power per rack, in kW. Legacy racks were 5–10 kW; modern AI/GPU racks hit 40–130 kW+, which is what forces liquid cooling.",u:"Rising density is THE story in data centers right now — tie it to cooling choices."},
+  "direct-to-chip":{t:"Direct-to-chip (cold plate) liquid cooling",d:"Liquid circulated through cold plates sitting directly on hot chips. Handles dense AI racks that air can't.",u:"Know it vs immersion — this is the #1 MEP shift in data-center construction."},
+  immersion:{t:"Immersion cooling",d:"Submerging servers in a non-conductive fluid. Handles the most extreme densities; changes structural and maintenance design.",u:"Bring up leak management and floor loading — most candidates forget the building impact."},
+  reardoor:{t:"Rear-door heat exchanger",d:"A liquid-cooled door on the back of a rack that removes heat as air passes through. A bridge between air and full liquid cooling.",u:"Good answer for the 'moderate density' middle ground (~15–40 kW)."},
+  freecooling:{t:"Free cooling / economization",d:"Using cool outside air (or water) to cool the facility without running chillers, when ambient conditions allow.",u:"The biggest PUE lever in the right climate — note the water (WUE) trade-off."},
+  longlead:{t:"Long-lead items",d:"Equipment with very long procurement times — transformers, switchgear, generators (often 1–2+ years). They dominate schedule risk.",u:"Order long-lead gear early — your Applegreen instinct is exactly the right one."},
+  speedtopower:{t:"Speed-to-power",d:"Time from groundbreaking to energized, operating capacity. The metric hyperscalers obsess over.",u:"Say 'speed-to-power' out loud — it's the data-center PM's north star."},
+  embodied:{t:"Embodied carbon",d:"Carbon emitted making the building's materials — dominated by concrete and steel — separate from operating energy.",u:"Name 'low-carbon concrete' and recycled (EAF) steel to sound current on sustainability."},
+  cfe:{t:"24/7 Carbon-Free Energy (CFE)",d:"Matching clean energy to consumption every hour on every grid — far harder than netting it out annually with credits.",u:"Knowing CFE vs annual matching instantly reads as 'this PM gets our world.'"},
+  behindmeter:{t:"Behind-the-meter generation",d:"On-site/dedicated generation (gas, sometimes nuclear) feeding a campus directly, easing grid strain and speeding power delivery.",u:"Cite the emissions/permitting trade-off to show balanced judgment."},
+  star:{t:"STAR method",d:"A way to answer behavioral questions: Situation, Task, Action, Result — concrete and quantified.",u:"Lead with the Result metric, then rewind to the how. It keeps you tight under pressure."},
+  lp:{t:"Leadership Principles",d:"A set of values some employers (famously Amazon's 16) structure interviews around — Ownership, Dive Deep, Bias for Action, Deliver Results, etc.",u:"Name the principle you're demonstrating out loud as you tell the story."},
+  rfi:{t:"RFI — Request for Information",d:"A formal question from the field to the design team to clarify drawings/specs. Volume and turnaround are PM workload signals.",u:"You processed 400+ RFIs at Brightwater — a tangible measure of delivery muscle."},
+  changeorder:{t:"Change order",d:"A formal modification to contract scope, cost, or schedule. Managing them protects budget and timeline.",u:"Tie change-order control to your budget-ownership story."},
+  designbuild:{t:"Design-build",d:"One entity is responsible for both design and construction — faster and more integrated than design-bid-build.",u:"You ran design-build under PPP contracts — speed-friendly delivery hyperscalers like."},
+  criticalpath:{t:"Critical path",d:"The sequence of dependent tasks that determines the project's minimum duration. Slip one and the whole project slips.",u:"Frame your best decisions as 'protecting the critical path.'"},
+  evm:{t:"EVM — Earned Value Management",d:"Tracking schedule/cost performance via metrics like SPI and CPI to forecast outcomes early.",u:"Mentioning CPI/SPI signals you manage to data, not vibes."},
+  osha30:{t:"OSHA 30",d:"A 30-hour OSHA construction safety certification for supervisors. Ben holds it.",u:"Pair it with your zero lost-time-incident record for a strong safety answer."},
+  arcflash:{t:"Arc flash / NFPA 70E",d:"The standard for electrical safety in the workplace — critical around energized MV gear.",u:"Safety fluency around energized work reassures any data-center panel."},
+  ppa:{t:"PPA — Power Purchase Agreement",d:"A long-term contract to buy electricity (often renewable or nuclear) at a set price — how hyperscalers lock in power and carbon-free supply.",u:"Shows you understand power procurement, not just construction."},
+  epc:{t:"EPC — Engineering, Procurement & Construction",d:"A delivery model where one entity handles design, buys the gear, and builds — common for power and mission-critical work.",u:"Know EPC vs design-build vs design-bid-build and when each fits."},
+  oac:{t:"OAC meeting",d:"The recurring Owner–Architect–Contractor meeting where progress, RFIs, changes and risks get coordinated.",u:"Reference running OAC meetings to show owner-side coordination."},
+  valueeng:{t:"Value engineering (VE)",d:"Systematically finding lower-cost ways to meet the same performance — without cutting quality or safety.",u:"A great cost-control story when framed as protecting quality."},
+  contingency:{t:"Contingency",d:"Budget and schedule held in reserve for the unknowns. Managing the drawdown well is a core PM signal.",u:"Talk about drawing down contingency deliberately, not reactively."},
+  punchlist:{t:"Punch list",d:"The list of remaining defects/incomplete items to fix before final acceptance at close-out.",u:"Signals you take projects all the way through occupancy."},
+  substantial:{t:"Substantial completion",d:"The milestone when the owner can use the facility for its intended purpose — it triggers warranties and final payments.",u:"Use it precisely; it shows you know close-out, not just construction."},
+  pdu:{t:"PDU — Power Distribution Unit",d:"Distributes conditioned power from the room level down to the racks — a key link in the data-center power chain.",u:"Adds specificity when you describe the power path to the rack."},
+  busway:{t:"Busway / busbar",d:"An enclosed overhead conductor that distributes power flexibly along rows of racks — faster to reconfigure than conduit.",u:"Mentioning busway shows you know modern, flexible DC power design."},
+  singleline:{t:"Single-line diagram (SLD)",d:"The one-line drawing showing how power flows from utility through gear to loads — the map of the electrical system.",u:"Saying you 'review the SLD' signals real electrical literacy."},
+  loadbank:{t:"Load bank test",d:"Applying an artificial electrical load to prove generators/UPS can carry full capacity before go-live.",u:"Part of commissioning fluency — pairs with IST and the pull-the-plug test."},
+  bms:{t:"BMS / DCIM",d:"Building Management System / Data Center Infrastructure Management — software that monitors and controls power, cooling and space.",u:"Shows you think about operations and handover, not just construction."},
+  faultcurrent:{t:"Fault current / AIC",d:"The huge current during a short circuit; gear must be rated (AIC) to interrupt it safely.",u:"A deep-cut term that signals genuine electrical depth."},
+  capex:{t:"Capex vs Opex",d:"Capital expenditure (build cost) vs operating expenditure (running cost). Design choices trade one against the other.",u:"Frame decisions in capex/opex terms to sound like an owner."},
+  tco:{t:"TCO — Total Cost of Ownership",d:"The full lifetime cost — build plus operate, energy and maintenance — not just the upfront price.",u:"Tie efficiency (PUE) and design choices back to TCO."},
+  leed:{t:"LEED",d:"A widely used green-building certification scoring energy, water, materials and site sustainability.",u:"Useful for the sustainability conversation alongside embodied carbon."},
+  rfp:{t:"RFP / RFQ",d:"Request for Proposal / Quotation — how owners solicit bids from designers, contractors and vendors.",u:"Shows you understand procurement and vendor selection."},
+  lien:{t:"Lien waiver",d:"A signed release confirming a contractor or sub has been paid and won't file a lien — key to clean payment management.",u:"Signals you handle the contractual and financial side, not just the field."},
+  substation:{t:"Substation",d:"Where incoming high/medium-voltage power is switched and stepped down for distribution across a campus.",u:"Part of the power chain you'd sequence early for speed-to-power."},
+  modular:{t:"Modular / prefab construction",d:"Building power, cooling or whole data halls as factory-made modules, then assembling on site — faster and repeatable.",u:"A strong speed-to-power and standardization lever to cite."},
+  superstructure:{t:"Superstructure",d:"The above-grade structural frame — columns, slabs and cores — that the building rises on.",u:"On a high-rise, the concrete superstructure cycle paces the whole schedule."},
+  podium:{t:"Podium",d:"The wider lower base of a tower — often parking, retail and amenities — that the slender tower rises from.",u:"Brightwater's towers sit on podiums; know the term for residential work."},
+  curtainwall:{t:"Curtain wall",d:"The non-structural exterior wall (glass and metal) hung off the frame to keep weather out.",u:"Early envelope close-in unlocks every interior trade — a key schedule lever."},
+  envelope:{t:"Building envelope",d:"The exterior skin — walls, roof, glazing — that controls weather, air and water.",u:"\"Getting the envelope closed\" is the milestone that lets finishes start."},
+  posttension:{t:"Post-tensioned concrete",d:"Slabs with steel cables tensioned after the pour, allowing longer spans and thinner floors.",u:"Common in residential towers — signals real structural literacy."},
+  formwork:{t:"Formwork & shoring",d:"The temporary molds and supports that hold concrete until it cures.",u:"Form cycle time drives the floor-a-week pace of a high-rise."},
+  roughin:{t:"MEP rough-in",d:"Installing in-wall mechanical, electrical and plumbing before the walls are closed up.",u:"Rough-in coordination is where most trade clashes get caught — or missed."},
+  occupancy:{t:"Occupancy permit (TCO)",d:"The approval that lets people legally use the building — temporary (TCO) or final.",u:"You delivered 2,500+ units through occupancy — say it; it proves you finish."},
+  warranty:{t:"Warranty / Tarion",d:"The post-occupancy period covering defects (e.g., Ontario's Tarion new-home warranty).",u:"Closeout fluency — warranties and deficiencies — shows you see jobs through."},
+  turnover:{t:"Turnover",d:"Handing finished space or units over to the owner or residents.",u:"You ran turnover as residents moved in at Brightwater."},
+  basebuilding:{t:"Base building (core & shell)",d:"The landlord's scope: structure, envelope, core and base MEP — the shell a tenant fits out.",u:"Knowing the base/TI line keeps commercial scope and cost clean."},
+  ti:{t:"Tenant improvement (TI)",d:"The interior fit-out built to a specific tenant's needs, inside the landlord's shell.",u:"You coordinated 300K+ sq ft of retail across landlord and tenant scopes."},
+  fitout:{t:"Fit-out",d:"Turning a bare space into usable interior — partitions, finishes, systems.",u:"Retail and office fit-outs are lease-deadline driven; speak to that pressure."},
+  whitebox:{t:"White box",d:"A space delivered partly finished — basic walls, ceiling, utilities — ready for fit-out.",u:"Shows you know how commercial space is handed off."},
+  float:{t:"Float (schedule slack)",d:"How long a task can slip before it delays the project. Zero-float tasks are the critical path.",u:"Talk in float to show you manage schedule by data, not vibes."},
+  lookahead:{t:"Look-ahead schedule",d:"The rolling 2–6 week plan that actually drives the field crews.",u:"Pair it with the master schedule to show you run the field, not just Gantt charts."},
+  buyout:{t:"Buyout / procurement",d:"Awarding trade contracts and locking scope and price after bids — closing gaps and overlaps.",u:"A clean buyout prevents the scope gaps that become change orders later."},
+  mockup:{t:"Mock-up",d:"A full-scale sample — like a curtain-wall panel — built to test and approve before mass production.",u:"Mentioning mock-ups signals a real quality program."},
+  qaqc:{t:"QA / QC",d:"Quality assurance and control — the inspection and verification program that catches defects early.",u:"Tie QA/QC to your zero-defect, zero-LTI record."},
+  closeoutT:{t:"Closeout",d:"The final phase: punch list, as-builts, O&M manuals, warranties and final payment.",u:"Closeout fluency proves you take jobs all the way through occupancy."},
+  asbuilts:{t:"As-builts",d:"Drawings updated to reflect what was actually built, handed to the operator at closeout.",u:"Part of a clean handover — operators live by as-builts and O&M manuals."},
+  retainage:{t:"Retainage / holdback",d:"A percentage of payment withheld until work is complete, to ensure the finish.",u:"Shows you understand the contractual/financial levers of delivery."},
+  meansmethods:{t:"Means & methods",d:"How the contractor actually builds the work — their responsibility, not the owner's.",u:"Owner-side, you set the what and when; the GC owns the how."},
+  forecourt:{t:"Forecourt",d:"The fuel/EV/retail apron of a service station — dispensers, chargers, canopy and store.",u:"Frame Applegreen as a full retail site build, not just chargers."},
+  ust:{t:"Underground storage tank (UST)",d:"Buried fuel tanks — environmentally sensitive and permitting-heavy.",u:"USTs show the environmental/permitting complexity you managed at Applegreen."},
+  canopy:{t:"Forecourt canopy",d:"The structural roof over the fueling and charging positions of a travel center.",u:"Part of the full forecourt structure you delivered."},
+  submittal:{t:"Submittal",d:"A product sample, shop drawing or data sheet the contractor submits for the design team's approval before fabrication or install.",u:"You ran hundreds of these alongside 400+ RFIs — name the workflow."}
+};
+
+/* ---------------------- STAR PLAYBOOK (Ben's real stories) -------------- */
+const STAR = {
+  grid:{tag:"Power · Applegreen",title:"The Grid Whisperer",
+    one:"\"I energized 35-plus sites across four utilities — sizing [[transformer|transformer]]s from 500 to 2,000 kVA — with zero permit delays on a billion-dollar program.\"",
+    maps:"→ data-center power delivery"},
+  program:{tag:"Program · Applegreen",title:"Program at Scale",
+    one:"\"I ran $200M of active construction across six state authorities and 80-plus sites at once — standardized the playbook, stayed on schedule, zero permit delays.\"",
+    maps:"→ multi-region program delivery"},
+  build:{tag:"Delivery · Brightwater",title:"The $3B Build",
+    one:"\"I helped deliver a $3-billion waterfront community on a remediated brownfield — owning $150M in phase budgets — on schedule through occupancy with zero lost-time incidents.\"",
+    maps:"→ complex owner-side delivery"},
+  brownfield:{tag:"Risk · Brightwater",title:"The Brownfield",
+    one:"\"I took a contaminated brownfield with real environmental risk and sequenced remediation in parallel with design — so we hit the schedule with zero permit delays.\"",
+    maps:"→ risk & regulatory navigation"}
+};
+
+/* ---------------------- MODULE CONTENT ---------------------------------- */
+/* POWER GRID levels */
+const POWER_LEVELS = [
+  { title:"Energize a 1.6 MW data hall", load:1.6,
+    chain:["Utility feed","Substation","Transformer","Switchgear","UPS","Racks"],
+    chainEmoji:["🔌","🏭","🟧","⚡","🔋","🖥️"],
+    kva:[1000,1500,2000], correctKva:2000,
+    sizingWhy:"Load is 1.6 MW ≈ 1,600 kVA. You size up with headroom for inrush and growth, so 2,000 kVA is right — 1,500 leaves no margin." },
+  { title:"Scale to a 30 MW AI campus at 2N", load:30,
+    chain:["Utility feed","Substation","Transformer","Switchgear","Generator","UPS","Racks"],
+    chainEmoji:["🔌","🏭","🟧","⚡","🟩","🔋","🖥️"],
+    kva:[15000,30000,40000], correctKva:40000,
+    sizingWhy:"30 MW of dense AI load needs headroom for redundancy and growth — 40 MVA gives margin; 30 MVA runs with zero spare." }
+];
+/* THERMAL waves — each rack has a kW density; pick the matching cooling band */
+const COOLING = [
+  {k:"air",  name:"Air / CRAH",        emoji:"💨", max:10,  hint:"≤10 kW"},
+  {k:"rear", name:"Rear-door HX",      emoji:"🚪", max:40,  hint:"11–40 kW"},
+  {k:"dtc",  name:"Direct-to-chip",    emoji:"💧", max:100, hint:"41–100 kW"},
+  {k:"imm",  name:"Immersion",         emoji:"🛢️", max:999, hint:">100 kW"}
+];
+const THERMAL_WAVES = [
+  [8,10,6,9],
+  [18,35,40,12,28],
+  [70,120,55,150,90,42]
+];
+/* STAR FORGE prompts */
+const FORGE = [
+  { story:"grid", prompt:"<b>\"Tell me about a time you delivered power or electrical scope at scale.\"</b> Build the Grid Whisperer story.",
+    s:"Applegreen's $1B+ EV program needed 400 kW fast-charging at 35+ sites — but existing utility service couldn't carry the load.",
+    t:"I owned utility interconnection and power delivery across NY, NJ, PA & DE — four utilities, on a hard public deadline.",
+    a:"Ran per-site load studies, sized 500–2,000 kVA transformers, filed utility applications early, and led energization commissioning.",
+    r:"Energized 35+ sites with zero permit delays, keeping a $1B+ program on schedule." },
+  { story:"build", prompt:"<b>\"Tell me about owning a large, complex delivery.\"</b> Build the $3B Build story.",
+    s:"Brightwater — a ~$3B waterfront community on a remediated brownfield: 2,500+ homes across multiple high-rise phases.",
+    t:"Coordinate owner-side delivery start to finish: design reviews, budgets, trades, permitting — through occupancy.",
+    a:"Owned $150M+ in phase budgets, managed 25+ trades, processed 400+ RFIs, and ran investment-committee reporting.",
+    r:"Every phase delivered on schedule through occupancy — zero lost-time incidents, zero permit delays." }
+];
+const FORGE_DECOYS = [
+  "Attended weekly status meetings and took notes.",
+  "Mostly observed while senior staff made the decisions.",
+  "Picked finishes and reviewed paint samples for the lobby.",
+  "Reduced redundancy to N to save money on the schedule.",
+  "Waited for the full design to finish before ordering anything."
+];
+/* JARGON RUSH — keys to quiz from the glossary */
+const JARGON_KEYS = ["pue","n1","ats","wue","speedtopower","tier3","immersion","longlead","cfe","ist","mv","direct-to-chip","2n","freecooling","density"];
+
+/* ---------------------- THE PANEL (finale) ------------------------------ */
+const PANEL = [
+  { who:"vp", type:"say", text:"Ben — thanks for coming in. I run infrastructure delivery here. Let's skip the warm-up. We're bottlenecked on one thing above all else. What is it, and what would you do about it first?" },
+  { who:"vp", type:"ask", q:"Pick your opening:", choices:[
+    {t:"Power. I'd start [[interconnection]] studies and order [[longlead|long-lead]] transformers and switchgear on day one — [[speedtopower|speed-to-power]] lives or dies there.", depth:18, rapport:14, best:true,
+      reply:"That's exactly it. Most people say 'hiring.' Power is the constraint, and you led with it." },
+    {t:"Cooling. AI racks run hot, so I'd design for [[immersion]] cooling everywhere up front.",depth:7,rapport:6,
+      reply:"Cooling matters, but you can't cool racks you can't power. Lead with power." },
+    {t:"I'd run a detailed risk workshop before committing to anything.",depth:3,rapport:4,
+      reply:"Process is fine, but at our pace, hesitation IS the risk. I want a point of view." } ]},
+  { who:"vp", type:"say", text:"Good. Now go deeper — when you say you'd order gear early, how do you decide the transformer size? Don't hand-wave." },
+  { who:"vp", type:"ask", q:"Dive deeper:", choices:[
+    {t:"Size to the load plus headroom for inrush, redundancy and growth — e.g. a 1.6 MW hall takes ~2,000 kVA, not 1,500 — and add [[n1|N+1]] for [[tier3|concurrent maintainability]].",depth:20,rapport:12,best:true,
+      reply:"That's an owner who's actually energized sites. Numbers and a reason. I'm convinced." },
+    {t:"I'd ask the electrical engineer and trust their number.",depth:5,rapport:6,
+      reply:"You'll lean on them, sure — but I need a PM who can pressure-test the number." },
+    {t:"Bigger is always safer, so I'd max out every transformer.",depth:4,rapport:5,
+      reply:"Oversizing burns capital and lead time. Frugality matters even here." } ]},
+  { who:"vp", type:"say", text:"Let's talk about you under pressure. Tell me about a time you delivered something hard — and make it concrete." },
+  { who:"vp", type:"ask", q:"Deploy a story:", story:true },
+  { who:"vp", type:"say", text:"Strong. Last thing — why should we hand YOU this build over a traditional GC project manager?" },
+  { who:"vp", type:"ask", q:"Close it:", choices:[
+    {t:"I've always sat on the owner's side — accountable for the outcome, not a scope. Columbia-trained, and my [[mv]] power record is exactly your bottleneck.",depth:14,rapport:18,best:true,
+      reply:"That's the difference. Owner's mindset plus the power background. That's rare." },
+    {t:"I work harder and longer than anyone else you'll talk to.",depth:4,rapport:7,
+      reply:"Effort's table stakes. I'm hiring for judgment and ownership." },
+    {t:"I'm a fast learner and I'll figure it out as I go.",depth:3,rapport:6,
+      reply:"For a build this size I need proven, not 'I'll figure it out.'" } ]},
+  { who:"vp", type:"ask", q:"They lean back: \"What questions do you have for me?\"", choices:[
+    {t:"How are you sequencing power and long-lead gear to hit speed-to-power on your next campus?",depth:12,rapport:14,best:true,
+      reply:"A question that proves you already think like us. Good." },
+    {t:"What's the salary range?",depth:2,rapport:4,
+      reply:"Fair to ask — but lead with substance, then we'll get to comp." },
+    {t:"No questions, I think you covered everything.",depth:0,rapport:-6,
+      reply:"Never say 'no questions.' It reads as low interest." } ]}
+];
+
+/* =====================  NEW GAME CONTENT  ===================== */
+const SEQ_GAMES={
+  commission:{ teach:"Commissioning proves a build works before go-live — you climb from factory checks up to a full-load test. Learn the ladder, then rebuild it.",
+    steps:[ {t:"Factory acceptance (FAT)",d:"Witness the gear tested at the factory before it ships."},
+            {t:"Component verification",d:"Check each installed component on site."},
+            {t:"Pre-functional / point-to-point",d:"Verify wiring, terminations and start-up."},
+            {t:"Functional performance",d:"Run each system through its sequences."},
+            {t:"Integrated Systems Test (IST)",d:"Pull the plug — the whole facility under full simulated load."} ] },
+  speed:{ teach:"To energize fastest, the [[longlead|long-lead]] and grid items go first. Learn the priority order, then sequence it from memory.",
+    steps:[ {t:"File utility interconnection",d:"The longest lead item — start on day one."},
+            {t:"Order transformers & switchgear",d:"1–2 year lead; order before design is 100%."},
+            {t:"Fast-track foundations & shell",d:"Build the box while gear is fabricated."},
+            {t:"Install & terminate gear",d:"Once equipment arrives and the shell is ready."},
+            {t:"Energize & commission",d:"Bring it live and prove it out."} ] }
+};
+const SORT_GAMES={
+  capex:{ teach:"**Capex** is the one-time cost to build; **opex** is the ongoing cost to run. Owners weigh both as total cost of ownership.",
+    a:{name:"CAPEX",hint:"build cost"}, b:{name:"OPEX",hint:"running cost"},
+    items:[ {t:"Buying the transformers",bucket:'a'},{t:"Monthly electricity bill",bucket:'b'},{t:"Pouring the foundations",bucket:'a'},{t:"Generator fuel & maintenance",bucket:'b'},{t:"Installing switchgear",bucket:'a'},{t:"Cooling water consumption",bucket:'b'},{t:"Buying the land",bucket:'a'},{t:"Operations staff",bucket:'b'} ] },
+  sayit:{ teach:"Strong answers are **specific, quantified and owned**. Weak ones are vague, passive, or about effort instead of outcomes.",
+    a:{name:"SAY IT",hint:"strong"}, b:{name:"SKIP IT",hint:"weak"},
+    items:[ {t:"“I energized 35+ sites with zero permit delays.”",bucket:'a'},{t:"“I work harder than anyone.”",bucket:'b'},{t:"“I owned $150M in phase budgets.”",bucket:'a'},{t:"“I’ll figure it out as I go.”",bucket:'b'},{t:"“Here’s how I’d cut speed-to-power…”",bucket:'a'},{t:"“I don’t really have questions.”",bucket:'b'},{t:"“Zero lost-time incidents on a $3B build.”",bucket:'a'},{t:"“I just did what I was told.”",bucket:'b'} ] }
+};
+const HUNT_GAMES={
+  risk:{ teach:"Tap the things that actually threaten a data-center build — power, schedule, safety, environment — and ignore the noise.", verb:"a real project risk",
+    targets:[ {t:"Transformer lead-time slip",ok:1},{t:"Utility interconnection delay",ok:1},{t:"Brownfield contamination",ok:1},{t:"Arc-flash on energized gear",ok:1},{t:"Lobby paint colour",ok:0},{t:"Permit approval delay",ok:1},{t:"Cafeteria menu",ok:0},{t:"Rack density exceeds cooling",ok:1},{t:"Parking-sign font",ok:0},{t:"Change-order scope creep",ok:1} ] },
+  redflag:{ teach:"Spot the behaviours that sink interviews. The ones you DON’T tap are exactly what to do instead.", verb:"an interview red flag",
+    targets:[ {t:"“No questions for you.”",ok:1},{t:"Badmouthing a past employer",ok:1},{t:"Leading with salary in minute one",ok:1},{t:"Citing a real metric from your work",ok:0},{t:"“I’m a fast learner” (no proof)",ok:1},{t:"Naming a Leadership Principle",ok:0},{t:"Rambling with no structure",ok:1},{t:"A tight, quantified STAR story",ok:0} ] }
+};
+const DECIDE_GAMES={
+  site:{ teach:"For AI campuses, **power availability** and [[speedtopower|speed-to-power]] dominate. Weigh them above everything else.",
+    rounds:[
+      { q:"Pick the best site for a 100 MW AI campus.", opts:[
+        {name:"Site A",stats:{Power:9,Fiber:7,Water:6,Permits:8},best:1,why:"Abundant power + fast permitting. Power is the gating constraint — this wins."},
+        {name:"Site B",stats:{Power:4,Fiber:9,Water:8,Permits:6},why:"Great fiber and water, but weak power caps an AI campus."},
+        {name:"Site C",stats:{Power:7,Fiber:5,Water:3,Permits:4},why:"Decent power, but slow permits and scarce water add delay and risk."} ] },
+      { q:"Hot, dry climate — best cooling strategy?", opts:[
+        {name:"Free cooling + evaporative assist",best:1,why:"Outside air does the work most of the year — lowest PUE. Mind the water (WUE)."},
+        {name:"Run mechanical chillers 24/7",why:"Reliable but energy-hungry — kills your PUE."},
+        {name:"Immersion everything, day one",why:"Overkill and capital-heavy for the whole hall up front."} ] },
+      { q:"Tightest schedule — procurement play?", opts:[
+        {name:"Order long-lead gear day one + go modular",best:1,why:"Locks speed-to-power and standardizes — exactly the owner move."},
+        {name:"Wait for 100% design, then buy",why:"Guarantees a slip — long-lead gear won’t arrive in time."},
+        {name:"Single-source everything to save time",why:"Concentrates risk; one vendor slip sinks the schedule."} ] } ] }
+};
+const PAIR_GAMES={
+  whyus:{ teach:"A great “why us” ties THEIR distinct mission to YOUR real evidence.",
+    pairs:[ {a:"Google",b:"Your obsession with efficiency — a ~1.09 PUE fleet — is where I want to push."},
+            {a:"Amazon",b:"I already think in Leadership Principles — ownership and deliver results."},
+            {a:"Meta",b:"Gigawatt, move-fast AI builds match my multi-site, on-schedule record."},
+            {a:"Microsoft",b:"Carbon-negative, water-positive goals and a growth mindset fit my values."} ] },
+  storymatch:{ teach:"Know which story answers which prompt before you walk in.",
+    pairs:[ {a:"“Delivered under a hard deadline”",b:"Program at Scale — the NJ EV mandate"},
+            {a:"“Owned a big budget”",b:"The $3B Build — $150M phase budgets"},
+            {a:"“Handled a high-stakes risk”",b:"The Brownfield — remediation in parallel"},
+            {a:"“Technical depth at scale”",b:"The Grid Whisperer — 35+ sites energized"} ] }
+};
+const NEGOTIATION=[
+  {type:'say',text:"Great news — we want to make you an offer. Before I send numbers: what are you looking for?"},
+  {type:'ask',q:"Your move:",choices:[
+    {t:"I’d rather hear the range you have in mind first.",lev:16,best:true,reply:"Smart — you let them anchor. “We were thinking $165K base.”"},
+    {t:"$175K base, that’s my number.",lev:7,reply:"Anchoring yourself first — and a touch rigid. They jot it down."},
+    {t:"Whatever’s fair works for me.",lev:-8,reply:"Never cede leverage — ‘fair’ becomes their lowest number."} ]},
+  {type:'say',text:"We can do $165K base plus equity."},
+  {type:'ask',q:"Counter:",choices:[
+    {t:"Given my owner-side power record and the market, I’m targeting $185K — can we meet at $175K+?",lev:18,best:true,reply:"Anchored high, with justification. “We can get to $175K.”"},
+    {t:"$165K is fine, thanks.",lev:-10,reply:"You left money on the table — they expected a counter."},
+    {t:"That’s honestly insulting.",lev:-12,reply:"Stay collaborative — emotion erodes leverage fast."} ]},
+  {type:'say',text:"Done — $175K base. Anything else?"},
+  {type:'ask',q:"Close it:",choices:[
+    {t:"Thank you — can we confirm equity, sign-on and start date in writing?",lev:12,best:true,reply:"Lock the full package in writing. That’s how a pro closes."},
+    {t:"Deal — thanks!",lev:4,reply:"Good — though you could’ve nailed down the rest of the package."},
+    {t:"Actually, can we go to $200K?",lev:-8,reply:"Re-anchoring after a yes reads as bad faith."} ]}
+];
+
+/* =====================  STATE  ===================== */
+const state = {
+  xp:0, skills:{power:0,cool:0,story:0,vocab:0}, mastery:{power:0,thermal:0,star:0,jargon:0},
+  done:new Set(), forged:new Set(), ach:new Set(), panelDone:false, sound:true, seenIntro:false,
+  srs:{}, streak:0, lastDaily:null, dayNum:0
+};
+function save(){ try{ localStorage.setItem('gigawatt',JSON.stringify({xp:state.xp,skills:state.skills,mastery:state.mastery,done:[...state.done],forged:[...state.forged],ach:[...state.ach],panelDone:state.panelDone,sound:state.sound,seenIntro:state.seenIntro,srs:state.srs,streak:state.streak,lastDaily:state.lastDaily,dayNum:state.dayNum})); }catch(e){} }
+(function(){ try{ const d=JSON.parse(localStorage.getItem('gigawatt')||'{}'); if(d.xp){Object.assign(state,{xp:d.xp,panelDone:!!d.panelDone,seenIntro:!!d.seenIntro}); state.skills=d.skills||state.skills; state.mastery=d.mastery||state.mastery; state.done=new Set(d.done||[]); state.forged=new Set(d.forged||[]); state.ach=new Set(d.ach||[]);} if(typeof d.sound==='boolean')state.sound=d.sound; state.srs=d.srs||{}; state.streak=d.streak||0; state.lastDaily=d.lastDaily||null; state.dayNum=d.dayNum||0; }catch(e){} })();
+/* ---- spaced-repetition (Leitner) engine over the glossary ---- */
+const PICK=a=>a[Math.floor(Math.random()*a.length)];
+const SRS_INT=[0,1,2,4,8,16,30];
+function dayStr(off){ const d=new Date(); if(off)d.setDate(d.getDate()+off); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function srsDue(){ const t=dayStr(0); return Object.keys(state.srs).filter(k=>GLOSSARY[k]&&state.srs[k].due<=t); }
+function srsNew(n){ const out=[]; for(const k of Object.keys(GLOSSARY)){ if(!state.srs[k]){out.push(k); if(out.length>=n)break;} } return out; }
+function srsSeen(){ return Object.keys(state.srs).filter(k=>GLOSSARY[k]).length; }
+function srsGrade(k,ok){ const s=state.srs[k]||{box:0,seen:0}; s.box=ok?Math.min((s.box||0)+1,SRS_INT.length-1):1; s.due=dayStr(SRS_INT[s.box]); s.seen=(s.seen||0)+1; state.srs[k]=s; }
+function termLabel(k){ return GLOSSARY[k].t.split('—')[0].trim(); }
+function normT(s){ return (s||'').toLowerCase().replace(/[^a-z0-9]/g,''); }
+function acceptType(k,input){ const i=normT(input); if(i.length<2)return false; const lab=termLabel(k); const cands=[k,lab,lab.replace(/\(.*\)/,'')]; const par=(lab.match(/\(([^)]+)\)/)||[])[1]; if(par)cands.push(par); return cands.some(c=>{ const n=normT(c); return n&&(n===i||(n.length>=4&&i.length>=4&&n.startsWith(i))||(i.startsWith(n)&&n.length>=3)); }); }
+/* ---- extra level variety (pools the mini-games draw from) ---- */
+POWER_LEVELS.push(
+  { title:"Energize a 5 MW colocation hall", load:5,
+    chain:["Utility feed","Substation","Transformer","Switchgear","UPS","Racks"], chainEmoji:["🔌","🏭","🟧","⚡","🔋","🖥️"],
+    kva:[3000,5000,6300], correctKva:6300,
+    sizingWhy:"5 MW ≈ 5,000 kVA. Size up to a standard 6,300 kVA rating for headroom; 5,000 leaves no margin for inrush or growth." },
+  { title:"Stand up a 100 MW gigawatt-class campus at 2N", load:100,
+    chain:["Utility feed","Substation","Transformer","Switchgear","Generator","UPS","Racks"], chainEmoji:["🔌","🏭","🟧","⚡","🟩","🔋","🖥️"],
+    kva:[75000,100000,125000], correctKva:125000,
+    sizingWhy:"At 100 MW you build headroom for 2N redundancy and growth — 125 MVA. 100 MVA would run with zero spare." }
+);
+FORGE.push(
+  { story:"program", prompt:"<b>\"Tell me about managing a program across many sites or stakeholders.\"</b> Build the Program at Scale story.",
+    s:"A $1B+ capital program: 80+ service areas across six state authorities, each with its own permitting and utilities.",
+    t:"Deliver concurrent builds in six jurisdictions on aggressive public deadlines.",
+    a:"Built one standardized, repeatable site playbook, ran government liaison, and controlled schedule and budget across the whole portfolio.",
+    r:"$200M+ active at once, on schedule, with zero permit delays." },
+  { story:"brownfield", prompt:"<b>\"Tell me about navigating a high-stakes risk or regulatory problem.\"</b> Build the Brownfield story.",
+    s:"Brightwater sat on a contaminated brownfield that needed remediation before any vertical construction.",
+    t:"Keep environmental compliance from blowing the critical path.",
+    a:"Sequenced remediation and environmental permitting in parallel with design and procurement to de-risk early.",
+    r:"Zero permit delays; the site delivered on schedule despite the contamination." }
+);
+const THERMAL_SCENARIOS=[ THERMAL_WAVES,
+  [[6,9,8,10],[22,38,15,40,30],[60,110,140,48,95,75]],
+  [[10,7,9,8,6],[33,40,18,25],[150,80,120,200,65,100]] ];
+
+/* =====================  DOM + helpers  ===================== */
+const $=s=>document.querySelector(s);
+const startL=$('#start'), hubL=$('#hub'), modL=$('#module'), hud=$('#hud'), flash=$('#flash');
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstElementChild; }
+function show(layer){ [startL,hubL,modL].forEach(l=>l.classList.add('hidden')); layer.classList.remove('hidden'); }
+function hexA(h,a){ h=h.replace('#','');const n=parseInt(h,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`; }
+
+/* =====================  AUDIO  ===================== */
+let actx=null;
+function ac(){ if(!state.sound)return null; try{ if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended')actx.resume(); return actx; }catch(e){return null;} }
+function tone(f,d,t='sine',v=0.18,w=0){ const a=ac();if(!a)return; const s=a.currentTime+w,o=a.createOscillator(),g=a.createGain(); o.type=t;o.frequency.value=f; g.gain.setValueAtTime(0.0001,s);g.gain.exponentialRampToValueAtTime(v,s+0.012);g.gain.exponentialRampToValueAtTime(0.0001,s+d); o.connect(g).connect(a.destination);o.start(s);o.stop(s+d+0.03); }
+const sOk=()=>{tone(620,0.12,'triangle',0.16);tone(930,0.16,'triangle',0.14,0.07)};
+const sNo=()=>{tone(170,0.28,'sawtooth',0.14);tone(120,0.3,'sawtooth',0.12,0.04)};
+const sClick=()=>tone(440,0.05,'square',0.06);
+const sPower=()=>{tone(110,0.5,'sawtooth',0.12);tone(220,0.4,'sine',0.1,0.05);tone(440,0.5,'sine',0.08,0.12)};
+const sWin=()=>[523,659,784,1047].forEach((f,i)=>tone(f,0.45,'triangle',0.15,i*0.08));
+const sAch=()=>[880,1175,1568].forEach((f,i)=>tone(f,0.24,'sine',0.12,i*0.05));
+const sCool=()=>{tone(700,0.18,'sine',0.12);tone(500,0.2,'sine',0.1,0.06)};
+/* generative ambient background music (self-contained, respects mute) */
+const Music=(function(){
+  let on=false,timer=null,master=null,step=0;
+  const prog=[[110,164.8,220,329.6],[98,146.8,196,293.7],[123.5,185,247,370],[87.3,130.8,174.6,261.6]]; // Am-ish drifting pads
+  function bar(){ const a=ac(); if(!a||!on||!master)return; const t=a.currentTime, ch=prog[step%prog.length];
+    ch.forEach(f=>{ const o=a.createOscillator(),g=a.createGain(); o.type='sine';o.frequency.value=f; g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.05,t+1.1);g.gain.linearRampToValueAtTime(0.0001,t+3.9); o.connect(g).connect(master);o.start(t);o.stop(t+4); });
+    [0,1,2,3].forEach(i=>{ const f=ch[(i+2)%ch.length]*2, tt=t+i*0.5+0.25, o=a.createOscillator(),g=a.createGain(); o.type='triangle';o.frequency.value=f; g.gain.setValueAtTime(0.0001,tt);g.gain.linearRampToValueAtTime(0.02,tt+0.04);g.gain.exponentialRampToValueAtTime(0.0001,tt+0.7); o.connect(g).connect(master);o.start(tt);o.stop(tt+0.75); });
+    step++;
+  }
+  return {
+    start(){ const a=ac(); if(!a||on)return; on=true; master=a.createGain(); master.gain.setValueAtTime(0.0001,a.currentTime); master.gain.linearRampToValueAtTime(0.5,a.currentTime+2.5); master.connect(a.destination); bar(); timer=setInterval(bar,4000); },
+    stop(){ on=false; if(timer)clearInterval(timer); timer=null; try{ const a=ac(); if(master&&a){ master.gain.cancelScheduledValues(a.currentTime); master.gain.linearRampToValueAtTime(0.0001,a.currentTime+0.6); } }catch(e){} master=null; },
+    get on(){ return on; }
+  };
+})();
+
+/* =====================  GLOSSARY rich text + tooltip  ===================== */
+function rich(t){ if(t==null)return'';
+  t=t.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g,(m,a,b)=>{ a=a.trim(); b=b.trim(); if(GLOSSARY[a])return term(a,b); if(GLOSSARY[b])return term(b,a); return b; });
+  t=t.replace(/\[\[([^\]]+)\]\]/g,(m,key)=>{ key=key.trim(); if(!GLOSSARY[key])return key; const lbl=key.length<=4?key.toUpperCase():key.charAt(0).toUpperCase()+key.slice(1); return term(key,lbl); });
+  t=t.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  return t;
+}
+function term(key,label){ if(!GLOSSARY[key])return label; return `<span class="term" data-k="${key}" tabindex="0">${label}</span>`; }
+const tip=$('#tip');
+function showTip(span){ const g=GLOSSARY[span.dataset.k]; if(!g)return;
+  tip.innerHTML=`<div class="tt">Jargon</div><div class="tn">${g.t}</div><div class="td">${g.d}</div><div class="tu"><b>In the interview:</b> ${g.u}</div>`;
+  tip.classList.add('show'); const r=span.getBoundingClientRect(),tw=Math.min(320,innerWidth-24),th=tip.offsetHeight;
+  let left=r.left+r.width/2-tw/2; left=Math.max(12,Math.min(left,innerWidth-tw-12));
+  let top=r.top-th-10; if(top<8)top=r.bottom+10; tip.style.left=left+'px';tip.style.top=top+'px';tip.style.width=tw+'px';
+}
+function hideTip(){ tip.classList.remove('show'); }
+document.addEventListener('mouseover',e=>{ const s=e.target.closest&&e.target.closest('.term'); if(s)showTip(s); });
+document.addEventListener('mouseout',e=>{ const s=e.target.closest&&e.target.closest('.term'); if(s)hideTip(); });
+document.addEventListener('focusin',e=>{ const s=e.target.closest&&e.target.closest('.term'); if(s)showTip(s); });
+document.addEventListener('focusout',hideTip);
+document.addEventListener('click',e=>{ const s=e.target.closest&&e.target.closest('.term'); if(s){ if(tip.classList.contains('show')&&tip._k===s.dataset.k){hideTip();tip._k=null;} else {showTip(s);tip._k=s.dataset.k;} } else if(!e.target.closest('#tip')) {hideTip();tip._k=null;} });
+
+/* =====================  THREE.JS WORLD  ===================== */
+const Scene={ ok:false };
+(function(){
+  let renderer,scene,cam,clock,world,particles,pVel,accent=new THREE.Color('#39C0E8'),aLight,kLight;
+  let camA=0,shakeT=0,burst=0, spin=[];
+  Scene.init=function(){
+    try{
+      renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+      renderer.setPixelRatio(Math.min(2,devicePixelRatio||1)); renderer.setSize(innerWidth,innerHeight);
+      $('#bg').appendChild(renderer.domElement);
+      scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x04050a,0.04);
+      cam=new THREE.PerspectiveCamera(56,innerWidth/innerHeight,0.1,300); cam.position.set(0,4,16);
+      clock=new THREE.Clock();
+      scene.add(new THREE.AmbientLight(0x2a3a52,0.9));
+      aLight=new THREE.PointLight(accent.getHex(),2.2,80); aLight.position.set(0,7,6); scene.add(aLight);
+      kLight=new THREE.DirectionalLight(0xffffff,0.5); kLight.position.set(6,12,8); scene.add(kLight);
+      const back=new THREE.PointLight(accent.getHex(),1.0,70); back.position.set(-9,4,-8); scene.add(back); aLight.back=back;
+      // grid
+      const pts=[],size=160,div=64,st=size/div,h=size/2; for(let i=0;i<=div;i++){const p=-h+i*st;pts.push(-h,0,p,h,0,p,p,0,-h,p,0,h);}
+      const gg=new THREE.BufferGeometry(); gg.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));
+      Scene.gridMat=new THREE.LineBasicMaterial({color:accent.clone(),transparent:true,opacity:0.18});
+      const grid=new THREE.LineSegments(gg,Scene.gridMat); grid.position.y=-3; scene.add(grid);
+      const fl=new THREE.Mesh(new THREE.PlaneGeometry(size,size),new THREE.MeshStandardMaterial({color:0x06090f,metalness:0.7,roughness:0.5,transparent:true,opacity:0.85})); fl.rotation.x=-Math.PI/2; fl.position.y=-3.04; scene.add(fl);
+      // particles
+      const N=560,pos=new Float32Array(N*3); pVel=new Float32Array(N);
+      for(let i=0;i<N;i++){pos[i*3]=(Math.random()-0.5)*70;pos[i*3+1]=Math.random()*30-3;pos[i*3+2]=(Math.random()-0.5)*70;pVel[i]=0.3+Math.random()*1.2;}
+      const pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      particles=new THREE.Points(pg,new THREE.PointsMaterial({color:accent.clone(),size:0.07,transparent:true,opacity:0.6,blending:THREE.AdditiveBlending,depthWrite:false})); scene.add(particles);
+      world=new THREE.Group(); scene.add(world);
+      Scene.ok=true; loop();
+      addEventListener('resize',()=>{ if(!renderer)return; cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight); });
+    }catch(e){ Scene.ok=false; console.warn('3D unavailable:',e); }
+  };
+  Scene.setAccent=function(hex){ accent.set(hex); if(aLight){aLight.color.set(hex); if(aLight.back)aLight.back.color.set(hex);} if(Scene.gridMat)Scene.gridMat.color.set(hex); if(particles)particles.material.color.set(hex); };
+  function clearWorld(){ if(!Scene.ok)return; spin=[]; while(world.children.length){ const o=world.children.pop(); o.traverse&&o.traverse(c=>{c.geometry&&c.geometry.dispose();c.material&&(Array.isArray(c.material)?c.material:[c.material]).forEach(m=>m.dispose());}); world.remove(o);} }
+  Scene.clear=clearWorld;
+  function mat(c,emi){ const col=new THREE.Color(c); return new THREE.MeshStandardMaterial({color:col,emissive:col.clone().multiplyScalar(emi==null?0.3:emi),metalness:0.5,roughness:0.35,flatShading:true}); }
+  Scene.wire=function(geo,c,op){ return new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:new THREE.Color(c),wireframe:true,transparent:true,opacity:op||0.16})); };
+  // HUB: a campus of module monuments
+  Scene.buildHub=function(){ if(!Scene.ok)return; clearWorld(); Scene.setAccent('#39C0E8');
+    const defs=[['#FBBF24',-6,'oct'],['#38BDF8',-2,'cyl'],['#A78BFA',2,'ico'],['#34D399',6,'tor'],['#FBBF24',0,'spire']];
+    defs.forEach((d,i)=>{ const [c,x,shape]=d; let g;
+      if(shape==='oct')g=new THREE.OctahedronGeometry(1.1,0);
+      else if(shape==='cyl')g=new THREE.CylinderGeometry(0.8,1,2.6,6);
+      else if(shape==='ico')g=new THREE.IcosahedronGeometry(1.1,0);
+      else if(shape==='tor')g=new THREE.TorusGeometry(1,0.34,12,40);
+      else g=new THREE.ConeGeometry(1.1,3.2,4);
+      const m=new THREE.Mesh(g,mat(c,0.34)); const z=shape==='spire'?-5:-1; const y=shape==='spire'?2.4:0.6;
+      m.position.set(x,y,z); world.add(m); spin.push({m,y:0.006+i*0.001});
+      const w=Scene.wire(g.clone(),c,0.14); w.position.copy(m.position); w.scale.setScalar(1.35); world.add(w); spin.push({m:w,y:-0.004});
+      const base=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.7,0.3,6),new THREE.MeshStandardMaterial({color:0x0b1018,metalness:0.8,roughness:0.4})); base.position.set(x,-2.85,z); world.add(base);
+    });
+  };
+  // POWER world: a row of pylons that light up
+  Scene.buildPower=function(n){ if(!Scene.ok)return; clearWorld(); Scene.setAccent('#FBBF24'); Scene.pylons=[];
+    const span=2.4, x0=-(n-1)*span/2;
+    for(let i=0;i<n;i++){ const base=new THREE.Mesh(new THREE.BoxGeometry(0.8,3.4,0.8),new THREE.MeshStandardMaterial({color:0x10141d,metalness:0.7,roughness:0.4,emissive:new THREE.Color('#FBBF24'),emissiveIntensity:0.02}));
+      base.position.set(x0+i*span,-1.3,-1); world.add(base); Scene.pylons.push(base);
+      const ball=new THREE.Mesh(new THREE.IcosahedronGeometry(0.34,0),new THREE.MeshBasicMaterial({color:0x223,transparent:true,opacity:0.9})); ball.position.set(x0+i*span,0.7,-1); ball.userData.lit=false; world.add(ball); base.userData.ball=ball; }
+  };
+  Scene.lightPylon=function(i){ const b=Scene.pylons&&Scene.pylons[i]; if(!b)return; b.material.emissiveIntensity=0.9; if(b.userData.ball){b.userData.ball.material.color.set('#FBBF24');b.userData.ball.material.opacity=1;} burst=0.7; };
+  // THERMAL world: grid of rack columns mirrored to HTML
+  Scene.buildThermal=function(n){ if(!Scene.ok)return; clearWorld(); Scene.setAccent('#38BDF8'); Scene.racks3=[];
+    const cols=Math.min(n,6), x0=-(cols-1)*1.4/1*0.5;
+    for(let i=0;i<n;i++){ const col=i%cols, row=Math.floor(i/cols);
+      const m=new THREE.Mesh(new THREE.BoxGeometry(0.9,2.2,0.6),new THREE.MeshStandardMaterial({color:new THREE.Color('#FB923C'),emissive:new THREE.Color('#FB923C'),emissiveIntensity:0.5,metalness:0.4,roughness:0.5}));
+      m.position.set((col-(cols-1)/2)*1.5, 0.1-row*0.05, -1-row*1.4); world.add(m); Scene.racks3.push(m); }
+  };
+  Scene.setRack3=function(i,coold){ const m=Scene.racks3&&Scene.racks3[i]; if(!m)return; m.material.color.set(coold?'#38BDF8':'#FB923C'); m.material.emissive.set(coold?'#38BDF8':'#FB923C'); m.material.emissiveIntensity=coold?0.4:0.55; if(coold){burst=0.5;} };
+  // generic monument for non-3D modules
+  Scene.buildMonument=function(c){ if(!Scene.ok)return; clearWorld(); Scene.setAccent(c);
+    const g=new THREE.IcosahedronGeometry(1.7,0); const m=new THREE.Mesh(g,mat(c,0.34)); m.position.set(0,1.4,-2); world.add(m); spin.push({m,y:0.01});
+    const w=Scene.wire(new THREE.IcosahedronGeometry(2.4,1),c,0.13); w.position.copy(m.position); world.add(w); spin.push({m:w,y:-0.006});
+    for(let i=0;i<3;i++){ const r=new THREE.Mesh(new THREE.TorusGeometry(2.6+i*0.5,0.02,8,60),new THREE.MeshBasicMaterial({color:new THREE.Color(c),transparent:true,opacity:0.4-i*0.1})); r.position.set(0,1.4,-2); r.rotation.x=Math.PI/2.4+i*0.3; world.add(r); spin.push({m:r,y:0.004*(i+1),x:0.002}); } };
+  Scene.flash=function(c,a){ flash.style.transition='none';flash.style.background=c;flash.style.opacity=a; requestAnimationFrame(()=>{flash.style.transition='opacity .6s';flash.style.opacity='0';}); };
+  Scene.shake=function(){ shakeT=0.5; $('#bg').classList.add('shake'); setTimeout(()=>$('#bg').classList.remove('shake'),400); };
+  Scene.pulseAccent=function(){ burst=1; };
+  function loop(){ requestAnimationFrame(loop); if(!Scene.ok)return; const dt=Math.min(0.05,clock.getDelta()),t=clock.elapsedTime;
+    spin.forEach(s=>{ s.m.rotation.y+=(s.y||0); if(s.x)s.m.rotation.x+=s.x; });
+    if(world)world.children.forEach(o=>{ if(o.geometry&&o.geometry.type==='OctahedronGeometry'){o.position.y+=Math.sin(t*1.3+o.position.x)*0.0015;} });
+    if(particles){ const p=particles.geometry.attributes.position,sp=1+burst*4; for(let i=0;i<pVel.length;i++){let y=p.array[i*3+1]+pVel[i]*dt*sp;if(y>27){y=-3;p.array[i*3]=(Math.random()-0.5)*70;p.array[i*3+2]=(Math.random()-0.5)*70;}p.array[i*3+1]=y;} p.needsUpdate=true; particles.rotation.y+=0.02*dt; }
+    if(burst>0)burst=Math.max(0,burst-dt*1.5); if(aLight)aLight.intensity=2.0+Math.sin(t*3)*0.2+burst*4;
+    camA+=dt*0.16; let cx=Math.sin(camA)*2.0, cy=4+Math.cos(camA*0.7)*0.5;
+    if(shakeT>0){cx+=(Math.random()-0.5)*shakeT*2;cy+=(Math.random()-0.5)*shakeT*2;shakeT=Math.max(0,shakeT-dt*1.5);}
+    cam.position.x+=(cx-cam.position.x)*0.05; cam.position.y+=(cy-cam.position.y)*0.05; cam.lookAt(0,1.4,-2); renderer.render(scene,cam);
+  }
+})();
+
+/* =====================  HUD / PROGRESSION  ===================== */
+const RANKS=[[0,'Coordinator','▽'],[25,'Project Manager','◇'],[55,'Senior PM','◆'],[85,'Director','♛']];
+function readiness(){ const m=state.mastery; const tot=Math.min(3,m.power)+Math.min(3,m.thermal)+Math.min(3,m.star)+Math.min(3,m.jargon); return Math.round(tot/12*100); }
+function rankFor(r){ let out=RANKS[0]; RANKS.forEach(x=>{if(r>=x[0])out=x;}); if(state.panelDone)out=[100,'Director — Hired','♛']; return out; }
+function renderHUD(){ const sk=[['power','Power'],['cool','Cooling'],['story','Story'],['vocab','Vocab']];
+  $('#hudSkills').innerHTML=sk.map(([k,n])=>`<div class="skill ${k}"><div class="sk-h"><span class="sk-n">${n}</span><span class="sk-v">${Math.round(state.skills[k])}</span></div><div class="sk-bar"><div class="sk-fill" style="width:${state.skills[k]}%"></div></div></div>`).join('');
+  $('#xpV').textContent=state.xp.toLocaleString()+' XP'; const r=readiness(); $('#xpL').textContent='Readiness '+r+'%';
+  const rk=rankFor(r); $('#rkV').textContent=rk[1]; $('#rkIc').textContent=rk[2];
+}
+function addSkill(k,amt){ state.skills[k]=Math.min(100,Math.round(state.skills[k]+amt)); }
+function addXP(n){ state.xp+=n; }
+
+/* =====================  TOAST / ACHIEVEMENTS  ===================== */
+const ACH={ energized:{i:'⚡',t:'Energized',d:'Powered your first data hall'},
+  cool:{i:'❄️',t:'Cool Under Pressure',d:'Survived a full thermal run'},
+  storyteller:{i:'⭐',t:'Storyteller',d:'Forged a STAR story'},
+  wordperfect:{i:'🧠',t:'Word Perfect',d:'Flawless Jargon Rush'},
+  scholar:{i:'📚',t:'Quick Study',d:'Completed all four training modules'},
+  hired:{i:'🤝',t:'Hired',d:'Landed the offer in The Panel'},
+  director:{i:'♛',t:'Director Material',d:'Mastered everything + got the offer'},
+  regular:{i:'🔥',t:'Regular',d:'7-day training streak'},
+  devoted:{i:'📅',t:'Devoted',d:'30 days of training'} };
+let toastQ=[],toastBusy=false;
+function unlock(id){ if(state.ach.has(id))return; state.ach.add(id); save(); toastQ.push(ACH[id]); sAch(); runToast(); }
+function runToast(){ if(toastBusy||!toastQ.length)return; toastBusy=true; const a=toastQ.shift(); const t=$('#toast'); $('#toastT').textContent=a.t;$('#toastD').textContent=a.d;t.querySelector('.ti').textContent=a.i; t.classList.add('show'); setTimeout(()=>{t.classList.remove('show'); setTimeout(()=>{toastBusy=false;runToast();},350);},2600); }
+function confetti(){ try{ const cols=['#FBBF24','#34D399','#38BDF8','#A78BFA','#FB7185','#ffffff']; for(let i=0;i<42;i++){ const p=document.createElement('div'); p.style.cssText='position:fixed;z-index:80;left:50%;top:36%;width:9px;height:9px;border-radius:2px;pointer-events:none;background:'+cols[i%cols.length]; document.body.appendChild(p); const a=Math.random()*Math.PI*2, v=4+Math.random()*8.5; let vx=Math.cos(a)*v, vy=Math.sin(a)*v-7, x=0,y=0,t=0; const id=setInterval(()=>{ t++; x+=vx; vy+=0.5; y+=vy; p.style.transform='translate('+x+'px,'+y+'px) rotate('+(t*22)+'deg)'; p.style.opacity=String(Math.max(0,1-t/45)); if(t>45){clearInterval(id); p.remove();} },16); } }catch(e){} }
+
+/* =====================  DIALOGUE SYSTEM  ===================== */
+const CHARS={ coach:{nm:'Coach Marcus Webb',rl:'Interview Coach',ic:'MW',c:'#39C0E8'},
+  sofia:{nm:'Sofia Nguyen',rl:'Data-Center SME',ic:'SN',c:'#34D399'},
+  recruiter:{nm:'Maya Chen',rl:'Talent Partner',ic:'MC',c:'#A78BFA'},
+  vp:{nm:'Joanna Pierce',rl:'VP, Infrastructure',ic:'JP',c:'#FBBF24'} };
+const dlg=$('#dialogue');
+function speak(who,body,opts){ opts=opts||{}; const ch=CHARS[who]||CHARS.coach;
+  dlg.innerHTML=`<div class="dlg"><div class="dlg-head"><div class="dlg-av" style="background:linear-gradient(135deg,${ch.c},#05060a)">${ch.ic}</div><div><div class="dlg-nm">${ch.nm}</div><div class="dlg-rl">${ch.rl}</div></div></div>
+    <div class="dlg-body">${rich(body)}</div>
+    ${opts.choices?`<div class="dlg-choices">${opts.choices.map((c,i)=>`<button class="dlg-choice" data-i="${i}"><span class="ck">${i+1}</span><span>${rich(c.t)}</span></button>`).join('')}</div>`:''}
+    ${opts.next?`<div class="dlg-next"><button class="btn btn-primary" id="dlgNext">${opts.nextLabel||'Continue →'}</button></div>`:''}
+    ${opts.tap?`<div class="dlg-tap">tap to continue</div>`:''}</div>`;
+  dlg.classList.add('show');
+  if(opts.choices){ dlg.querySelectorAll('.dlg-choice').forEach(b=>b.onclick=()=>{ sClick(); opts.onPick&&opts.onPick(+b.dataset.i,b); }); }
+  if(opts.next){ $('#dlgNext').onclick=()=>{ sClick(); opts.next(); }; }
+  if(opts.tap){ dlg.querySelector('.dlg').onclick=e=>{ if(e.target.closest('.dlg-choice'))return; opts.tap(); }; }
+}
+function closeDlg(){ dlg.classList.remove('show'); dlg.innerHTML=''; }
+
+/* =====================  ROUTER  ===================== */
+const MOD_META=[
+  {id:'power',name:'Power Grid',tag:'Build · 3D',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling',desc:'Wire the power chain, size the transformer, add redundancy — then energize the hall.'},
+  {id:'thermal',name:'Thermal Run',tag:'Survive · 3D',emoji:'❄️',color:'#38BDF8',skill:'cool',cat:'Power & Cooling',desc:'Cool the racks before they overheat as AI density climbs, wave after wave.'},
+  {id:'star',name:'STAR Forge',tag:'Assemble',emoji:'⭐',color:'#A78BFA',skill:'story',cat:'Stories & Interview',desc:'Forge your real stories from scrambled fragments. Lock them into memory.'},
+  {id:'jargon',name:'Jargon Rush',tag:'Arcade',emoji:'🧠',color:'#34D399',skill:'vocab',cat:'Vocabulary',desc:'Beat the clock matching the terms every interview panel expects you to own.'},
+  {id:'match',name:'Match Up',tag:'Pairs',emoji:'🔗',color:'#2DD4BF',skill:'vocab',cat:'Vocabulary',desc:'Pair each term with its meaning — trains the link both directions.'},
+  {id:'speed',name:'Speed-to-Power',tag:'Sequence',emoji:'⏱️',color:'#FB923C',skill:'power',cat:'Delivery & PM',desc:'Sequence the long-lead and grid steps to energize fastest.'},
+  {id:'site',name:'Site Select',tag:'Judgment',emoji:'📍',color:'#38BDF8',skill:'power',cat:'Delivery & PM',desc:'Weigh power, fiber, water and permits to make the smart owner call.'},
+  {id:'risk',name:'Risk Radar',tag:'Arcade',emoji:'📡',color:'#FB7185',skill:'power',cat:'Delivery & PM',desc:'Tap the real project risks as they sweep in; ignore the noise.'},
+  {id:'storymatch',name:'Story Match',tag:'Pairs',emoji:'🎯',color:'#A78BFA',skill:'story',cat:'Stories & Interview',desc:'Match each behavioral prompt to the right story from your arsenal.'},
+  {id:'sayit',name:'Say It / Skip It',tag:'Sort',emoji:'🗣️',color:'#A78BFA',skill:'story',cat:'Stories & Interview',desc:'Sort strong, quantified lines from vague, weak ones.'},
+  {id:'redflag',name:'Red-Flag Hunt',tag:'Arcade',emoji:'🚩',color:'#FB7185',skill:'story',cat:'Stories & Interview',desc:'Spot the interview behaviors that sink candidates.'},
+  {id:'whyus',name:'Why Us',tag:'Pairs',emoji:'🏢',color:'#39C0E8',skill:'story',cat:'Company & Closing',desc:'Tie each company\'s mission to your real evidence.'},
+  {id:'negotiation',name:'Negotiation',tag:'Scenario',emoji:'🤝',color:'#FBBF24',skill:'story',cat:'Company & Closing',desc:'Anchor and counter your way to a $175K+ offer.'}
+];
+const MODULES={};
+function panelUnlocked(){ return state.done.size>=3; }
+
+function showStart(){ show(startL); hud.classList.remove('on'); closeDlg(); Scene.buildHub&&Scene.buildHub();
+  const ret=state.done.size>0||state.xp>0;
+  startL.innerHTML=`<div class="wrap center fade-in">
+    <div class="badge-pill"><span class="live"></span> Learn-by-playing · 3D Interview Arena ${state.xp?'· '+state.xp.toLocaleString()+' XP':''}</div>
+    <div class="eyebrow">A training game for Ben Yacker</div>
+    <h1 class="title">GIGA<span class="em">WATT</span></h1>
+    <p class="subtitle">Don't study for the interview — <b>play it</b>. Wire real power systems, cool an AI data hall, forge your stories, and face the VP. Every <span class="term" data-k="pue" tabindex="0">piece of jargon</span> is hover-to-learn. The knowledge sticks because you <b>did</b> it.</p>
+    <div class="start-actions">
+      <button class="btn btn-primary btn-lg" id="bStart">▶ ${ret?'Back to Campus':'Enter the Arena'}</button>
+      <button class="btn btn-ghost btn-lg" id="bHow">How to play</button>
+    </div>
+  </div>`;
+  $('#bStart').onclick=()=>{ sClick(); ac(); if(state.sound)Music.start(); enterHub(); };
+  $('#bHow').onclick=()=>{ sClick(); howTo(); };
+}
+function howTo(){ speak('coach',"Here's the deal, Ben. The **campus** is a stack of training games across five areas — power, delivery, stories, company prep and vocabulary — plus the boss. Each one teaches by **doing**, then quizzes you. Start a daily streak, clear at least **three** games, and [[the Panel|star]] — the VP interview — unlocks. Hover any glowing word for its meaning and how to use it in the room. Ready?",{next:()=>{closeDlg(); enterHub();},nextLabel:'Let\'s go →'}); }
+
+function enterHub(){ show(hubL); hud.classList.add('on'); renderHUD(); closeDlg(); Scene.buildHub&&Scene.buildHub(); if(state.sound)Music.start();
+  if(!state.seenIntro){ state.seenIntro=true; save(); setTimeout(()=>speak('coach',"Welcome to campus. Pick any module to start — I'd warm up with **Power Grid**. Remember: hover the glowing jargon. Let's get you that offer.",{tap:closeDlg,next:closeDlg,nextLabel:'Got it'}),400); }
+  renderHub();
+}
+function renderHub(){
+  const r=readiness(); const due=srsDue().length, learned=srsSeen(), totalT=Object.keys(GLOSSARY).length, nw=srsNew(5).length, todayC=due+nw;
+  const streak=state.streak||0, day=state.dayNum||0;
+  hubL.innerHTML=`<div class="wrap fade-in">
+    <div class="hub-head"><div class="eyebrow">Training Campus</div><h2 class="display" style="font-size:clamp(28px,5vw,44px)">Build your readiness</h2>
+      <div class="readiness"><div class="rd-top"><span>Interview readiness</span><span>${r}%</span></div><div class="rd-track"><div class="rd-fill" style="width:${r}%"></div></div></div>
+      <div class="hub-chips"><div class="hchip">📅 Day <b>${day}</b></div><div class="hchip">🔥 <b>${streak}</b> day streak</div><div class="hchip">📚 <b>${learned}/${totalT}</b> terms</div><div class="hchip ${todayC>0?'hot':''}">${todayC>0?`<b>${todayC}</b> cards due`:'caught up ✓'}</div></div></div>
+    <div class="daily-tile" id="dailyTile"><div class="dt-ic">📅</div>
+      <div class="dt-body"><div class="dt-name">Daily Training <span class="dt-tag">SPACED REPETITION</span></div>
+        <div class="dt-desc">${todayC>0?`<b>${nw}</b> new term${nw===1?'':'s'} + <b>${due}</b> review${due===1?'':'s'} today. Learn new, refresh old — a little every day builds it for good.`:'All reviews done for today — come back tomorrow for the next batch.'}</div></div>
+      <div class="dt-go">${todayC>0?'START ▶':'DONE ✓'}</div></div>
+    ${(()=>{ const cats=['Power & Cooling','Build Types & Trades','Delivery & PM','Stories & Interview','Company & Closing','Vocabulary'];
+      const TAGDESC={Sequence:'Learn the order, then rebuild it from memory.',Sort:'Sort each item into the right group.',Judgment:'Pick the strongest call — and learn why.',Recall:'Drill the facts until they are automatic.',Pairs:'Match terms to meanings.'};
+      const card=m=>{ const mast=state.mastery[m.id]||0, done=state.done.has(m.id);
+        return `<div class="mod ${done?'done':''}" data-mod="${m.id}" style="--mc:${m.color};--mcSoft:${hexA(m.color,0.5)}"><div class="glow"></div><div class="mod-top"><div class="mod-ic">${m.emoji}</div><div><div class="mod-tag">${m.tag}</div><div class="mod-name">${m.name}</div></div></div><div class="mod-desc">${m.desc||TAGDESC[m.tag]||''}</div><div class="mod-foot"><div class="mod-mastery">${[0,1,2].map(i=>`<div class="dot3 ${i<mast?'on':''}"></div>`).join('')}</div><div class="mod-go">${done?'REPLAY ↻':'PLAY ▶'}</div></div></div>`; };
+      return cats.map(cat=>{ const list=MOD_META.filter(m=>m.cat===cat); if(!list.length)return ''; const dn=list.filter(m=>state.done.has(m.id)).length;
+        return `<div class="cat-head"><span class="cat-name">${cat}</span><span class="cat-count">${dn}/${list.length}</span></div><div class="modules">${list.map(card).join('')}</div>`; }).join(''); })()}
+    <div class="cat-head"><span class="cat-name">Boss</span><span class="cat-count">${state.panelDone?'1/1':'0/1'}</span></div>
+    <div class="modules"><div class="mod boss ${panelUnlocked()?'':'locked'}" data-mod="${panelUnlocked()?'panel':''}" style="--mc:#FBBF24;--mcSoft:${hexA('#FBBF24',0.4)}">
+        <div class="glow"></div><div class="mod-top"><div class="mod-ic">🎙️</div><div><div class="mod-tag">Boss · The Interview</div><div class="mod-name">The Panel ${state.panelDone?'· Offer secured ✓':''}</div></div></div>
+        <div class="mod-desc">Face VP Joanna Pierce in a live interview. Use everything you learned to land the offer. ${panelUnlocked()?'<b style="color:#FBBF24">Unlocked.</b>':'<b>Clear 3 modules to unlock.</b>'}</div>
+        <div class="mod-foot"><div class="mod-mastery"></div><div class="mod-go">${panelUnlocked()?'ENTER ▶':'LOCKED 🔒'}</div></div></div></div>
+  </div>`;
+  const dt=$('#dailyTile'); if(dt)dt.onclick=()=>{ sClick(); openModule('daily'); };
+  hubL.querySelectorAll('.mod[data-mod]').forEach(c=>{ const id=c.dataset.mod; if(!id)return; c.onclick=()=>{ sClick(); openModule(id); }; });
+}
+function openModule(id){ closeDlg(); show(modL); hud.classList.add('on'); modL.innerHTML=''; const fn=MODULES[id]; if(fn)fn(modL, res=>finishModule(id,res)); }
+function finishModule(id,res){ res=res||{}; if(res.aborted){ enterHub(); return; }
+  state.done.add(id); const key=id; state.mastery[key]=Math.max(state.mastery[key]||0,res.stars||1);
+  if(res.skill)addSkill(res.skill[0],res.skill[1]); if(res.xp)addXP(res.xp); renderHUD(); save();
+  if(state.done.size>=4 && ['power','thermal','star','jargon'].every(k=>state.done.has(k))) unlock('scholar');
+}
+
+/* =====================  CONTROLS + KEYS  ===================== */
+$('#btnSound').onclick=function(){ state.sound=!state.sound; this.textContent=state.sound?'♪':'🔇'; this.style.color=state.sound?'':'var(--bad)'; save(); if(state.sound){sClick();Music.start();}else{Music.stop();} };
+$('#btnSound').textContent=state.sound?'♪':'🔇';
+$('#btnHub').onclick=()=>{ sClick(); if(!hubL.classList.contains('hidden'))return; enterHub(); };
+$('#btnHelp').onclick=()=>{ sClick(); howTo(); };
+addEventListener('keydown',e=>{ if(e.key>='1'&&e.key<='4'){ const c=dlg.querySelector(`.dlg-choice[data-i="${+e.key-1}"]`); if(c){c.click();return;} } if(e.key==='Enter'){ const b=$('#dlgNext')||$('#bStart'); if(b)b.click(); } });
+
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const DAILY_META={id:'daily',name:'Daily Training',tag:'Spaced repetition',emoji:'📅',color:'#39C0E8',skill:'vocab'};
+function metaOf(id){ if(id==='daily')return DAILY_META; return MOD_META.find(m=>m.id===id)||{id:'panel',name:'The Panel',tag:'Boss',emoji:'🎙️',color:'#FBBF24'}; }
+function exitModule(){ try{ modL.innerHTML=''; }catch(e){} const mn=document.querySelector('.cool-menu'); if(mn)mn.remove(); enterHub(); }
+function mShell(host,id,obj){ const m=metaOf(id);
+  host.innerHTML=`<div class="wrap fade-in"><button class="m-back" id="mBack">← Campus</button><div class="m-head"><div class="m-title"><div class="mi" style="background:linear-gradient(135deg,${m.color},#05060a)">${m.emoji}</div><div><div class="ms">${m.tag}</div><h2>${m.name}</h2></div></div><div class="m-obj">${rich(obj)}</div></div><div class="m-stage" id="stage" style="--mc:${m.color}"></div></div>`;
+  const b=host.querySelector('#mBack'); if(b)b.onclick=()=>{ sClick(); exitModule(); };
+  return host.querySelector('#stage');
+}
+const SKILL_NAMES={power:'Power skill',cool:'Cooling skill',story:'Story skill',vocab:'Vocab skill'};
+function mResult(host,id,o,done){ const meta=metaOf(id); const res={stars:o.stars,xp:o.xp,skill:[o.skillKey,o.skillAmt]};
+  Scene.flash&&Scene.flash(o.stars>=3?'#34D399':'#FBBF24',0.16); sWin(); if(o.stars>=2)confetti();
+  host.innerHTML=`<div class="wrap result fade-in">
+    <div class="eyebrow">${o.eyebrow||meta.name+' complete'}</div>
+    <h2 class="display" style="font-size:clamp(28px,5vw,46px);margin:4px 0">${o.title}</h2>
+    <div class="stars">${[0,1,2].map(i=>`<div class="star ${i<o.stars?'lit':''}">★</div>`).join('')}</div>
+    <div class="result-stat"><div class="rs"><div class="v" style="color:var(--gold)">+${o.xp}</div><div class="l">XP</div></div>
+      <div class="rs"><div class="v" style="color:${meta.color}">+${o.skillAmt}</div><div class="l">${SKILL_NAMES[o.skillKey]}</div></div>
+      <div class="rs"><div class="v" style="color:var(--good)">${o.stars?'★'.repeat(o.stars):'—'}</div><div class="l">Mastery</div></div></div>
+    ${o.recap?`<div class="learn-recap"><h4>What you locked in</h4><ul>${o.recap.map(x=>`<li>${rich(x)}</li>`).join('')}</ul></div>`:''}
+    <p class="muted" style="max-width:520px;margin:16px auto 18px">${rich(o.sub||'')}</p>
+    <div class="start-actions"><button class="btn btn-primary btn-lg" id="bBack">⌂ Back to campus</button><button class="btn btn-ghost btn-lg" id="bAgain">↻ Replay</button></div></div>`;
+  $('#bBack').onclick=()=>{ sClick(); done(res); enterHub(); };
+  $('#bAgain').onclick=()=>{ sClick(); done(res); openModule(id); };
+}
+
+/* ======================= POWER GRID ======================= */
+MODULES.power=function(host,done){
+  const run=[PICK(POWER_LEVELS.filter(l=>l.load<20)), PICK(POWER_LEVELS.filter(l=>l.load>=20))];
+  let miss=0, li=0, energized=false;
+  const stage=mShell(host,'power',"Objective: build the power path, **size the gear**, add redundancy, then energize. Hover any glowing term.");
+  Scene.buildPower&&Scene.buildPower(run[0].chain.length);
+  function teachChain(L){
+    Scene.buildPower&&Scene.buildPower(L.chain.length);
+    stage.innerHTML=`<div class="pw-prompt">${rich('**'+L.title+'.** First learn the path — then build it from memory. **Power flows one way**, grid to racks:')}</div>
+      <div class="teach-chain">${L.chain.map((n,i)=>`<div class="tc-node"><div class="tc-e">${L.chainEmoji[i]}</div><div class="tc-n">${n}</div></div>`).join('<span class="tc-ar">→</span>')}</div>
+      <div class="m-obj" style="display:block;margin-top:16px">${rich('The grid feeds a [[substation]]; a [[transformer]] steps the voltage down; [[switchgear]] distributes it; '+(L.chain.includes('Generator')?'a [[genset|generator]] stands by; ':'')+'the [[ups|UPS]] bridges any outage; then the racks. [[longlead|Long-lead]] gear is ordered first.')}</div>
+      <div style="text-align:right;margin-top:18px"><button class="btn btn-primary" id="goNext">Build it from memory ▸</button></div>`;
+    const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); chain(L); };
+  }
+  function chain(L){
+    Scene.buildPower&&Scene.buildPower(L.chain.length);
+    let filled=0; const order=L.chain, tray=shuffle(order.map((n,i)=>({n,e:L.chainEmoji[i],i})));
+    const slots=order.map((n,i)=>`<div class="pw-slot" data-s="${i}">?</div>`).join('<span style="align-self:center;color:var(--muted2)">→</span>');
+    stage.innerHTML=`<div class="pw-prompt">${rich('**Now build it from memory.** Tap the components in order, from the grid to the racks.')}</div>
+      <div class="pw-chain">${slots}</div>
+      <div class="pw-tray">${tray.map(c=>`<button class="chip" data-i="${c.i}"><span class="ce">${c.e}</span>${c.n}</button>`).join('')}</div>`;
+    stage.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{ if(ch.classList.contains('used'))return; const ci=+ch.dataset.i;
+      if(ci===filled){ const slot=stage.querySelector(`.pw-slot[data-s="${filled}"]`); slot.classList.add('filled'); slot.innerHTML=`<span style="font-size:18px">${L.chainEmoji[filled]}</span>`; ch.classList.add('used'); Scene.lightPylon&&Scene.lightPylon(filled); sPower(); filled++; if(filled===order.length) setTimeout(()=>sizing(L),420); }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); ch.animate&&ch.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:280}); } });
+  }
+  function sizing(L){
+    stage.innerHTML=`<div class="pw-prompt">${rich('Now **size the [[transformer]]**. The load is **'+L.load+' MW**. Pick the right rating — size up for headroom, but don\'t overspend.')}</div>
+      <div class="pw-cards">${L.kva.map(k=>`<button class="pcard" data-k="${k}"><div class="pv">${k>=1000?(k/1000)+' MVA':k+' kVA'}</div><div class="pl">${k.toLocaleString()} kVA</div></button>`).join('')}</div>
+      <div id="why" style="margin-top:16px"></div>`;
+    stage.querySelectorAll('.pcard').forEach(c=>c.onclick=()=>{ if(stage.querySelector('.pcard.correct'))return; const k=+c.dataset.k, ok=k===L.correctKva;
+      stage.querySelectorAll('.pcard').forEach(x=>{ x.style.pointerEvents='none'; if(+x.dataset.k===L.correctKva)x.classList.add('correct'); else if(x===c)x.classList.add('wrong'); });
+      if(ok){sOk();Scene.pulseAccent&&Scene.pulseAccent();} else {miss++;sNo();Scene.shake&&Scene.shake();}
+      $('#why').innerHTML=`<div class="m-obj" style="display:block">${ok?'✅ ':'❌ '}${rich(L.sizingWhy)}</div><div style="text-align:right;margin-top:14px"><button class="btn btn-primary" id="pwNext">Continue →</button></div>`;
+      $('#pwNext').onclick=()=>{ sClick(); if(L.load>=20) redundancy(L); else nextLevel(); }; });
+  }
+  function redundancy(L){
+    stage.innerHTML=`<div class="pw-prompt">${rich('This AI campus is mission-critical — it must survive any single failure with **zero** downtime. Choose the redundancy.')}</div>
+      <div class="pw-cards">
+        <button class="pcard" data-r="N"><div class="pv">N</div><div class="pl">no spare</div></button>
+        <button class="pcard" data-r="N1"><div class="pv">N+1</div><div class="pl">one spare</div></button>
+        <button class="pcard" data-r="2N"><div class="pv">2N</div><div class="pl">full mirror</div></button></div>
+      <div id="why" style="margin-top:16px"></div>`;
+    stage.querySelectorAll('.pcard').forEach(c=>c.onclick=()=>{ if(stage.querySelector('.pcard.correct'))return; const ok=c.dataset.r==='2N';
+      stage.querySelectorAll('.pcard').forEach(x=>{x.style.pointerEvents='none'; if(x.dataset.r==='2N')x.classList.add('correct'); else if(x===c)x.classList.add('wrong');});
+      if(ok){sOk();} else {miss++;sNo();Scene.shake&&Scene.shake();}
+      $('#why').innerHTML=`<div class="m-obj" style="display:block">${rich(ok?'✅ Right. [[2n|2N]] is **fault tolerant** ([[tier4|Tier IV]]) — a fully mirrored system. [[n1|N+1]] is only *concurrently maintainable* ([[tier3|Tier III]]).':'❌ Mission-critical means [[2n|2N]] / [[tier4|fault tolerant]]. N+1 only covers maintenance, not a full path failure.')}</div><div style="text-align:right;margin-top:14px"><button class="btn btn-primary" id="pwNext">Energize ⚡</button></div>`;
+      $('#pwNext').onclick=()=>{ sClick(); nextLevel(); }; });
+  }
+  function nextLevel(){ li++; if(li<run.length) teachChain(run[li]); else energize(); }
+  function energize(){ if(energized)return; energized=true;
+    stage.innerHTML=`<div class="center" style="padding:40px 0"><div class="display" style="font-size:clamp(34px,6vw,52px);color:var(--power)">Energizing…</div><div class="muted" style="margin-top:8px">bringing the hall live</div></div>`;
+    if(Scene.pylons)Scene.pylons.forEach((_,i)=>setTimeout(()=>Scene.lightPylon&&Scene.lightPylon(i),i*90)); Scene.flash&&Scene.flash('#FBBF24',0.22); Scene.pulseAccent&&Scene.pulseAccent(); sWin(); unlock('energized');
+    const stars=miss===0?3:miss<=2?2:1;
+    setTimeout(()=>mResult(host,'power',{title:'Hall energized ⚡',stars,xp:180+stars*60,skillKey:'power',skillAmt:12+stars*6,
+      sub:'You just built [[speedtopower|speed-to-power]] into muscle memory. In the room, lead with this.',
+      recap:["The chain: [[interconnection|utility]] → [[transformer]] → [[switchgear]] → [[ups|UPS]] → racks. [[longlead|Long-lead]] gear is ordered **first**.","Size to load **plus headroom** — a 1.6 MW hall takes ~2,000 kVA, not 1,500.","Mission-critical = [[2n|2N]] / [[tier4|fault tolerant]]; everyday-critical = [[n1|N+1]] / [[tier3|concurrently maintainable]]."]},done),700);
+  }
+  teachChain(run[0]);
+};
+
+/* ======================= THERMAL RUN ======================= */
+MODULES.thermal=function(host,done){
+  const WAVES=PICK(THERMAL_SCENARIOS);
+  let wave=0, miss=0, timer=null, menu=null;
+  const stage=mShell(host,'thermal',"Objective: cool every rack before it cooks. Match the [[density|kW]] to the right cooling — density climbs each wave.");
+  function closeMenu(){ if(menu){menu.remove();menu=null;} }
+  function teachCooling(){
+    stage.innerHTML=`<div class="pw-prompt">${rich('First learn the cooling tiers. As rack [[density]] climbs, **air gives way to liquid**:')}</div>
+      <div class="teach-chain">${COOLING.map(c=>`<div class="tc-node" style="border-color:var(--cool);background:rgba(56,189,248,.08)"><div class="tc-e">${c.emoji}</div><div class="tc-n">${c.name}</div><div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--cool);margin-top:4px">${c.hint}</div></div>`).join('')}</div>
+      <div class="m-obj" style="display:block;margin-top:16px">${rich('Pick the **cheapest cooling that covers each rack**: [[freecooling|air]] ≤10 kW, [[reardoor|rear-door]] to 40, [[direct-to-chip]] to 100, [[immersion]] beyond. Now hold the hall from memory.')}</div>
+      <div style="text-align:right;margin-top:18px"><button class="btn btn-primary" id="goNext">Start the run ▸</button></div>`;
+    const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); startWave(); };
+  }
+  function startWave(){
+    const dens=WAVES[wave]; Scene.buildThermal&&Scene.buildThermal(dens.length); let cooled=0;
+    stage.innerHTML=`<div class="th-bar"><span class="th-wave">WAVE ${wave+1}/3</span><div class="heat-track"><div class="heat-fill" id="heat"></div></div><span class="mono" id="left" style="font-size:12px;color:var(--muted)">${dens.length} hot</span></div>
+      <div class="racks">${dens.map((d,i)=>`<button class="rack hot" data-i="${i}" data-d="${d}"><div class="rk-d">${d}</div><div class="rk-l">kW / rack</div></button>`).join('')}</div>
+      <div class="muted" style="font-size:12px;margin-top:16px;text-align:center">Tap a glowing rack, then choose its cooling — from what you learned.</div>`;
+    const dur=15000, t0=performance.now();
+    clearInterval(timer); timer=setInterval(()=>{ const h=$('#heat'); if(!h){clearInterval(timer);return;} const p=Math.min(100,(performance.now()-t0)/dur*100); h.style.width=p+'%'; if(p>=100){clearInterval(timer); overload();} },120);
+    function grade(rack,kkey){ const d=+rack.dataset.d, correct=COOLING.find(c=>d<=c.max).k;
+      if(kkey===correct){ rack.classList.remove('hot'); rack.classList.add('cooled'); Scene.setRack3&&Scene.setRack3(+rack.dataset.i,true); sCool(); cooled++; const lf=$('#left'); if(lf)lf.textContent=(dens.length-cooled)+' hot'; if(cooled===dens.length){clearInterval(timer); waveClear(false);} }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); rack.animate&&rack.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:240}); } }
+    function openMenu(rack){ closeMenu(); const r=rack.getBoundingClientRect();
+      menu=el(`<div class="cool-menu">${COOLING.map(c=>`<div class="cool-opt" data-k="${c.k}"><span>${c.emoji}</span><span>${c.name}</span><span class="co-r">${c.hint}</span></div>`).join('')}</div>`);
+      document.body.appendChild(menu); const mw=menu.offsetWidth,mh=menu.offsetHeight;
+      let left=Math.max(8,Math.min(r.left+r.width/2-mw/2,innerWidth-mw-8)), top=r.bottom+8; if(top+mh>innerHeight-8)top=r.top-mh-8;
+      menu.style.left=left+'px'; menu.style.top=top+'px';
+      menu.querySelectorAll('.cool-opt').forEach(o=>o.onclick=ev=>{ ev.stopPropagation(); grade(rack,o.dataset.k); closeMenu(); });
+      setTimeout(()=>document.addEventListener('click',closeMenu,{once:true}),0);
+    }
+    stage.querySelectorAll('.rack').forEach(rk=>rk.onclick=ev=>{ if(rk.classList.contains('cooled'))return; ev.stopPropagation(); openMenu(rk); });
+    function overload(){ stage.querySelectorAll('.rack.hot').forEach(r=>{ miss++; r.classList.remove('hot'); r.style.opacity=.35; }); Scene.shake&&Scene.shake(); waveClear(true); }
+    function waveClear(over){ closeMenu(); Scene.flash&&Scene.flash(over?'#FB7185':'#38BDF8',0.14); wave++; if(wave<WAVES.length) setTimeout(startWave,520); else finish(); }
+  }
+  function finish(){ closeMenu(); clearInterval(timer); unlock('cool'); const stars=miss===0?3:miss<=3?2:1;
+    mResult(host,'thermal',{title:miss===0?'Flawless thermal run ❄️':'Data hall held ❄️',stars,xp:180+stars*60,skillKey:'cool',skillAmt:12+stars*6,
+      sub:'Cooling is the conversation in AI data centers right now. You can speak it.',
+      recap:["[[freecooling|Air]] tops out near **10 kW/rack**; above that you need liquid.","[[reardoor|Rear-door]] ~15–40 kW · [[direct-to-chip]] ~40–100 kW · [[immersion]] beyond.","Rising [[density]] from AI silicon is THE reason data-center cooling is changing — and it hits structure, [[wue|water]] and MEP."]},done);
+  }
+  Scene.buildMonument&&Scene.buildMonument('#38BDF8'); teachCooling();
+};
+
+/* ======================= STAR FORGE ======================= */
+MODULES.star=function(host,done){
+  const prompts=shuffle(FORGE).slice(0,2);
+  let idx=0, miss=0;
+  const stage=mShell(host,'star',"Objective: rebuild your real stories. Tap a fragment, then its **S·T·A·R** slot. Decoys are mixed in — don't be fooled.");
+  Scene.buildMonument&&Scene.buildMonument('#A78BFA');
+  function board(){
+    const F=prompts[idx], roles=[['S','Situation — set the scene'],['T','Task — your responsibility'],['A','Action — what you did'],['R','Result — the number']];
+    const frags=shuffle([{r:'S',t:F.s},{r:'T',t:F.t},{r:'A',t:F.a},{r:'R',t:F.r}].concat(shuffle(FORGE_DECOYS).slice(0,3).map(t=>({r:'X',t}))));
+    let sel=null, count=0;
+    stage.innerHTML=`<div class="sf-prompt">${rich(F.prompt)} <span class="muted" style="font-size:12px">(${idx+1}/${prompts.length})</span></div>
+      <div class="sf-slots">${roles.map(([r,h])=>`<div class="sf-slot" data-r="${r}"><div class="sl-k">${r}</div><div class="sl-h">${h}</div><div class="sl-c"></div></div>`).join('')}</div>
+      <div class="sf-frags">${frags.map((f,i)=>`<button class="frag" data-i="${i}" data-r="${f.r}">${f.t}</button>`).join('')}</div>`;
+    const fe=[...stage.querySelectorAll('.frag')];
+    fe.forEach(f=>f.onclick=()=>{ if(f.classList.contains('used'))return; fe.forEach(x=>x.classList.remove('sel')); f.classList.add('sel'); sel=f; sClick(); });
+    stage.querySelectorAll('.sf-slot').forEach(s=>s.onclick=()=>{ if(!sel||s.classList.contains('filled'))return;
+      if(sel.dataset.r===s.dataset.r){ s.classList.add('filled','ok'); s.querySelector('.sl-c').textContent=sel.textContent; sel.classList.add('used'); sel.classList.remove('sel'); sel=null; sOk(); count++; if(count===4) forged(F); }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); s.classList.add('no'); setTimeout(()=>s.classList.remove('no'),420); sel.classList.remove('sel'); sel=null; } });
+  }
+  function forged(F){ state.forged.add(F.story); unlock('storyteller'); sWin(); Scene.pulseAccent&&Scene.pulseAccent(); const s=STAR[F.story];
+    const card=el(`<div class="learn-recap" style="margin-top:14px;border-color:var(--story)"><h4 style="color:var(--story)">Story forged ✓ — your 15-second delivery</h4><p style="font-size:14.5px;line-height:1.6;color:var(--txt);font-style:italic">${rich(s.one)}</p><div style="text-align:right;margin-top:12px"><button class="btn btn-primary" id="sfNext">${idx<prompts.length-1?'Next story →':'Finish ✓'}</button></div></div>`);
+    stage.appendChild(card); $('#sfNext').onclick=()=>{ sClick(); idx++; if(idx<prompts.length) board(); else finish(); };
+  }
+  function finish(){ const stars=miss===0?3:miss<=3?2:1;
+    mResult(host,'star',{title:'Stories forged ⭐',stars,xp:180+stars*60,skillKey:'story',skillAmt:12+stars*6,
+      sub:'These are now in your arsenal — deploy them against the VP in [[the Panel|star]].',
+      recap:["Every behavioral answer is [[star|S·T·A·R]] — and the **Result** must carry a number.","Lead with the result, then rewind to the how. It keeps you tight under pressure.","The decoys — vague, passive, corner-cutting lines — are exactly what **not** to say."]},done);
+  }
+  board();
+};
+
+/* ======================= JARGON RUSH ======================= */
+MODULES.jargon=function(host,done){
+  Scene.buildMonument&&Scene.buildMonument('#34D399');
+  const keys=shuffle(Object.keys(GLOSSARY)).slice(0,10); let qi=0, correct=0, lives=3, combo=0, timer=null;
+  const stage=mShell(host,'jargon',"Objective: match each term to its meaning before the ring empties. 3 lives, rising combo. Speed counts.");
+  function q(){ if(qi>=keys.length||lives<=0){ finish(); return; }
+    const key=keys[qi], g=GLOSSARY[key], label=g.t.split('—')[0].trim();
+    const others=shuffle(Object.keys(GLOSSARY).filter(k=>k!==key)).slice(0,2);
+    const opts=shuffle([{d:g.d,ok:1},{d:GLOSSARY[others[0]].d},{d:GLOSSARY[others[1]].d}]);
+    stage.innerHTML=`<div class="jg-hud"><div class="jg-lives">${[0,1,2].map(i=>`<span class="jg-life ${i>=lives?'lost':''}">♥</span>`).join('')}</div><div class="jg-combo">combo ×${combo}</div>
+      <div class="jg-ring"><svg width="54" height="54"><circle cx="27" cy="27" r="22" stroke="rgba(255,255,255,.1)" stroke-width="4" fill="none"/><circle id="ring" cx="27" cy="27" r="22" stroke="#34D399" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="0"/></svg></div></div>
+      <div class="jg-term"><div class="jt">${label}</div><div class="js">${qi+1} / ${keys.length} · what does it mean?</div></div>
+      <div class="jg-opts">${opts.map(o=>`<button class="jg-opt" data-ok="${o.ok?1:0}">${o.d}</button>`).join('')}</div>`;
+    const dur=9000, t0=performance.now(), ring=$('#ring');
+    clearInterval(timer); timer=setInterval(()=>{ if(!$('#ring')){clearInterval(timer);return;} const p=Math.min(1,(performance.now()-t0)/dur); ring.style.strokeDashoffset=(138*p).toFixed(1); if(p>=1){clearInterval(timer); answer(null);} },80);
+    stage.querySelectorAll('.jg-opt').forEach(b=>b.onclick=()=>{ clearInterval(timer); answer(b); });
+    function answer(b){ const ok=b&&b.dataset.ok==='1'; srsGrade(key,ok);
+      stage.querySelectorAll('.jg-opt').forEach(x=>{ x.style.pointerEvents='none'; if(x.dataset.ok==='1')x.classList.add('correct'); else if(x===b)x.classList.add('wrong'); });
+      if(ok){ correct++; combo++; sOk(); Scene.pulseAccent&&Scene.pulseAccent(); } else { lives--; combo=0; sNo(); Scene.shake&&Scene.shake(); }
+      setTimeout(()=>{ qi++; q(); }, ok?480:1050);
+    }
+  }
+  function finish(){ clearInterval(timer); const stars=correct>=10?3:correct>=7?2:correct>=4?1:0; if(correct===10&&lives===3)unlock('wordperfect');
+    mResult(host,'jargon',{title:correct>=10?'Word perfect 🧠':'Vocabulary drilled 🧠',stars:Math.max(1,stars),xp:correct*40,skillKey:'vocab',skillAmt:6+correct*2,
+      eyebrow:`${correct}/10 correct`,
+      sub:'Using the exact term — unprompted — is what separates an owner from a tourist.',
+      recap:["You drilled the words panels expect: [[pue|PUE]], [[n1|N+1]], [[ats|ATS]], [[ist|IST]], [[speedtopower|speed-to-power]] and more.","The right vocabulary signals you actually live in this world.","Hover any glowing term, anywhere in the game, to revise it."]},done);
+  }
+  q();
+};
+
+/* ======================= MATCH UP (association) ======================= */
+MODULES.match=function(host,done){
+  Scene.buildMonument&&Scene.buildMonument('#2DD4BF');
+  let pool=srsDue().concat(srsNew(3)).concat(shuffle(Object.keys(GLOSSARY)));
+  pool=pool.filter((v,i,a)=>a.indexOf(v)===i).slice(0,5);
+  const terms=shuffle(pool.slice()), defs=shuffle(pool.slice());
+  let pairs=0, miss=0, sel=null;
+  const stage=mShell(host,'match',"Objective: pair each term with its meaning. Tap a term, then its definition — a different mental muscle than multiple choice.");
+  stage.innerHTML=`<div class="match-cols">
+    <div class="mcol">${terms.map(k=>`<button class="mterm" data-k="${k}">${termLabel(k)}</button>`).join('')}</div>
+    <div class="mcol">${defs.map(k=>`<button class="mdef" data-k="${k}">${GLOSSARY[k].d}</button>`).join('')}</div></div>
+    <div class="muted" style="font-size:12px;text-align:center;margin-top:14px">${pool.length} pairs left</div>`;
+  function tryPair(t,d){ const k=t.dataset.k, ok=k===d.dataset.k; srsGrade(k,ok);
+    if(ok){ t.classList.add('done'); d.classList.add('done'); t.classList.remove('sel'); d.classList.remove('sel'); sel=null; sOk(); Scene.pulseAccent&&Scene.pulseAccent(); pairs++;
+      const left=stage.querySelector('.muted'); if(left)left.textContent=(pool.length-pairs)+' pairs left'; if(pairs===pool.length) setTimeout(finish,420); }
+    else { miss++; sNo(); Scene.shake&&Scene.shake(); t.classList.add('bad'); d.classList.add('bad'); const a=t,b=d; setTimeout(()=>{a.classList.remove('bad','sel');b.classList.remove('bad','sel');},440); sel=null; } }
+  stage.querySelectorAll('.mterm').forEach(b=>b.onclick=()=>{ if(b.classList.contains('done'))return; sClick(); if(sel&&sel.classList.contains('mdef')){ tryPair(b,sel); return; } stage.querySelectorAll('.mterm.sel').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); sel=b; });
+  stage.querySelectorAll('.mdef').forEach(b=>b.onclick=()=>{ if(b.classList.contains('done'))return; sClick(); if(sel&&sel.classList.contains('mterm')){ tryPair(sel,b); return; } stage.querySelectorAll('.mdef.sel').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); sel=b; });
+  function finish(){ const stars=miss===0?3:miss<=3?2:1;
+    mResult(host,'match',{title:'All matched 🔗',stars,xp:120+stars*40,skillKey:'vocab',skillAmt:6+stars*4,
+      sub:'Matching trains **association** — the link between term and meaning, both directions.',
+      recap:["Association is a different memory pathway than multiple choice — mixing methods strengthens recall.","Every pair you make also feeds your spaced-repetition schedule.","Hover any glowing term elsewhere to go deeper."]},done);
+  }
+};
+
+/* ======================= SEQUENCE engine (Commission It, Speed-to-Power) ======================= */
+function seqGame(host,id,def,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); const steps=def.steps; let miss=0;
+  const stage=mShell(host,id,"Learn the right order — then rebuild it from memory.");
+  stage.innerHTML=`<div class="sf-prompt">${rich(def.teach)}</div>
+    <div class="seq-teach">${steps.map((s,i)=>`<div class="seq-tnode"><div class="seq-tn">${i+1}</div><div><div class="seq-tt">${s.t}</div><div class="seq-td">${rich(s.d)}</div></div></div>`).join('<div class="seq-down">↓</div>')}</div>
+    <div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="goNext">Order it from memory ▸</button></div>`;
+  $('#goNext').onclick=()=>{ sClick(); quiz(); };
+  function quiz(){ let filled=0; const tray=shuffle(steps.map((s,i)=>({s,i})));
+    stage.innerHTML=`<div class="sf-prompt">**Now order it from memory** — tap the steps first to last.</div>
+      <div class="seq-slots">${steps.map((s,i)=>`<div class="seq-slot" data-s="${i}"><span class="seq-num">${i+1}</span><span class="seq-lab">—</span></div>`).join('')}</div>
+      <div class="seq-tray">${tray.map(o=>`<button class="seq-chip" data-i="${o.i}">${o.s.t}</button>`).join('')}</div>`.replace('**Now order it from memory**','<b>Now order it from memory</b>');
+    stage.querySelectorAll('.seq-chip').forEach(ch=>ch.onclick=()=>{ if(ch.classList.contains('used'))return; const ci=+ch.dataset.i;
+      if(ci===filled){ const slot=stage.querySelector(`.seq-slot[data-s="${filled}"]`); slot.classList.add('filled'); slot.querySelector('.seq-lab').textContent=steps[filled].t; ch.classList.add('used'); sOk(); Scene.pulseAccent&&Scene.pulseAccent(); filled++; if(filled===steps.length) setTimeout(finish,360); }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); ch.animate&&ch.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:260}); } }); }
+  function finish(){ const stars=miss===0?3:miss<=2?2:1, meta=metaOf(id);
+    mResult(host,id,{title:'Sequenced ✓',stars,xp:120+stars*40,skillKey:meta.skill,skillAmt:8+stars*4,
+      sub:'You reasoned the order out — that sticks better than rote memorizing.',
+      recap:steps.map(s=>'**'+s.t+'** — '+s.d)},done); }
+}
+/* ======================= SORT engine (Capex/Opex, Say It / Skip It) ======================= */
+function sortGame(host,id,def,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); const items=shuffle(def.items); let qi=0,correct=0,miss=0;
+  const stage=mShell(host,id,"Learn the rule — then sort each item into the right group.");
+  stage.innerHTML=`<div class="sf-prompt">${rich(def.teach)}</div>
+    <div class="sbk-row"><div class="sbk a"><b>${def.a.name}</b><span>${def.a.hint}</span></div><div class="sbk b"><b>${def.b.name}</b><span>${def.b.hint}</span></div></div>
+    <div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="goNext">Start sorting ▸</button></div>`;
+  $('#goNext').onclick=()=>{ sClick(); next(); };
+  function next(){ if(qi>=items.length) return finish(); const it=items[qi];
+    stage.innerHTML=`<div class="sort-progress">${qi+1} / ${items.length} · <span style="color:var(--good)">${correct} right</span></div>
+      <div class="sort-card" id="sortCard" data-b="${it.bucket}">${it.t}</div>
+      <div class="sort-buckets"><button class="sort-bk a" data-b="a"><b>${def.a.name}</b><span>${def.a.hint}</span></button><button class="sort-bk b" data-b="b"><b>${def.b.name}</b><span>${def.b.hint}</span></button></div>`;
+    stage.querySelectorAll('.sort-bk').forEach(b=>b.onclick=()=>{ if($('#sortCard').classList.contains('gone'))return; const ok=b.dataset.b===it.bucket; const card=$('#sortCard');
+      stage.querySelectorAll('.sort-bk').forEach(x=>x.style.pointerEvents='none'); card.classList.add('gone',ok?('fly-'+b.dataset.b):'wrong');
+      if(ok){correct++;sOk();Scene.pulseAccent&&Scene.pulseAccent();}else{miss++;sNo();Scene.shake&&Scene.shake();}
+      setTimeout(()=>{ qi++; next(); }, 480); }); }
+  function finish(){ const stars=miss===0?3:miss<=2?2:1, meta=metaOf(id);
+    mResult(host,id,{title:'Sorted ✓',eyebrow:correct+'/'+items.length+' right',stars,xp:100+correct*15,skillKey:meta.skill,skillAmt:8+stars*4,
+      sub:rich(def.teach),recap:["A clean rule in your head means no hesitation in the room.","Each call sharpens how you'll answer for real.","Replay to lock it in."]},done); }
+}
+/* ======================= HUNT engine (Risk Radar, Red-Flag Hunt) ======================= */
+function huntGame(host,id,def,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); const goods=def.targets.filter(t=>t.ok).length; let found=0,miss=0,timer=null;
+  const stage=mShell(host,id,"Tap "+def.verb+". Ignore the rest. Beat the clock.");
+  stage.innerHTML=`<div class="sf-prompt">${rich(def.teach)}</div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="goNext">Start the sweep ▸</button></div>`;
+  $('#goNext').onclick=()=>{ sClick(); run(); };
+  function run(){ const arr=shuffle(def.targets);
+    stage.innerHTML=`<div class="hunt-bar"><span class="th-wave">Find ${goods} · <span style="color:var(--good)" id="huntF">0</span></span><div class="heat-track" style="max-width:280px"><div class="heat-fill" id="huntTime"></div></div></div>
+      <div class="hunt-grid">${arr.map(t=>`<button class="hunt-chip" data-ok="${t.ok?1:0}">${t.t}</button>`).join('')}</div>`;
+    const dur=14000,t0=performance.now(); clearInterval(timer);
+    timer=setInterval(()=>{ const el=$('#huntTime'); if(!el){clearInterval(timer);return;} const p=Math.min(100,(performance.now()-t0)/dur*100); el.style.width=p+'%'; if(p>=100){clearInterval(timer); endHunt(true);} },120);
+    stage.querySelectorAll('.hunt-chip').forEach(b=>b.onclick=()=>{ if(b.classList.contains('done'))return; const ok=b.dataset.ok==='1';
+      if(ok){ b.classList.add('done','good'); found++; sOk(); Scene.pulseAccent&&Scene.pulseAccent(); const f=$('#huntF'); if(f)f.textContent=found; if(found===goods){clearInterval(timer); endHunt(false);} }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); b.classList.add('bad'); setTimeout(()=>b.classList.remove('bad'),400); } }); }
+  function endHunt(timeUp){ clearInterval(timer); const stars=(!timeUp&&miss===0)?3:((miss<=2&&found>=goods*0.7)?2:1), meta=metaOf(id);
+    mResult(host,id,{title:(timeUp&&found<goods)?'Time! Solid sweep':'Clean sweep ✓',eyebrow:found+'/'+goods+' found',stars,xp:100+found*20,skillKey:meta.skill,skillAmt:8+stars*4,
+      sub:rich(def.teach),recap:["Fast recognition is exactly what you need under interview pressure.","The ones you did NOT tap are the right behaviors to copy.","Replay to sharpen your eye."]},done); }
+}
+/* ======================= DECIDE engine (Site Select) ======================= */
+function decideGame(host,id,def,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); const rounds=def.rounds; let ri=0,correct=0;
+  const stage=mShell(host,id,"Weigh the options, make the call — then see why.");
+  stage.innerHTML=`<div class="sf-prompt">${rich(def.teach)}</div><div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="goNext">Make the calls ▸</button></div>`;
+  $('#goNext').onclick=()=>{ sClick(); round(); };
+  function round(){ if(ri>=rounds.length) return finish(); const R=rounds[ri], opts=shuffle(R.opts.slice());
+    stage.innerHTML=`<div class="sort-progress">Decision ${ri+1} / ${rounds.length}</div>
+      <div class="sf-prompt">${rich(R.q)}</div>
+      <div class="decide-opts">${opts.map(o=>`<button class="decide-card" data-ok="${o.best?1:0}"><div class="dc-name">${o.name}</div>${o.stats?`<div class="dc-stats">${Object.keys(o.stats).map(k=>`<div class="dc-stat"><span>${k}</span><div class="dc-bar"><i style="width:${o.stats[k]*10}%"></i></div></div>`).join('')}</div>`:''}</button>`).join('')}</div>
+      <div id="decideEx"></div>`;
+    stage.querySelectorAll('.decide-card').forEach(c=>c.onclick=()=>{ if(stage.querySelector('.decide-card.picked'))return; const ok=c.dataset.ok==='1'; c.classList.add('picked');
+      stage.querySelectorAll('.decide-card').forEach(x=>{ x.style.pointerEvents='none'; if(x.dataset.ok==='1')x.classList.add('correct'); else if(x===c)x.classList.add('wrong'); });
+      if(ok){correct++;sOk();Scene.pulseAccent&&Scene.pulseAccent();}else{sNo();Scene.shake&&Scene.shake();}
+      const best=R.opts.find(o=>o.best);
+      $('#decideEx').innerHTML=`<div class="dq-reveal ${ok?'ok':'no'}"><div class="dq-rd">${ok?'✓ ':'✗ Best: '+best.name+'. '}${rich(best.why)}</div></div><div style="text-align:right;margin-top:12px"><button class="btn btn-primary" id="goNext">${ri<rounds.length-1?'Next decision ▸':'Finish ✓'}</button></div>`;
+      $('#goNext').onclick=()=>{ sClick(); ri++; round(); }; }); }
+  function finish(){ const stars=correct>=rounds.length?3:(correct>=Math.ceil(rounds.length*0.6)?2:1), meta=metaOf(id);
+    mResult(host,id,{title:'Calls made ✓',eyebrow:correct+'/'+rounds.length+' sharp',stars,xp:120+correct*30,skillKey:meta.skill,skillAmt:8+stars*4,
+      sub:rich(def.teach),recap:rounds.map(R=>{const b=R.opts.find(o=>o.best);return '**'+R.q.replace(/<[^>]+>/g,'')+'** → '+b.name;})},done); }
+}
+/* ======================= PAIR-MATCH engine (Why Us, Story Match) ======================= */
+function matchPairs(host,id,def,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); const pairs=def.pairs.map((p,i)=>({a:p.a,b:p.b,k:'p'+i})); let made=0,miss=0,sel=null;
+  const stage=mShell(host,id,"Learn the link — then tap a left item and its match on the right.");
+  stage.innerHTML=`<div class="sf-prompt">${rich(def.teach||'')}</div>
+    <div class="match-cols"><div class="mcol">${shuffle(pairs.slice()).map(p=>`<button class="mterm" data-k="${p.k}">${p.a}</button>`).join('')}</div>
+      <div class="mcol">${shuffle(pairs.slice()).map(p=>`<button class="mdef" data-k="${p.k}">${p.b}</button>`).join('')}</div></div>
+    <div class="muted" style="font-size:12px;text-align:center;margin-top:14px">${pairs.length} pairs left</div>`;
+  function tryPair(t,d){ const ok=t.dataset.k===d.dataset.k;
+    if(ok){ t.classList.add('done');d.classList.add('done');t.classList.remove('sel');d.classList.remove('sel');sel=null;sOk();Scene.pulseAccent&&Scene.pulseAccent();made++;const lf=stage.querySelector('.muted');if(lf)lf.textContent=(pairs.length-made)+' pairs left';if(made===pairs.length)setTimeout(finish,420); }
+    else { miss++;sNo();Scene.shake&&Scene.shake();t.classList.add('bad');d.classList.add('bad');const a=t,b=d;setTimeout(()=>{a.classList.remove('bad','sel');b.classList.remove('bad','sel');},440);sel=null; } }
+  stage.querySelectorAll('.mterm').forEach(b=>b.onclick=()=>{ if(b.classList.contains('done'))return; sClick(); if(sel&&sel.classList.contains('mdef')){tryPair(b,sel);return;} stage.querySelectorAll('.mterm.sel').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); sel=b; });
+  stage.querySelectorAll('.mdef').forEach(b=>b.onclick=()=>{ if(b.classList.contains('done'))return; sClick(); if(sel&&sel.classList.contains('mterm')){tryPair(sel,b);return;} stage.querySelectorAll('.mdef.sel').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); sel=b; });
+  function finish(){ const stars=miss===0?3:miss<=2?2:1, meta=metaOf(id);
+    mResult(host,id,{title:'All matched ✓',stars,xp:100+stars*40,skillKey:meta.skill,skillAmt:8+stars*4,
+      sub:rich(def.teach||''),recap:["Knowing the pairing cold means zero hesitation in the room.","Replay until it's instant."]},done); }
+}
+/* ======================= NEGOTIATION engine ======================= */
+function negGame(host,id,done){
+  Scene.buildMonument&&Scene.buildMonument(metaOf(id).color); let bi=0,lev=50;
+  const stage=mShell(host,id,"Land the offer — let them anchor, counter with evidence, then close.");
+  stage.innerHTML=`<div class="pn-meters"><div class="meter rapport"><div class="mh"><span>Leverage</span><span class="mv" id="mvL">50</span></div><div class="mt"><div class="mf" id="mfL" style="width:50%"></div></div></div></div><div id="negDlg"></div>`;
+  const D=$('#negDlg'); const ch=CHARS.recruiter;
+  function meter(){ lev=Math.max(0,Math.min(100,lev)); $('#mvL').textContent=Math.round(lev); $('#mfL').style.width=lev+'%'; }
+  function card(body,inner){ D.innerHTML=`<div class="dlg" style="opacity:1;transform:none;max-width:none"><div class="dlg-head"><div class="dlg-av" style="background:linear-gradient(135deg,${ch.c},#05060a)">${ch.ic}</div><div><div class="dlg-nm">${ch.nm}</div><div class="dlg-rl">${ch.rl}</div></div></div><div class="dlg-body">${rich(body)}</div>${inner||''}</div>`; }
+  function beat(){ if(bi>=NEGOTIATION.length) return finish(); const b=NEGOTIATION[bi];
+    if(b.type==='say'){ card(b.text,`<div class="dlg-next"><button class="btn btn-primary" id="goNext">Continue →</button></div>`); $('#goNext').onclick=()=>{sClick();bi++;beat();}; return; }
+    card(b.q,`<div class="dlg-choices">${b.choices.map((c,i)=>`<button class="dlg-choice" data-i="${i}"><span class="ck">${i+1}</span><span>${rich(c.t)}</span></button>`).join('')}</div>`);
+    D.querySelectorAll('.dlg-choice').forEach(btn=>btn.onclick=()=>{ const c=b.choices[+btn.dataset.i]; sClick(); lev+=c.lev||0; meter();
+      D.querySelectorAll('.dlg-choice').forEach((x,j)=>{x.style.pointerEvents='none'; if(b.choices[j].best)x.classList.add('correct'); else if(x===btn)x.classList.add('wrong');});
+      c.best?sOk():sNo();
+      const add=el(`<div style="margin-top:14px;border-top:1px solid var(--stroke);padding-top:12px"><div class="dlg-body">${rich(c.reply)}</div><div class="dlg-next" style="margin-top:12px"><button class="btn btn-primary" id="goNext">Continue →</button></div></div>`); D.querySelector('.dlg').appendChild(add); $('#goNext').onclick=()=>{sClick();bi++;beat();}; }); }
+  function finish(){ const ok=lev>=60, stars=lev>=80?3:(lev>=60?2:1);
+    mResult(host,id,{title:ok?'$175K+ secured 🤝':'Offer — but leverage left on the table',eyebrow:'Leverage '+Math.round(lev),stars,xp:120+Math.round(lev*2),skillKey:'story',skillAmt:8+stars*4,
+      sub:'Let them anchor, counter high with justification, and confirm the whole package in writing.',
+      recap:["Never name your number first — let them anchor.","Counter high with evidence: your owner-side power record + the market.","Close by locking base, equity, sign-on and start date **in writing**."]},done); }
+  beat();
+}
+/* register the new games */
+MODULES.commission=function(h,d){ seqGame(h,'commission',SEQ_GAMES.commission,d); };
+MODULES.speed=function(h,d){ seqGame(h,'speed',SEQ_GAMES.speed,d); };
+MODULES.capex=function(h,d){ sortGame(h,'capex',SORT_GAMES.capex,d); };
+MODULES.sayit=function(h,d){ sortGame(h,'sayit',SORT_GAMES.sayit,d); };
+MODULES.risk=function(h,d){ huntGame(h,'risk',HUNT_GAMES.risk,d); };
+MODULES.redflag=function(h,d){ huntGame(h,'redflag',HUNT_GAMES.redflag,d); };
+MODULES.site=function(h,d){ decideGame(h,'site',DECIDE_GAMES.site,d); };
+MODULES.whyus=function(h,d){ matchPairs(h,'whyus',PAIR_GAMES.whyus,d); };
+MODULES.storymatch=function(h,d){ matchPairs(h,'storymatch',PAIR_GAMES.storymatch,d); };
+MODULES.negotiation=function(h,d){ negGame(h,'negotiation',d); };
+
+/* ======================= DAILY TRAINING (spaced repetition) ======================= */
+MODULES.daily=function(host,done){
+  Scene.buildMonument&&Scene.buildMonument('#39C0E8');
+  const fresh=srsNew(5), due=srsDue().slice(0,10);
+  const teach=fresh.slice(), quiz=shuffle(fresh.concat(due));
+  let ti=0, qi=0, correct=0; const total=quiz.length; const MODES=shuffle(['mc','type','tf','flip']);
+  const stage=mShell(host,'daily',"Today's session: learn new terms, then prove you still remember the old ones. Spaced repetition makes it stick.");
+  if(total===0){
+    stage.innerHTML=`<div class="center" style="padding:30px 0"><div style="font-size:46px">✅</div><div class="display" style="font-size:34px;margin-top:8px">All caught up</div><p class="muted" style="max-width:440px;margin:10px auto 0">No new terms or reviews are due right now. You've learned <b>${srsSeen()}/${Object.keys(GLOSSARY).length}</b> terms. Come back tomorrow, or drill <b>Jargon Rush</b> for extra reps.</p><div style="margin-top:18px"><button class="btn btn-primary" id="dDone">⌂ Back to campus</button></div></div>`;
+    $('#dDone').onclick=()=>{ sClick(); done({xp:0,skill:['vocab',0],stars:1}); enterHub(); }; return;
+  }
+  function teachNext(){ if(ti>=teach.length){ quizNext(); return; } const k=teach[ti], g=GLOSSARY[k];
+    stage.innerHTML=`<div class="dy-phase">📖 NEW TERM · ${ti+1}/${teach.length}</div>
+      <div class="flash"><div class="fl-term">${g.t.split('—')[0].trim()}</div><div class="fl-full">${g.t}</div><div class="fl-def">${g.d}</div><div class="fl-use"><b>In the interview:</b> ${g.u}</div></div>
+      <div style="text-align:right;margin-top:16px"><button class="btn btn-primary" id="dNext">Got it ▸</button></div>`;
+    $('#dNext').onclick=()=>{ sClick(); ti++; teachNext(); };
+  }
+  function quizNext(){ if(qi>=quiz.length){ finish(); return; } const k=quiz[qi], g=GLOSSARY[k], isNew=fresh.indexOf(k)>=0;
+    const mode=MODES[qi%MODES.length], label=termLabel(k), styleName={mc:'multiple choice',type:'type it',tf:'true / false',flip:'flashcard'}[mode];
+    const head=`<div class="dy-phase">${isNew?'🆕 RECALL':'🔁 REVIEW'} · ${qi+1}/${quiz.length} · <span style="color:var(--good)">${correct} correct</span> · <span style="color:var(--muted2)">${styleName}</span></div>`;
+    function resolve(ok,lite){ srsGrade(k,ok); if(ok){correct++;sOk();Scene.pulseAccent&&Scene.pulseAccent();}else{sNo();Scene.shake&&Scene.shake();}
+      const rev=el(lite?`<div style="text-align:right;margin-top:14px"><button class="btn btn-primary" id="dNext">Continue ▸</button></div>`
+        :`<div class="dq-reveal ${ok?'ok':'no'}"><div class="dq-r1">${ok?'✓ ':'✗ '}<b>${label}</b></div><div class="dq-rd">${g.d}</div><div class="dq-use"><b>In the interview:</b> ${g.u}</div><div style="text-align:right;margin-top:10px"><button class="btn btn-primary" id="dNext">Continue ▸</button></div></div>`);
+      stage.appendChild(rev); const n=$('#dNext'); if(n)n.onclick=()=>{ sClick(); qi++; quizNext(); };
+    }
+    if(mode==='mc'){
+      const others=shuffle(Object.keys(GLOSSARY).filter(x=>x!==k)).slice(0,2);
+      const opts=shuffle([{d:g.d,ok:1},{d:GLOSSARY[others[0]].d},{d:GLOSSARY[others[1]].d}]);
+      stage.innerHTML=`${head}<div class="jg-term"><div class="jt">${label}</div><div class="js">what does it mean?</div></div><div class="jg-opts">${opts.map(o=>`<button class="jg-opt" data-ok="${o.ok?1:0}">${o.d}</button>`).join('')}</div>`;
+      stage.querySelectorAll('.jg-opt').forEach(b=>b.onclick=()=>{ const ok=b.dataset.ok==='1'; stage.querySelectorAll('.jg-opt').forEach(x=>{x.style.pointerEvents='none';if(x.dataset.ok==='1')x.classList.add('correct');else if(x===b)x.classList.add('wrong');}); resolve(ok); });
+    } else if(mode==='type'){
+      stage.innerHTML=`${head}<div class="dq-q">What term means this?</div><div class="dq-def">“${g.d}”</div><div class="dq-typewrap" data-ans="${label}"><input class="dq-input" id="dyType" placeholder="type the term…" autocomplete="off" spellcheck="false"><button class="btn btn-primary" id="dyGo">Check</button></div><div class="muted" style="font-size:12px;text-align:center;margin-top:8px">hint: it starts with “${label[0]}”</div>`;
+      const go=()=>{ const inp=$('#dyType'); const v=inp?inp.value:''; if(inp)inp.disabled=true; const gob=$('#dyGo'); if(gob)gob.disabled=true; resolve(acceptType(k,v)); };
+      $('#dyGo').onclick=go; $('#dyType').addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();go();} }); setTimeout(()=>{ const inp=$('#dyType'); inp&&inp.focus&&inp.focus(); },30);
+    } else if(mode==='tf'){
+      const showReal=Math.random()<0.5, other=PICK(Object.keys(GLOSSARY).filter(x=>x!==k)), shownDef=showReal?g.d:GLOSSARY[other].d;
+      stage.innerHTML=`${head}<div class="dq-q">True or false?</div><div class="dq-tf" data-correct="${showReal?1:0}"><b>${label}</b> means:<br><span style="color:var(--muted)">“${shownDef}”</span></div><div class="tf-row"><button class="tf-btn" data-tf="1">✓ True</button><button class="tf-btn" data-tf="0">✗ False</button></div>`;
+      stage.querySelectorAll('.tf-btn').forEach(b=>b.onclick=()=>{ const said=b.dataset.tf==='1', ok=(said===showReal); stage.querySelectorAll('.tf-btn').forEach(x=>x.style.pointerEvents='none'); b.classList.add(ok?'correct':'wrong'); resolve(ok); });
+    } else {
+      stage.innerHTML=`${head}<div class="jg-term"><div class="jt">${label}</div><div class="js">picture how you'd explain it… then check yourself</div></div><div style="text-align:center"><button class="btn btn-ghost" id="dyReveal">Reveal answer ▾</button></div><div id="flipBody"></div>`;
+      $('#dyReveal').onclick=()=>{ sClick(); $('#dyReveal').style.display='none'; $('#flipBody').innerHTML=`<div class="dq-reveal ok" style="margin-top:8px"><div class="dq-rd">${g.d}</div><div class="dq-use"><b>In the interview:</b> ${g.u}</div></div><div class="flip-rate"><button class="btn btn-ghost" id="flipNo">✗ Missed it</button><button class="btn btn-primary" id="flipYes">✓ I knew it</button></div>`;
+        const rate=ok=>{ const fr=stage.querySelector('.flip-rate'); if(fr)fr.remove(); resolve(ok,true); };
+        $('#flipYes').onclick=()=>rate(true); $('#flipNo').onclick=()=>rate(false); };
+    }
+  }
+  function finish(){ const t=dayStr(0), firstToday=state.lastDaily!==t;
+    if(firstToday){ state.streak=(state.lastDaily===dayStr(-1))?(state.streak||0)+1:1; state.lastDaily=t; state.dayNum=(state.dayNum||0)+1; }
+    if(state.streak>=7)unlock('regular'); if(state.dayNum>=30)unlock('devoted'); save(); renderHUD();
+    const stars=correct>=total?3:correct>=Math.ceil(total*0.7)?2:1;
+    mResult(host,'daily',{eyebrow:`Day ${state.dayNum} · ${state.streak}-day streak 🔥`,title:firstToday?'Daily complete ✓':'Bonus reps ✓',
+      stars,xp:correct*30,skillKey:'vocab',skillAmt:4+correct,
+      sub:`${correct}/${total} recalled · **${srsSeen()}/${Object.keys(GLOSSARY).length}** terms learned so far. Reviews are scheduled — come back tomorrow to keep them fresh.`,
+      recap:["**Spaced repetition:** terms you nail come back less often; ones you miss come back sooner.","Play once a day for a month and the whole vocabulary becomes automatic.","Only a few new terms are introduced each day — you won't be overwhelmed."]},done);
+  }
+  teachNext();
+};
+
+/* ======================= THE PANEL (finale) ======================= */
+MODULES.panel=function(host,done){
+  Scene.buildMonument&&Scene.buildMonument('#FBBF24');
+  let bi=0, rapport=50, depth=24;
+  const stage=mShell(host,'panel',"The real thing. Lead with power, deploy a forged story, and close strong. Hover any term you forget.");
+  stage.innerHTML=`<div class="pn-meters">
+      <div class="meter rapport"><div class="mh"><span>Rapport</span><span class="mv" id="mvR">50</span></div><div class="mt"><div class="mf" id="mfR" style="width:50%"></div></div></div>
+      <div class="meter depth"><div class="mh"><span>Depth</span><span class="mv" id="mvD">24</span></div><div class="mt"><div class="mf" id="mfD" style="width:24%"></div></div></div></div>
+    <div id="pnDlg"></div>`;
+  const D=$('#pnDlg');
+  function meters(){ rapport=Math.max(0,Math.min(100,rapport)); depth=Math.max(0,Math.min(100,depth)); $('#mvR').textContent=Math.round(rapport);$('#mfR').style.width=rapport+'%';$('#mvD').textContent=Math.round(depth);$('#mfD').style.width=depth+'%'; }
+  function vp(body,inner){ D.innerHTML=`<div class="dlg" style="opacity:1;transform:none;max-width:none"><div class="dlg-head"><div class="dlg-av" style="background:linear-gradient(135deg,#FBBF24,#05060a)">JP</div><div><div class="dlg-nm">Joanna Pierce</div><div class="dlg-rl">VP, Infrastructure</div></div></div><div class="dlg-body">${rich(body)}</div>${inner||''}</div>`; }
+  function reply(text,fn){ const add=el(`<div style="margin-top:14px;border-top:1px solid var(--stroke);padding-top:12px"><div class="dlg-body">${rich(text)}</div><div class="dlg-next" style="margin-top:12px"><button class="btn btn-primary" id="pnNext">Continue →</button></div></div>`); D.querySelector('.dlg').appendChild(add); $('#pnNext').onclick=()=>{ sClick(); fn(); }; }
+  function beat(){ if(bi>=PANEL.length) return verdict(); const b=PANEL[bi];
+    if(b.type==='say'){ vp(b.text,`<div class="dlg-next"><button class="btn btn-primary" id="pnNext">Continue →</button></div>`); $('#pnNext').onclick=()=>{ sClick(); bi++; beat(); }; return; }
+    if(b.story){ const keys=Object.keys(STAR);
+      vp(b.q,`<div class="dlg-choices">${keys.map((k,i)=>`<button class="dlg-choice" data-k="${k}"><span class="ck">${i+1}</span><span>${STAR[k].title} <span class="muted" style="font-size:12px">· ${STAR[k].tag}${state.forged.has(k)?' · ✓ forged':''}</span></span></button>`).join('')}</div>`);
+      D.querySelectorAll('.dlg-choice').forEach(btn=>btn.onclick=()=>{ const k=btn.dataset.k, f=state.forged.has(k); sClick(); depth+=f?18:9; rapport+=f?12:7; meters();
+        D.querySelectorAll('.dlg-choice').forEach(x=>x.style.pointerEvents='none'); btn.classList.add('correct');
+        reply(`You deploy **${STAR[k].title}** — <span style="font-style:italic">${rich(STAR[k].one)}</span><br><br>${f?'"That landed. Tight, quantified, and you owned it. That\'s how you tell it."':'"Decent — but you sharpened that story back on campus. Forge it and lead with the number."'}`,()=>{ bi++; beat(); }); });
+      return; }
+    vp(b.q,`<div class="dlg-choices">${b.choices.map((c,i)=>`<button class="dlg-choice" data-i="${i}"><span class="ck">${i+1}</span><span>${rich(c.t)}</span></button>`).join('')}</div>`);
+    D.querySelectorAll('.dlg-choice').forEach(btn=>btn.onclick=()=>{ const c=b.choices[+btn.dataset.i]; sClick(); rapport+=c.rapport||0; depth+=c.depth||0; meters();
+      D.querySelectorAll('.dlg-choice').forEach((x,j)=>{ x.style.pointerEvents='none'; if(b.choices[j].best)x.classList.add('correct'); else if(x===btn)x.classList.add('wrong'); });
+      c.best?sOk():sNo(); reply(c.reply,()=>{ bi++; beat(); }); });
+  }
+  function verdict(){ const score=rapport*0.5+depth*0.5, offer=score>=60; const allMod=['power','thermal','star','jargon'].every(k=>state.done.has(k));
+    if(offer){ state.panelDone=true; unlock('hired'); if(allMod)unlock('director'); } save(); renderHUD();
+    Scene.flash&&Scene.flash(offer?'#34D399':'#FBBF24',0.2); offer?sWin():sNo();
+    const rank=offer?(score>=82?'Director-level Hire':'Senior PM — Offer in Hand'):'Strong Callback';
+    host.innerHTML=`<div class="wrap result fade-in">
+      <div class="eyebrow">The Panel · VP Joanna Pierce</div>
+      ${offer?'<div class="offer-stamp">Offer Secured</div>':'<h2 class="display" style="font-size:clamp(30px,5vw,50px)">So close.</h2>'}
+      <div class="rank-badge">${rank}</div>
+      <div class="result-stat"><div class="rs"><div class="v" style="color:var(--c)">${Math.round(rapport)}</div><div class="l">Rapport</div></div><div class="rs"><div class="v" style="color:var(--gold)">${Math.round(depth)}</div><div class="l">Depth</div></div><div class="rs"><div class="v" style="color:var(--good)">${readiness()}%</div><div class="l">Readiness</div></div></div>
+      <div class="learn-recap" style="border-color:${offer?'var(--good)':'var(--gold)'}"><h4 style="color:${offer?'var(--good)':'var(--gold)'}">Coach Marcus, ringside</h4>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--muted);margin-left:2px">${offer?'That\'s the offer, Ben. You led with power, deployed a real story, and closed with a question. Now the money: you\'re targeting <b style="color:var(--txt)">$175K+ base plus equity</b>. Let them name a number first, anchor to your scope and the market, and never accept on the call.':'You\'re in the room — they want more <b style="color:var(--txt)">depth</b>. Go forge your stories and drill power, then run it back. The offer is right there.'}</p></div>
+      <div class="start-actions" style="margin-top:18px"><button class="btn btn-primary btn-lg" id="bBack">⌂ Back to campus</button>${offer?'':'<button class="btn btn-ghost btn-lg" id="bAgain">↻ Try again</button>'}</div></div>`;
+    $('#bBack').onclick=()=>{ sClick(); done({xp:Math.round(score*5),skill:['story',8],stars:offer?3:1}); enterHub(); };
+    if($('#bAgain'))$('#bAgain').onclick=()=>{ sClick(); done({xp:Math.round(score*5),skill:['story',8],stars:offer?3:1}); openModule('panel'); };
+  }
+  beat();
+};
+
+
+/* =====================  GAME ENGINES (sequence / sort / pick) ===================== */
+function makeSeq(id, levels, opts){ opts=opts||{}; return function(host,done){ const meta=metaOf(id); Scene.buildMonument&&Scene.buildMonument(meta.color); let li=0, miss=0;
+  const stage=mShell(host,id,opts.obj||"Learn the sequence, then rebuild it from memory.");
+  function teach(L){ stage.innerHTML=`<div class="pw-prompt">${rich(L.teach||("**"+L.title+"** — learn the order, then rebuild it:"))}</div>
+    <div class="teach-chain">${L.items.map(it=>`<div class="tc-node" style="border-color:${meta.color};background:${hexA(meta.color,.08)}"><div class="tc-e">${it.e||'•'}</div><div class="tc-n">${it.n}</div></div>`).join('<span class="tc-ar">→</span>')}</div>
+    ${L.note?`<div class="m-obj" style="display:block;margin-top:16px">${rich(L.note)}</div>`:''}
+    <div style="text-align:right;margin-top:18px"><button class="btn btn-primary" id="goNext">Build it ▸</button></div>`;
+    const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); quiz(L); }; }
+  function quiz(L){ let filled=0; const order=L.items, tray=shuffle(order.map((it,i)=>({it,i})));
+    const slots=order.map((it,i)=>`<div class="pw-slot" data-s="${i}">${i+1}</div>`).join('<span style="align-self:center;color:var(--muted2)">→</span>');
+    stage.innerHTML=`<div class="pw-prompt">${rich("**Now from memory.** Tap the steps in the correct order.")}</div><div class="pw-chain">${slots}</div><div class="pw-tray">${tray.map(c=>`<button class="chip" data-i="${c.i}"><span class="ce">${c.it.e||'•'}</span>${c.it.n}</button>`).join('')}</div>`;
+    stage.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{ if(ch.classList.contains('used'))return; const ci=+ch.dataset.i;
+      if(ci===filled){ const slot=stage.querySelector(`.pw-slot[data-s="${filled}"]`); slot.classList.add('filled'); slot.innerHTML=`<span style="font-size:16px">${order[filled].e||'•'}</span>`; ch.classList.add('used'); sPower(); Scene.pulseAccent&&Scene.pulseAccent(); filled++; if(filled===order.length){ Scene.flash&&Scene.flash(meta.color,.18); setTimeout(next,560); } }
+      else { miss++; sNo(); Scene.shake&&Scene.shake(); ch.animate&&ch.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'translateX(0)'}],{duration:240}); } }); }
+  function next(){ li++; if(li<levels.length) teach(levels[li]); else fin(); }
+  function fin(){ const stars=miss===0?3:miss<=2?2:1; mResult(host,id,{title:opts.win||"Sequence locked ✓",stars,xp:100+stars*40,skillKey:meta.skill,skillAmt:7+stars*4,sub:opts.sub||"",recap:opts.recap||[]},done); }
+  teach(levels[0]);
+}; }
+function makeSort(id, rounds, opts){ opts=opts||{}; return function(host,done){ const meta=metaOf(id); Scene.buildMonument&&Scene.buildMonument(meta.color);
+  let ri=0, correct=0, total=0; rounds.forEach(r=>total+=r.items.length);
+  const stage=mShell(host,id,opts.obj||"Sort each item into the right group.");
+  function teachR(R){ stage.innerHTML=`<div class="pw-prompt">${rich(R.teach||R.prompt)}</div>
+    <div class="teach-chain">${R.buckets.map(b=>`<div class="tc-node" style="border-color:${meta.color};background:${hexA(meta.color,.08)};min-width:120px"><div class="tc-n">${b.name}</div>${b.hint?`<div style="font-size:11px;color:var(--muted);margin-top:5px;font-weight:400">${rich(b.hint)}</div>`:''}</div>`).join('')}</div>
+    <div style="text-align:right;margin-top:18px"><button class="btn btn-primary" id="goNext">Start ▸</button></div>`;
+    const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); round(R); }; }
+  function round(R){ const items=shuffle(R.items.slice()); let ii=0;
+    function show(){ if(ii>=items.length){ ri++; if(ri<rounds.length) teachR(rounds[ri]); else fin(); return; } const it=items[ii];
+      stage.innerHTML=`<div class="pw-prompt">${rich(R.prompt)} <span class="muted" style="font-size:12px">(${ii+1}/${items.length})</span></div>
+        <div class="sort-card" data-correct="${it.k}">${rich(it.t)}</div>
+        <div class="sort-buckets">${R.buckets.map(b=>`<button class="sort-bucket" data-k="${b.k}">${b.name}</button>`).join('')}</div><div id="sortWhy"></div>`;
+      stage.querySelectorAll('.sort-bucket').forEach(b=>b.onclick=()=>{ const ok=b.dataset.k===it.k;
+        stage.querySelectorAll('.sort-bucket').forEach(x=>{ x.style.pointerEvents='none'; if(x.dataset.k===it.k)x.classList.add('correct'); else if(x===b)x.classList.add('wrong'); });
+        if(ok){correct++;sOk();Scene.pulseAccent&&Scene.pulseAccent();}else{sNo();Scene.shake&&Scene.shake();}
+        const why=it.why||("Belongs in: "+R.buckets.find(x=>x.k===it.k).name);
+        $('#sortWhy').innerHTML=`<div class="m-obj" style="display:block;margin-top:14px">${ok?'✓ ':'✗ '}${rich(why)}</div><div style="text-align:right;margin-top:12px"><button class="btn btn-primary" id="goNext">Next ▸</button></div>`;
+        const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); ii++; show(); }; }); }
+    show(); }
+  function fin(){ const stars=correct>=total?3:correct>=Math.ceil(total*.7)?2:1; mResult(host,id,{title:opts.win||"Sorted ✓",stars,xp:70+correct*22,skillKey:meta.skill,skillAmt:6+stars*4,eyebrow:correct+"/"+total,sub:opts.sub||"",recap:opts.recap||[]},done); }
+  teachR(rounds[0]);
+}; }
+function makePick(id, questions, opts){ opts=opts||{}; return function(host,done){ const meta=metaOf(id); Scene.buildMonument&&Scene.buildMonument(meta.color);
+  const qs=(opts.shuffle===false?questions.slice():shuffle(questions.slice())).slice(0,opts.count||questions.length); let qi=0, correct=0;
+  const stage=mShell(host,id,opts.obj||"Pick the strongest answer.");
+  function q(){ if(qi>=qs.length){ fin(); return; } const Q=qs[qi]; const o2=shuffle(Q.opts.slice());
+    stage.innerHTML=`<div class="pw-prompt">${rich(Q.q)} <span class="muted" style="font-size:12px">(${qi+1}/${qs.length})</span></div>
+      <div class="jg-opts">${o2.map(o=>`<button class="jg-opt" data-ok="${o.ok?1:0}">${rich(o.t)}</button>`).join('')}</div><div id="pkWhy"></div>`;
+    stage.querySelectorAll('.jg-opt').forEach(b=>b.onclick=()=>{ const ok=b.dataset.ok==='1';
+      stage.querySelectorAll('.jg-opt').forEach(x=>{ x.style.pointerEvents='none'; if(x.dataset.ok==='1')x.classList.add('correct'); else if(x===b)x.classList.add('wrong'); });
+      if(ok){correct++;sOk();Scene.pulseAccent&&Scene.pulseAccent();}else{sNo();Scene.shake&&Scene.shake();}
+      const why=((Q.opts.find(o=>o.ok)||{}).why)||Q.why||"";
+      $('#pkWhy').innerHTML=(why?`<div class="m-obj" style="display:block;margin-top:14px">${ok?'✓ Correct. ':'✗ '}${rich(why)}</div>`:'')+`<div style="text-align:right;margin-top:12px"><button class="btn btn-primary" id="goNext">Next ▸</button></div>`;
+      const g=$('#goNext'); if(g)g.onclick=()=>{ sClick(); qi++; q(); }; }); }
+  function fin(){ const stars=correct>=qs.length?3:correct>=Math.ceil(qs.length*.7)?2:1; mResult(host,id,{title:opts.win||"Nailed it ✓",stars,xp:70+correct*28,skillKey:meta.skill,skillAmt:6+stars*4,eyebrow:correct+"/"+qs.length,sub:opts.sub||"",recap:opts.recap||[]},done); }
+  q();
+}; }
+
+/* =====================  GAME LIBRARY (content) ===================== */
+MODULES.commission=makeSeq('commission',[{title:"Commission a data hall",items:[{e:"🏭",n:"Factory test"},{e:"🔧",n:"Pre-functional"},{e:"⚙️",n:"Functional test"},{e:"🔌",n:"Integrated test"},{e:"🔑",n:"Handover"}],note:"Commissioning ([[cx]]) climbs from component to whole-system. The [[ist|integrated systems test]] — the pull-the-plug — is the final proof before [[substantial|handover]]."}],{obj:"Order the commissioning steps from component to whole-system.",sub:"Cx fluency reassures any mission-critical panel.",recap:["Cx climbs: factory → pre-functional → functional → [[ist|IST]] → handover.","The [[loadbank|load-bank]] and pull-the-plug tests prove full capacity before go-live."]});
+MODULES.lifecycle=makeSeq('lifecycle',[{title:"Owner-side project lifecycle",items:[{e:"🧭",n:"Feasibility"},{e:"✏️",n:"Design"},{e:"📝",n:"Permitting"},{e:"📦",n:"Procurement"},{e:"🏗️",n:"Construction"},{e:"🔌",n:"Commissioning"},{e:"🔑",n:"Occupancy"}],note:"Owner-side delivery runs feasibility → design → permitting → procurement → construction → [[cx|commissioning]] → occupancy. [[longlead|Long-lead]] procurement is pulled early to protect [[speedtopower|speed-to-power]]."}],{obj:"Put the phases of an owner-side build in order.",sub:"You've run this full arc end-to-end — say so.",recap:["[[longlead|Long-lead]] procurement starts during design, not after.","You delivered Brightwater through occupancy — the whole arc."]});
+MODULES.outage=makeSeq('outage',[{title:"Power outage response",items:[{e:"⚡",n:"Utility fails"},{e:"🎛️",n:"ATS senses loss"},{e:"🔋",n:"UPS carries load"},{e:"🟩",n:"Generator starts"},{e:"🔁",n:"ATS → generator"},{e:"🏭",n:"Gen carries hall"}],note:"When the grid drops: the [[ats|ATS]] senses it, the [[ups|UPS]] instantly carries the load, the [[genset|generator]] spins up, the ATS transfers, and the generator carries the hall. The UPS bridges the seconds in between."}],{obj:"Sequence what happens the instant the grid drops.",sub:"This is the standby-power story you owned at Applegreen.",recap:["[[ups|UPS]] bridges seconds; the [[genset|generator]] carries the long haul.","The [[ats|ATS]] is the automatic hand-off between them."]});
+MODULES.whoowns=makeSort('whoowns',[{prompt:"Whose responsibility is this?",teach:"Three hats on a build — the **owner's rep** protects the owner's money & intent, the **GC** runs means-and-methods in the field, the **A/E** designs and stamps. Ben sits owner-side.",buckets:[{k:'owner',name:"Owner's rep",hint:"money & intent"},{k:'gc',name:"Contractor (GC)",hint:"means & methods"},{k:'ae',name:"Architect/Engineer",hint:"design & stamp"}],items:[{t:"Approve the project budget",k:'owner'},{t:"Means & methods of construction",k:'gc'},{t:"Stamp the drawings",k:'ae'},{t:"Investment-committee reporting",k:'owner'},{t:"Sequence & supervise the trades",k:'gc'},{t:"Design the MEP systems",k:'ae'}]}],{obj:"Sort each task to the owner, the GC, or the designer.",sub:"Knowing the lanes is what owner-side maturity looks like."});
+MODULES.capexopex=makeSort('capexopex',[{prompt:"Capex or Opex?",teach:"[[capex|Capex]] is the one-time cost to **build**; **opex** is the ongoing cost to **run**. Design choices trade one for the other — both roll into [[tco|TCO]].",buckets:[{k:'capex',name:"Capex (build)"},{k:'opex',name:"Opex (run)"}],items:[{t:"Buying the transformer",k:'capex'},{t:"Monthly electricity bill",k:'opex'},{t:"Pouring the foundation",k:'capex'},{t:"Generator fuel & maintenance",k:'opex'},{t:"Installing the switchgear",k:'capex'},{t:"Facilities team salaries",k:'opex'}]}],{obj:"Split build costs from running costs.",sub:"Talk in capex/opex and you sound like an owner."});
+MODULES.risktriage=makeSort('risktriage',[{prompt:"How urgent is this risk?",teach:"Triage by **impact on the [[criticalpath|critical path]]**. Long-lead power and energization permits are almost always **High** — they gate everything. Parallel or cosmetic items are Low.",buckets:[{k:'high',name:"High"},{k:'med',name:"Medium"},{k:'low',name:"Low"}],items:[{t:"Main transformer is 18 months out and not ordered",k:'high',why:"[[longlead|Long-lead]] power gates energization — top priority."},{t:"A lobby finish material is back-ordered",k:'low',why:"Cosmetic, off the critical path."},{t:"Energization permit stuck at the utility",k:'high',why:"No permit, no power — it gates go-live."},{t:"One of three landscape subs is slow",k:'low',why:"Parallel, non-critical."},{t:"MEP/structure clash on a key floor",k:'med',why:"Real, but resolvable before it hits the critical path."}]}],{obj:"Rank each risk by its impact on the schedule.",sub:"Triage by the critical path, not by who's loudest."});
+MODULES.redundancy=makePick('redundancy',[
+  {q:"An AI hall must survive **any single failure** with zero downtime. Design to…",opts:[{t:"[[2n|2N]] — a fully mirrored system",ok:1,why:"2N is fault-tolerant ([[tier4|Tier IV]]) — a full mirror survives a whole path loss."},{t:"[[n1|N+1]] — one spare"},{t:"N — no spare"}]},
+  {q:"You must **service any component without downtime**, but cost matters. Target…",opts:[{t:"[[n1|N+1]] — concurrently maintainable",ok:1,why:"N+1 / [[tier3|Tier III]] lets you maintain without dropping load — the cost-effective default."},{t:"N — no spare"},{t:"[[2n|2N]] everywhere regardless of cost"}]},
+  {q:"Which is **most** fault-tolerant?",opts:[{t:"2N+1",ok:1,why:"2N+1 adds a spare to a full mirror — the most resilient (and costly)."},{t:"N+1"},{t:"N"}]}
+],{obj:"Choose the right reliability tier for each scenario.",sub:"Match redundancy to the requirement — never silently cut it."});
+MODULES.sustain=makePick('sustain',[
+  {q:"Biggest lever to cut [[pue|PUE]] in a cool, dry climate?",opts:[{t:"[[freecooling|Free cooling]] / air-side economization",ok:1,why:"Outside air slashes chiller energy — the dominant PUE lever where climate allows."},{t:"More diesel generators"},{t:"Thicker insulation"}]},
+  {q:"To become **water positive**, the highest-impact move is…",opts:[{t:"Low-[[wue|WUE]] closed-loop cooling + replenishment",ok:1,why:"Cut water at the source, then replenish more than you consume."},{t:"Bottled water for staff"},{t:"Bigger evaporative cooling towers"}]},
+  {q:"Biggest **embodied-carbon** target in a build?",opts:[{t:"[[embodied|Concrete & steel]] structure",ok:1,why:"Structure dominates embodied carbon — low-carbon concrete & recycled steel are the levers."},{t:"Office furniture"},{t:"Signage"}]},
+  {q:"Why are hyperscalers signing **nuclear** ([[ppa|PPA]]) deals?",opts:[{t:"Firm 24/7 carbon-free baseload for constant AI load",ok:1,why:"AI load is huge and constant; nuclear gives firm [[cfe|carbon-free]] power renewables alone can't."},{t:"It's the cheapest power"},{t:"Nostalgia"}]}
+],{obj:"Pick the highest-impact sustainability lever each time.",sub:"PUE, WUE, embodied carbon, firm clean power — speak all four."});
+MODULES.siteselect=makePick('siteselect',[
+  {q:"The #1 factor in choosing a data-center site today is…",opts:[{t:"Available **power** (and speed to get more)",ok:1,why:"Power availability gates everything — the binding constraint on AI growth."},{t:"Nearby restaurants"},{t:"Cheapest land"}]},
+  {q:"Two sites tie on power. Tie-breaker?",opts:[{t:"Fiber connectivity + cool climate for [[freecooling|free cooling]]",ok:1,why:"Latency and cooling efficiency are the next levers after power."},{t:"Prettiest view"},{t:"Closest to HQ"}]},
+  {q:"Cheap power but a 3-year interconnection queue. You…",opts:[{t:"Weigh [[speedtopower|speed-to-power]] — power you can't use on time may not be worth it",ok:1,why:"Time-to-power often beats price; [[behindmeter|behind-the-meter]] generation can bridge the gap."},{t:"Take it — price is everything"},{t:"Refuse to consider on-site generation"}]}
+],{obj:"Choose the best site given real constraints.",sub:"Lead every site conversation with power."});
+MODULES.metrics=makePick('metrics',[
+  {q:"Brightwater's total development value?",opts:[{t:"~$3 billion",ok:1,why:"~$3B USD (~$4B CAD) — your headline anchor for owner-side delivery."},{t:"~$300 million"},{t:"~$30 billion"}]},
+  {q:"Transformer range you sized at Applegreen?",opts:[{t:"500–2,000 kVA",ok:1,why:"500–2,000 kVA — concrete proof you own power delivery."},{t:"5–20 kVA"},{t:"50–200 MVA"}]},
+  {q:"RFIs you processed at Brightwater?",opts:[{t:"400+",ok:1,why:"400+ [[rfi|RFIs]] — a tangible measure of delivery throughput."},{t:"4"},{t:"40,000"}]},
+  {q:"Phase budgets you owned?",opts:[{t:"$150M+",ok:1,why:"$150M+ in phase budgets with investment-committee reporting — executive altitude."},{t:"$15K"},{t:"$1.5K"}]},
+  {q:"Concurrent active sites at Applegreen?",opts:[{t:"35+",ok:1,why:"35+ concurrent sites across four utilities — multi-site program proof."},{t:"2"},{t:"500"}]}
+],{obj:"Lock in your own real numbers — recall them cold.",sub:"In the room, the number comes out without hesitation."});
+
+/* ---- SECTOR BREADTH: residential · commercial · general PM · EV/retail ---- */
+MODULES.highrise=makeSeq('highrise',[{title:"High-rise residential build",items:[{e:"🪨",n:"Excavation & shoring"},{e:"🧱",n:"Foundation"},{e:"🏢",n:"Podium"},{e:"🏗️",n:"Superstructure"},{e:"🪟",n:"Envelope"},{e:"🔧",n:"MEP rough-in"},{e:"🎨",n:"Finishes"},{e:"🔑",n:"Occupancy"}],note:"A tower rises in order: dig & shore, foundation, [[podium]], [[superstructure]] (the concrete cycle), close the [[envelope]], MEP [[roughin|rough-in]], finishes, [[occupancy]]. You ran this whole arc at Brightwater."}],{obj:"Order how a high-rise actually goes up — your Brightwater world.",sub:"Concrete cycle → envelope → finishes. Say it fluently.",recap:["The concrete [[superstructure]] cycle sets the schedule's pace.","Early [[curtainwall|envelope]] close-in lets interior trades start in any weather.","You delivered 2,500+ units through [[occupancy]]."]});
+MODULES.forecourt=makeSeq('forecourt',[{title:"EV + fuel travel center",items:[{e:"🚜",n:"Site civil & grading"},{e:"🛢️",n:"Tanks & utilities"},{e:"⛽",n:"Dispensers & chargers"},{e:"🏛️",n:"Canopy"},{e:"🏪",n:"Store fit-out"},{e:"🔌",n:"Commissioning"},{e:"🟢",n:"Open"}],note:"A travel center: site civil, [[ust|tanks]] & utilities, [[forecourt|dispensers & chargers]], the [[canopy]], the convenience/food [[fitout|fit-out]], commissioning, open. The retail build is as real as the EV."}],{obj:"Sequence a full EV + retail forecourt — the Applegreen build.",sub:"Lead with the FULL site build, not only the chargers.",recap:["[[forecourt|Forecourt]] = fuel, EV, convenience and food — a complete retail site.","[[ust|Underground tanks]] are permitting- and environment-heavy.","You ran 35+ multi-trade sites at once."]});
+MODULES.closeout=makeSeq('closeout',[{title:"Project closeout",items:[{e:"🚶",n:"Punch-list walk"},{e:"✅",n:"Substantial completion"},{e:"🔌",n:"Commissioning & handover"},{e:"📐",n:"As-builts & O&M"},{e:"🛡️",n:"Warranty period"}],note:"Closeout in order: walk the [[punchlist|punch list]], reach [[substantial|substantial completion]] (owner can occupy), hand over [[cx|commissioning]] + [[asbuilts|as-builts]]/O&M, then the [[warranty]] period. [[retainage|Retainage]] releases as it completes."}],{obj:"Order how a project actually finishes and hands over.",sub:"Closeout fluency shows you take jobs all the way through.",recap:["[[substantial|Substantial completion]] triggers occupancy, warranties and most payment.","[[asbuilts|As-builts]] + O&M are the operator's handover.","[[retainage|Retainage]] releases at final completion."]});
+MODULES.basefitout=makeSort('basefitout',[{prompt:"Base building or tenant fit-out?",teach:"On commercial work the **landlord** delivers the [[basebuilding|base building]] (structure, [[envelope]], core, base MEP); the **tenant** builds the [[ti|fit-out]] inside. Know the line and scope stays clean.",buckets:[{k:'base',name:"Base building",hint:"landlord"},{k:'ti',name:"Tenant fit-out",hint:"tenant"}],items:[{t:"Structural frame & core",k:'base'},{t:"Interior partitions & finishes",k:'ti'},{t:"Building envelope / curtain wall",k:'base'},{t:"Tenant's supplemental HVAC",k:'ti'},{t:"Elevators & base MEP",k:'base'},{t:"Office layouts & millwork",k:'ti'},{t:"Demising walls",k:'base'},{t:"Tenant kitchen & data cabling",k:'ti'}]}],{obj:"Split landlord base-building scope from tenant fit-out.",sub:"You managed 300K+ sq ft of retail across landlord & tenant scopes."});
+MODULES.docs=makeSort('docs',[{prompt:"RFI, submittal, or change order?",teach:"Three core PM documents: an **[[rfi|RFI]]** asks a question, a **[[submittal]]** gets a product/shop drawing approved, a **[[changeorder|change order]]** modifies scope/cost/time.",buckets:[{k:'rfi',name:"RFI"},{k:'sub',name:"Submittal"},{k:'co',name:"Change order"}],items:[{t:"Two drawings conflict on a dimension",k:'rfi',why:"A question for the design team — an RFI."},{t:"Approve the curtain-wall shop drawings",k:'sub',why:"Product/shop-drawing approval — a submittal."},{t:"Owner adds an upgraded lobby finish",k:'co',why:"New scope and cost — a change order."},{t:"Confirm rebar spacing in the field",k:'rfi'},{t:"Get light-fixture cut sheets approved",k:'sub'},{t:"Accelerate the schedule for added cost",k:'co'}]}],{obj:"Sort each into RFI, submittal, or change order.",sub:"You processed 400+ RFIs — know the lanes cold."});
+MODULES.residential=makePick('residential',[
+  {q:"A winter concrete pour is forecast below freezing. You…",opts:[{t:"Use cold-weather protection — heat, blankets, admixtures — and monitor the cure",ok:1,why:"Concrete must cure above freezing; protection keeps the [[superstructure]] cycle on track."},{t:"Pour anyway and hope"},{t:"Halt all work for winter"}]},
+  {q:"What usually paces a high-rise schedule?",opts:[{t:"The concrete [[superstructure]] floor cycle",ok:1,why:"Typical-floor cycle time sets the critical path."},{t:"The lobby furniture order"},{t:"Landscaping"}]},
+  {q:"Closing the [[envelope]] early matters because…",opts:[{t:"Interior trades can then work weather-independent and start finishes",ok:1,why:"Envelope close-in unlocks drywall, MEP finish and flooring."},{t:"It photographs well"},{t:"It has no schedule impact"}]},
+  {q:"Best phrasing of your residential record:",opts:[{t:"\"2,500+ units delivered through [[occupancy]] with zero lost-time incidents.\"",ok:1,why:"Scale + safety + saw-it-through, quantified."},{t:"\"I built some condos.\""},{t:"\"Residential isn't my thing.\""}]}
+],{obj:"Make the calls that pace and de-risk a high-rise.",sub:"Your Brightwater wheelhouse — own it.",recap:["The concrete cycle paces the schedule; protect it.","Early [[envelope]] close-in unlocks the interior.","Quantify: 2,500+ units, zero LTI, through occupancy."]});
+MODULES.commercial=makePick('commercial',[
+  {q:"A retail tenant's lease commencement is fixed and the fit-out is behind. You…",opts:[{t:"Re-sequence and add crews on the critical path to protect the lease date",ok:1,why:"Lease commencement is a hard, revenue-driving deadline."},{t:"Let it slip a few weeks"},{t:"Ask the tenant to change the lease"}]},
+  {q:"The [[basebuilding|base building]] is late, blocking tenant [[ti|fit-out]]. Best move:",opts:[{t:"Coordinate an early/partial turnover of the demised space so TI can start",ok:1,why:"Owner-side coordination to unblock the tenant protects the schedule."},{t:"Blame the landlord and wait"},{t:"Start TI with no base building"}]},
+  {q:"Why track [[float]] on a fit-out?",opts:[{t:"To know which delays actually threaten the opening date",ok:1,why:"Float shows where the slack — and the real risk — is."},{t:"To pad the schedule"},{t:"It doesn't matter"}]},
+  {q:"Your commercial/retail proof point:",opts:[{t:"\"300,000+ sq ft of retail coordinated across landlord and tenant scopes.\"",ok:1,why:"Concrete, owner-side, quantified."},{t:"\"Some stores, I think.\""},{t:"\"I avoid retail.\""}]}
+],{obj:"Navigate lease-driven, landlord-vs-tenant commercial work.",sub:"Brightwater retail + Applegreen forecourts = real range.",recap:["Lease commencement is a hard deadline — protect it.","Know the [[basebuilding|base]]/[[ti|TI]] line and unblock tenants.","Quantify: 300K+ sq ft of retail."]});
+MODULES.fundamentals=makePick('fundamentals',[
+  {q:"A trade submits a large [[changeorder|change order]] late. First move:",opts:[{t:"Verify scope vs contract, check it isn't already covered, then negotiate",ok:1,why:"Protect the budget — validate entitlement before paying."},{t:"Approve it to keep the peace"},{t:"Ignore it"}]},
+  {q:"What does [[buyout]] lock in?",opts:[{t:"Trade scope and price after bid — closing gaps and overlaps",ok:1,why:"A clean buyout prevents the gaps that become change orders."},{t:"The paint colors"},{t:"Nothing important"}]},
+  {q:"[[qaqc|QA/QC]] on site means…",opts:[{t:"Inspecting and verifying work meets spec — mock-ups, checklists, hold points",ok:1,why:"Quality programs catch defects before they cascade."},{t:"Hoping it's fine"},{t:"Only checking at the very end"}]},
+  {q:"Your owner-side coordination at scale:",opts:[{t:"\"25+ trades and 400+ RFIs coordinated on a single program.\"",ok:1,why:"Concrete, quantified coordination load."},{t:"\"I coordinated stuff.\""},{t:"\"Trades aren't my problem.\""}]}
+],{obj:"The cross-sector PM fundamentals every panel probes.",sub:"These apply to data centers, towers and retail alike.",recap:["Validate [[changeorder|change-order]] entitlement before paying.","A clean [[buyout]] prevents downstream change orders.","Quantify coordination: 25+ trades, 400+ RFIs."]});
+MODULES.benprojects=function(h,d){ matchPairs(h,'benprojects',{teach:"Know your own résumé cold — each project and its one-line headline.",pairs:[{a:"Applegreen",b:"$1B+ multi-state EV + retail travel centers"},{a:"Brightwater",b:"~$3B residential master-planned community, 2,500+ units"},{a:"Little Miracles Designs",b:"Early-career exterior construction"},{a:"Columbia University",b:"Graduate construction project management"}]},d); };
+MOD_META.push(
+  {id:'highrise',name:'High-Rise Build',tag:'Sequence',emoji:'🏢',color:'#A78BFA',skill:'power',cat:'Build Types & Trades'},
+  {id:'forecourt',name:'Forecourt Build',tag:'Sequence',emoji:'⛽',color:'#34D399',skill:'power',cat:'Build Types & Trades'},
+  {id:'basefitout',name:'Base vs Fit-Out',tag:'Sort',emoji:'🏬',color:'#38BDF8',skill:'story',cat:'Build Types & Trades'},
+  {id:'residential',name:'Residential Reality',tag:'Judgment',emoji:'🏠',color:'#A78BFA',skill:'story',cat:'Build Types & Trades'},
+  {id:'commercial',name:'Commercial Crunch',tag:'Judgment',emoji:'🛍️',color:'#38BDF8',skill:'story',cat:'Build Types & Trades'},
+  {id:'benprojects',name:'Your Projects',tag:'Pairs',emoji:'📋',color:'#2DD4BF',skill:'story',cat:'Build Types & Trades'},
+  {id:'closeout',name:'Closeout',tag:'Sequence',emoji:'🏁',color:'#FB923C',skill:'story',cat:'Delivery & PM'},
+  {id:'docs',name:'RFI · Submittal · CO',tag:'Sort',emoji:'📄',color:'#34D399',skill:'vocab',cat:'Delivery & PM'},
+  {id:'fundamentals',name:'PM Fundamentals',tag:'Judgment',emoji:'🧰',color:'#FBBF24',skill:'vocab',cat:'Delivery & PM'}
+);
+MODULES.redflags=makePick('redflags',[
+  {q:"\"Why are you leaving your current role?\" Strongest answer:",opts:[{t:"\"My Applegreen contract is wrapping as projects complete — I want a permanent owner-side role at hyperscale.\"",ok:1,why:"Honest, positive, forward-looking — frames the move as natural."},{t:"\"My boss is impossible.\""},{t:"\"I'm bored.\""}]},
+  {q:"\"What's your biggest weakness?\" Best framing:",opts:[{t:"A real one + the system you built to manage it",ok:1,why:"Self-awareness plus growth — the actual point of the question."},{t:"\"I work too hard.\""},{t:"\"I don't have any.\""}]},
+  {q:"They go silent after your answer. You…",opts:[{t:"Hold the pause, then add one crisp metric or example",ok:1,why:"Silence is often a test — add a proof point, don't ramble."},{t:"Keep talking to fill every second"},{t:"Ask if you said something wrong"}]},
+  {q:"\"Tell me about yourself.\" Open with…",opts:[{t:"A 30-second arc: who you are, your edge (power/owner-side), what's next",ok:1,why:"A tight narrative beats a résumé recital — lead with your edge."},{t:"Your full work history, chronologically"},{t:"Your hobbies"}]}
+],{obj:"Spot the strongest answer; avoid the red flags.",sub:"How you say it matters as much as what you say."});
+/* negotiation handled by negGame (leverage-meter version) registered earlier */
+MODULES.clash=makePick('clash',[
+  {q:"An MEP sub and the design consultant are deadlocked, threatening a milestone. You…",opts:[{t:"Get both in a room, reframe around the owner's deadline, broker a clash resolution, document it",ok:1,why:"Reframe around shared goals, broker the fix, make it stick — that's earning trust."},{t:"Pick a side and force it"},{t:"Escalate to the owner immediately"}]},
+  {q:"A trade keeps missing dates and blames others. First step:",opts:[{t:"Dive into the data — what's actually on the [[criticalpath|critical path]] — before assigning blame",ok:1,why:"Facts first; critical-path reality cuts through finger-pointing."},{t:"Replace them on the spot"},{t:"Ignore it and hope"}]},
+  {q:"Bad news: a long-lead item slipped. You tell the owner…",opts:[{t:"Early, with the impact and a recovery plan",ok:1,why:"Bad news travels fast — with a plan. That's how you earn trust."},{t:"Only once they ask"},{t:"After weeks of quietly trying to fix it"}]}
+],{obj:"Navigate conflict and bad news like an owner's rep.",sub:"Reframe, dive deep, surface early — with a plan."});
+MODULES.safety=makePick('safety',[
+  {q:"A crew is about to work **energized** [[mv]] gear without [[arcflash|arc-flash]] PPE. You…",opts:[{t:"Stop work immediately — safety overrides schedule",ok:1,why:"Stop-work authority is absolute around energized MV. Lock-out/tag-out first."},{t:"Let them finish to stay on schedule"},{t:"Note it for the next safety meeting"}]},
+  {q:"Your safety record is a selling point. Best phrasing:",opts:[{t:"\"Zero lost-time incidents across a ~$3B, 2,500+ unit program.\"",ok:1,why:"A precise, quantified zero — [[osha30|OSHA 30]] backs it up."},{t:"\"We were pretty safe.\""},{t:"\"Safety wasn't really my job.\""}]}
+],{obj:"Make the safety calls a strong owner-side PM makes.",sub:"Stop-work authority is non-negotiable; quantify your record."});
+MODULES.curveball=makePick('curveball',[
+  {q:"\"Sell me this pen.\" (unexpected) Best approach:",opts:[{t:"Ask what they need, then match features to it — discovery before pitch",ok:1,why:"Tests whether you sell by listening first, not feature-dumping."},{t:"List every feature of the pen fast"},{t:"\"I don't do sales.\""}]},
+  {q:"\"What would your harshest critic say about you?\"",opts:[{t:"A real, manageable critique + how you've worked on it",ok:1,why:"Self-awareness without self-destruction."},{t:"\"Nothing — everyone loves me.\""},{t:"Trash a former colleague"}]},
+  {q:"You don't know the answer to a technical question. You…",opts:[{t:"Say what you do know, how you'd find out, and a related example",ok:1,why:"Honesty plus a method beats bluffing — interviewers respect the reasoning."},{t:"Bluff a confident-sounding answer"},{t:"Freeze and just say \"I don't know.\""}]}
+],{obj:"Stay composed when the question comes out of left field.",sub:"Discovery, self-awareness, and reasoning out loud win these."});
+
+MOD_META.push(
+  {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
+  {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
+  {id:'redundancy',name:'Redundancy Call',tag:'Judgment',emoji:'🛡️',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
+  {id:'sustain',name:'Sustainability',tag:'Judgment',emoji:'🌱',color:'#34D399',skill:'cool',cat:'Power & Cooling'},
+  {id:'lifecycle',name:'Project Lifecycle',tag:'Sequence',emoji:'🏗️',color:'#A78BFA',skill:'story',cat:'Delivery & PM'},
+  {id:'whoowns',name:'Who Owns It',tag:'Sort',emoji:'🧑‍💼',color:'#A78BFA',skill:'story',cat:'Delivery & PM'},
+  {id:'capexopex',name:'Capex or Opex',tag:'Sort',emoji:'💰',color:'#34D399',skill:'vocab',cat:'Delivery & PM'},
+  {id:'risktriage',name:'Risk Triage',tag:'Sort',emoji:'⚠️',color:'#FB923C',skill:'power',cat:'Delivery & PM'},
+  {id:'safety',name:'Safety Stop',tag:'Judgment',emoji:'🦺',color:'#FB923C',skill:'power',cat:'Delivery & PM'},
+  {id:'metrics',name:'Your Numbers',tag:'Recall',emoji:'🔢',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
+  {id:'clash',name:'Stakeholder Clash',tag:'Judgment',emoji:'⚔️',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
+  {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'}
+);
+
+/* =====================  BOOT  ===================== */
+try{ window.__GW={state,MODULES,openModule,enterHub,readiness,GLOSSARY,rich,POWER_LEVELS,COOLING,THERMAL_WAVES,FORGE,PANEL,MOD_META,unlock,Music,srsDue,srsNew,srsSeen}; }catch(e){}
+Scene.init();
+showStart();
+</script>
+</body>
+</html>

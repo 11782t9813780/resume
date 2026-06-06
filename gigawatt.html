@@ -470,6 +470,12 @@ const GLOSSARY = {
   whitebox:{t:"White box",d:"A space delivered partly finished — basic walls, ceiling, utilities — ready for fit-out.",u:"Shows you know how commercial space is handed off."},
   float:{t:"Float (schedule slack)",d:"How long a task can slip before it delays the project. Zero-float tasks are the critical path.",u:"Talk in float to show you manage schedule by data, not vibes."},
   lookahead:{t:"Look-ahead schedule",d:"The rolling 2–6 week plan that actually drives the field crews.",u:"Pair it with the master schedule to show you run the field, not just Gantt charts."},
+  cpm:{t:"CPM (Critical Path Method)",d:"The scheduling method that maps task dependencies to find the longest path — and so the project's minimum duration.",u:"Say you 'manage by CPM' to signal data-driven schedule control."},
+  p6:{t:"Primavera P6",d:"The enterprise CPM scheduling tool hyperscalers and large GCs run their master schedules in.",u:"P6 is the data-center standard — name it as the tool you read and can ramp on fast."},
+  nearcritical:{t:"Near-critical path",d:"A chain with very little float that can flip to the critical path after one small slip.",u:"Watching near-critical paths shows you manage risk before it bites."},
+  crashing:{t:"Crashing",d:"Shortening the critical path by adding resources — crews, shifts, overtime — at extra cost.",u:"Crash the cheapest critical activities first, and name the cost trade-off."},
+  fasttrack:{t:"Fast-tracking",d:"Compressing the schedule by overlapping phases that normally run in sequence — faster, but more rework risk.",u:"Fast-track when time beats certainty; flag the rework risk up front."},
+  baseline:{t:"Baseline schedule",d:"The approved plan of record a project is measured against; variance from it quantifies slippage.",u:"Measuring against the baseline is how owners prove and defend schedule performance."},
   buyout:{t:"Buyout / procurement",d:"Awarding trade contracts and locking scope and price after bids — closing gaps and overlaps.",u:"A clean buyout prevents the scope gaps that become change orders later."},
   mockup:{t:"Mock-up",d:"A full-scale sample — like a curtain-wall panel — built to test and approve before mass production.",u:"Mentioning mock-ups signals a real quality program."},
   qaqc:{t:"QA / QC",d:"Quality assurance and control — the inspection and verification program that catches defects early.",u:"Tie QA/QC to your zero-defect, zero-LTI record."},
@@ -1577,6 +1583,15 @@ MODULES.designreview=makePick('designreview',[
   {q:"A late owner-requested design change lands during [[cd|CDs]]. You…",opts:[{t:"Log it, price the cost and schedule impact against the [[proforma|pro forma]], and get a documented decision before it's drawn",ok:1,why:"Change governance protects budget and schedule — price and document every change against the pro forma before it's drawn."},{t:"Let the architect just add it"},{t:"Refuse all changes outright"}]}
 ],{obj:"Make the owner-side calls at each design gate — SD, DD, CD.",sub:"Owner design reviews (SD/DD/CD) are your lane — exactly what these roles ask for.",recap:["Review early: [[sd|SD]] locks program & budget, [[dd|DD]] surfaces [[constructability]], [[cd|CD]] must be build-ready.","[[valueeng|VE]] trims cost without cutting performance or [[redundancy]].","Price and document every change against the [[proforma|pro forma]]."]});
 
+MODULES.critpath=makePick('critpath',[
+  {q:"On your [[p6|P6]] master schedule, the **critical path** is…",opts:[{t:"The longest chain of dependent activities — it sets the finish date, and every task on it has zero [[float]]",ok:1,why:"The [[criticalpath|critical path]] is the longest path through the logic. Slip any activity on it and the whole project slips — so owners track it, not this week's loudest complaint."},{t:"The list of the most expensive activities"},{t:"Whatever the GC says is behind this week"}]},
+  {q:"A sub brags an activity has '10 days of [[float]].' As the owner's rep that means…",opts:[{t:"It can slip up to 10 days without moving the finish — but it's shared slack, not free schedule to give away",ok:1,why:"[[float|Float]] belongs to the path, not the sub. Burn it and a [[nearcritical|near-critical]] path can quietly become critical."},{t:"The whole project is 10 days ahead"},{t:"That activity is on the critical path"}]},
+  {q:"A second path runs just 2 days behind the critical path. You…",opts:[{t:"Track it as **near-critical** — one bad week there makes it the new critical path",ok:1,why:"[[nearcritical|Near-critical]] paths flip to critical with a single slip. Mature PMs watch the top few paths, not only #1."},{t:"Ignore it — only the critical path matters"},{t:"Delete it to clean up the schedule"}]},
+  {q:"Energization is slipping and the owner wants the date held. Adding crews, shifts and overtime to the critical activities is…",opts:[{t:"**Crashing** — buy time with added cost, hitting the cheapest critical activities first",ok:1,why:"[[crashing|Crashing]] adds resources to shorten the critical path (more cost); [[fasttrack|fast-tracking]] overlaps phases instead (more rework risk). Know which lever you're pulling."},{t:"Fast-tracking"},{t:"Adding float"}]},
+  {q:"A [[longlead|long-lead]] transformer that wasn't critical is now 4 months late. The likely effect…",opts:[{t:"It can **become** the critical path — late long-lead gear is the classic owner-side schedule killer",ok:1,why:"The critical path isn't fixed. Late [[longlead|long-lead]] equipment routinely becomes the binding path — which is exactly why owners chase procurement early."},{t:"Nothing — long-lead items never touch the schedule"},{t:"It shortens the project"}]},
+  {q:"Best way to show schedule command in the interview:",opts:[{t:"\"I drove [[cpm|CPM]] master schedules (MS Project) across Brightwater's phases and 35+ concurrent Applegreen sites — managing by [[float]] and the critical path against a frozen [[baseline]].\"",ok:1,why:"Owner-side PMs own the master schedule and hold the GC to it. Quantify the tool, the scale, and that you measure against a [[baseline]]."},{t:"\"I check in with the super when I can.\""},{t:"\"Scheduling is the GC's job, not mine.\""}]}
+],{obj:"Make the critical-path calls an owner's rep is expected to own.",sub:"P6/CPM schedule fluency shows up in most of these postings — speak it cold.",recap:["The [[criticalpath|critical path]] is the longest path; its tasks have zero [[float]].","Watch [[nearcritical|near-critical]] paths — they flip with one slip.","[[crashing|Crash]] (add cost) vs [[fasttrack|fast-track]] (add risk) to recover time; measure everything against the [[baseline]]."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1590,7 +1605,8 @@ MOD_META.push(
   {id:'metrics',name:'Your Numbers',tag:'Recall',emoji:'🔢',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
   {id:'clash',name:'Stakeholder Clash',tag:'Judgment',emoji:'⚔️',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
   {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'},
-  {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
+  {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
+  {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

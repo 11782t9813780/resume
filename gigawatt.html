@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
-<title>GIGAWATT — Ben Yacker's Interview Arena</title>
+  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<title>GIGAWATT — Benjamin Yacker's Interview Arena</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -385,7 +385,7 @@ body{background:radial-gradient(1300px 900px at 60% -10%,#0c1422 0%,var(--bg) 60
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* =====================================================================
-   GIGAWATT — Ben Yacker's 3D Interview Arena
+   GIGAWATT — Benjamin Yacker's 3D Interview Arena
    A learn-by-playing interview trainer for a data-center construction PM.
    ===================================================================== */
 
@@ -430,9 +430,12 @@ const GLOSSARY = {
   rfi:{t:"RFI — Request for Information",d:"A formal question from the field to the design team to clarify drawings/specs. Volume and turnaround are PM workload signals.",u:"You processed 400+ RFIs at Brightwater — a tangible measure of delivery muscle."},
   changeorder:{t:"Change order",d:"A formal modification to contract scope, cost, or schedule. Managing them protects budget and timeline.",u:"Tie change-order control to your budget-ownership story."},
   designbuild:{t:"Design-build",d:"One entity is responsible for both design and construction — faster and more integrated than design-bid-build.",u:"You ran design-build under PPP contracts — speed-friendly delivery hyperscalers like."},
+  gmp:{t:"GMP — Guaranteed Maximum Price",d:"A contract where the owner's cost is capped; the contractor absorbs overruns above the GMP but typically shares savings. Requires open-book cost access.",u:"GMP suits data centers where scope is still developing — cost certainty without a fully defined lump sum."},
+  lumpsum:{t:"Lump-sum (fixed-price) contract",d:"A single fixed price for the fully defined scope. Low owner admin, but requires complete drawings before bid — any scope gap becomes a change order.",u:"Lump-sum suits well-defined scopes where you can't afford scope-creep surprises."},
+  epcm:{t:"EPCM — Engineering, Procurement & Construction Management",d:"The EPCM firm manages design and construction but trade contracts sit with the owner — giving the owner cost transparency and control at the price of more risk.",u:"Owners who use EPCM keep pricing visibility; common on complex industrial and data-center builds."},
   criticalpath:{t:"Critical path",d:"The sequence of dependent tasks that determines the project's minimum duration. Slip one and the whole project slips.",u:"Frame your best decisions as 'protecting the critical path.'"},
   evm:{t:"EVM — Earned Value Management",d:"Tracking schedule/cost performance via metrics like SPI and CPI to forecast outcomes early.",u:"Mentioning CPI/SPI signals you manage to data, not vibes."},
-  osha30:{t:"OSHA 30",d:"A 30-hour OSHA construction safety certification for supervisors. Ben holds it.",u:"Pair it with your zero lost-time-incident record for a strong safety answer."},
+  osha30:{t:"OSHA 30",d:"A 30-hour OSHA construction safety certification for supervisors. Benjamin holds it.",u:"Pair it with your zero lost-time-incident record for a strong safety answer."},
   arcflash:{t:"Arc flash / NFPA 70E",d:"The standard for electrical safety in the workplace — critical around energized MV gear.",u:"Safety fluency around energized work reassures any data-center panel."},
   ppa:{t:"PPA — Power Purchase Agreement",d:"A long-term contract to buy electricity (often renewable or nuclear) at a set price — how hyperscalers lock in power and carbon-free supply.",u:"Shows you understand power procurement, not just construction."},
   epc:{t:"EPC — Engineering, Procurement & Construction",d:"A delivery model where one entity handles design, buys the gear, and builds — common for power and mission-critical work.",u:"Know EPC vs design-build vs design-bid-build and when each fits."},
@@ -489,7 +492,7 @@ const GLOSSARY = {
   submittal:{t:"Submittal",d:"A product sample, shop drawing or data sheet the contractor submits for the design team's approval before fabrication or install.",u:"You ran hundreds of these alongside 400+ RFIs — name the workflow."}
 };
 
-/* ---------------------- STAR PLAYBOOK (Ben's real stories) -------------- */
+/* ---------------------- STAR PLAYBOOK (Benjamin's real stories) -------------- */
 const STAR = {
   grid:{tag:"Power · Applegreen",title:"The Grid Whisperer",
     one:"\"I energized 35-plus sites across four utilities — sizing [[transformer|transformer]]s from 500 to 2,000 kVA — with zero permit delays on a billion-dollar program.\"",
@@ -556,7 +559,7 @@ const JARGON_KEYS = ["pue","n1","ats","wue","speedtopower","tier3","immersion","
 
 /* ---------------------- THE PANEL (finale) ------------------------------ */
 const PANEL = [
-  { who:"vp", type:"say", text:"Ben — thanks for coming in. I run infrastructure delivery here. Let's skip the warm-up. We're bottlenecked on one thing above all else. What is it, and what would you do about it first?" },
+  { who:"vp", type:"say", text:"Benjamin — thanks for coming in. I run infrastructure delivery here. Let's skip the warm-up. We're bottlenecked on one thing above all else. What is it, and what would you do about it first?" },
   { who:"vp", type:"ask", q:"Pick your opening:", choices:[
     {t:"Power. I'd start [[interconnection]] studies and order [[longlead|long-lead]] transformers and switchgear on day one — [[speedtopower|speed-to-power]] lives or dies there.", depth:18, rapport:14, best:true,
       reply:"That's exactly it. Most people say 'hiring.' Power is the constraint, and you led with it." },
@@ -925,7 +928,7 @@ function showStart(){ show(startL); hud.classList.remove('on'); closeDlg(); Scen
   const ret=state.done.size>0||state.xp>0;
   startL.innerHTML=`<div class="wrap center fade-in">
     <div class="badge-pill"><span class="live"></span> Learn-by-playing · 3D Interview Arena ${state.xp?'· '+state.xp.toLocaleString()+' XP':''}</div>
-    <div class="eyebrow">A training game for Ben Yacker</div>
+    <div class="eyebrow">A training game for Benjamin Yacker</div>
     <h1 class="title">GIGA<span class="em">WATT</span></h1>
     <p class="subtitle">Don't study for the interview — <b>play it</b>. Wire real power systems, cool an AI data hall, forge your stories, and face the VP. Every <span class="term" data-k="pue" tabindex="0">piece of jargon</span> is hover-to-learn. The knowledge sticks because you <b>did</b> it.</p>
     <div class="start-actions">
@@ -936,7 +939,7 @@ function showStart(){ show(startL); hud.classList.remove('on'); closeDlg(); Scen
   $('#bStart').onclick=()=>{ sClick(); ac(); if(state.sound)Music.start(); enterHub(); };
   $('#bHow').onclick=()=>{ sClick(); howTo(); };
 }
-function howTo(){ speak('coach',"Here's the deal, Ben. The **campus** is a stack of training games across five areas — power, delivery, stories, company prep and vocabulary — plus the boss. Each one teaches by **doing**, then quizzes you. Start a daily streak, clear at least **three** games, and [[the Panel|star]] — the VP interview — unlocks. Hover any glowing word for its meaning and how to use it in the room. Ready?",{next:()=>{closeDlg(); enterHub();},nextLabel:'Let\'s go →'}); }
+function howTo(){ speak('coach',"Here's the deal, Benjamin. The **campus** is a stack of training games across five areas — power, delivery, stories, company prep and vocabulary — plus the boss. Each one teaches by **doing**, then quizzes you. Start a daily streak, clear at least **three** games, and [[the Panel|star]] — the VP interview — unlocks. Hover any glowing word for its meaning and how to use it in the room. Ready?",{next:()=>{closeDlg(); enterHub();},nextLabel:'Let\'s go →'}); }
 
 function enterHub(){ show(hubL); hud.classList.add('on'); renderHUD(); closeDlg(); Scene.buildHub&&Scene.buildHub(); if(state.sound)Music.start();
   if(!state.seenIntro){ state.seenIntro=true; save(); setTimeout(()=>speak('coach',"Welcome to campus. Pick any module to start — I'd warm up with **Power Grid**. Remember: hover the glowing jargon. Let's get you that offer.",{tap:closeDlg,next:closeDlg,nextLabel:'Got it'}),400); }
@@ -1421,7 +1424,7 @@ MODULES.panel=function(host,done){
       <div class="rank-badge">${rank}</div>
       <div class="result-stat"><div class="rs"><div class="v" style="color:var(--c)">${Math.round(rapport)}</div><div class="l">Rapport</div></div><div class="rs"><div class="v" style="color:var(--gold)">${Math.round(depth)}</div><div class="l">Depth</div></div><div class="rs"><div class="v" style="color:var(--good)">${readiness()}%</div><div class="l">Readiness</div></div></div>
       <div class="learn-recap" style="border-color:${offer?'var(--good)':'var(--gold)'}"><h4 style="color:${offer?'var(--good)':'var(--gold)'}">Coach Marcus, ringside</h4>
-        <p style="font-size:13.5px;line-height:1.7;color:var(--muted);margin-left:2px">${offer?'That\'s the offer, Ben. You led with power, deployed a real story, and closed with a question. Now the money: you\'re targeting <b style="color:var(--txt)">$175K+ base plus equity</b>. Let them name a number first, anchor to your scope and the market, and never accept on the call.':'You\'re in the room — they want more <b style="color:var(--txt)">depth</b>. Go forge your stories and drill power, then run it back. The offer is right there.'}</p></div>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--muted);margin-left:2px">${offer?'That\'s the offer, Benjamin. You led with power, deployed a real story, and closed with a question. Now the money: you\'re targeting <b style="color:var(--txt)">$175K+ base plus equity</b>. Let them name a number first, anchor to your scope and the market, and never accept on the call.':'You\'re in the room — they want more <b style="color:var(--txt)">depth</b>. Go forge your stories and drill power, then run it back. The offer is right there.'}</p></div>
       <div class="start-actions" style="margin-top:18px"><button class="btn btn-primary btn-lg" id="bBack">⌂ Back to campus</button>${offer?'':'<button class="btn btn-ghost btn-lg" id="bAgain">↻ Try again</button>'}</div></div>`;
     $('#bBack').onclick=()=>{ sClick(); done({xp:Math.round(score*5),skill:['story',8],stars:offer?3:1}); enterHub(); };
     if($('#bAgain'))$('#bAgain').onclick=()=>{ sClick(); done({xp:Math.round(score*5),skill:['story',8],stars:offer?3:1}); openModule('panel'); };
@@ -1490,7 +1493,7 @@ function makePick(id, questions, opts){ opts=opts||{}; return function(host,done
 MODULES.commission=makeSeq('commission',[{title:"Commission a data hall",items:[{e:"🏭",n:"Factory test"},{e:"🔧",n:"Pre-functional"},{e:"⚙️",n:"Functional test"},{e:"🔌",n:"Integrated test"},{e:"🔑",n:"Handover"}],note:"Commissioning ([[cx]]) climbs from component to whole-system. The [[ist|integrated systems test]] — the pull-the-plug — is the final proof before [[substantial|handover]]."}],{obj:"Order the commissioning steps from component to whole-system.",sub:"Cx fluency reassures any mission-critical panel.",recap:["Cx climbs: factory → pre-functional → functional → [[ist|IST]] → handover.","The [[loadbank|load-bank]] and pull-the-plug tests prove full capacity before go-live."]});
 MODULES.lifecycle=makeSeq('lifecycle',[{title:"Owner-side project lifecycle",items:[{e:"🧭",n:"Feasibility"},{e:"✏️",n:"Design"},{e:"📝",n:"Permitting"},{e:"📦",n:"Procurement"},{e:"🏗️",n:"Construction"},{e:"🔌",n:"Commissioning"},{e:"🔑",n:"Occupancy"}],note:"Owner-side delivery runs feasibility → design → permitting → procurement → construction → [[cx|commissioning]] → occupancy. [[longlead|Long-lead]] procurement is pulled early to protect [[speedtopower|speed-to-power]]."}],{obj:"Put the phases of an owner-side build in order.",sub:"You've run this full arc end-to-end — say so.",recap:["[[longlead|Long-lead]] procurement starts during design, not after.","You delivered Brightwater through occupancy — the whole arc."]});
 MODULES.outage=makeSeq('outage',[{title:"Power outage response",items:[{e:"⚡",n:"Utility fails"},{e:"🎛️",n:"ATS senses loss"},{e:"🔋",n:"UPS carries load"},{e:"🟩",n:"Generator starts"},{e:"🔁",n:"ATS → generator"},{e:"🏭",n:"Gen carries hall"}],note:"When the grid drops: the [[ats|ATS]] senses it, the [[ups|UPS]] instantly carries the load, the [[genset|generator]] spins up, the ATS transfers, and the generator carries the hall. The UPS bridges the seconds in between."}],{obj:"Sequence what happens the instant the grid drops.",sub:"This is the standby-power story you owned at Applegreen.",recap:["[[ups|UPS]] bridges seconds; the [[genset|generator]] carries the long haul.","The [[ats|ATS]] is the automatic hand-off between them."]});
-MODULES.whoowns=makeSort('whoowns',[{prompt:"Whose responsibility is this?",teach:"Three hats on a build — the **owner's rep** protects the owner's money & intent, the **GC** runs means-and-methods in the field, the **A/E** designs and stamps. Ben sits owner-side.",buckets:[{k:'owner',name:"Owner's rep",hint:"money & intent"},{k:'gc',name:"Contractor (GC)",hint:"means & methods"},{k:'ae',name:"Architect/Engineer",hint:"design & stamp"}],items:[{t:"Approve the project budget",k:'owner'},{t:"Means & methods of construction",k:'gc'},{t:"Stamp the drawings",k:'ae'},{t:"Investment-committee reporting",k:'owner'},{t:"Sequence & supervise the trades",k:'gc'},{t:"Design the MEP systems",k:'ae'}]}],{obj:"Sort each task to the owner, the GC, or the designer.",sub:"Knowing the lanes is what owner-side maturity looks like."});
+MODULES.whoowns=makeSort('whoowns',[{prompt:"Whose responsibility is this?",teach:"Three hats on a build — the **owner's rep** protects the owner's money & intent, the **GC** runs means-and-methods in the field, the **A/E** designs and stamps. Benjamin sits owner-side.",buckets:[{k:'owner',name:"Owner's rep",hint:"money & intent"},{k:'gc',name:"Contractor (GC)",hint:"means & methods"},{k:'ae',name:"Architect/Engineer",hint:"design & stamp"}],items:[{t:"Approve the project budget",k:'owner'},{t:"Means & methods of construction",k:'gc'},{t:"Stamp the drawings",k:'ae'},{t:"Investment-committee reporting",k:'owner'},{t:"Sequence & supervise the trades",k:'gc'},{t:"Design the MEP systems",k:'ae'}]}],{obj:"Sort each task to the owner, the GC, or the designer.",sub:"Knowing the lanes is what owner-side maturity looks like."});
 MODULES.capexopex=makeSort('capexopex',[{prompt:"Capex or Opex?",teach:"[[capex|Capex]] is the one-time cost to **build**; **opex** is the ongoing cost to **run**. Design choices trade one for the other — both roll into [[tco|TCO]].",buckets:[{k:'capex',name:"Capex (build)"},{k:'opex',name:"Opex (run)"}],items:[{t:"Buying the transformer",k:'capex'},{t:"Monthly electricity bill",k:'opex'},{t:"Pouring the foundation",k:'capex'},{t:"Generator fuel & maintenance",k:'opex'},{t:"Installing the switchgear",k:'capex'},{t:"Facilities team salaries",k:'opex'}]}],{obj:"Split build costs from running costs.",sub:"Talk in capex/opex and you sound like an owner."});
 MODULES.risktriage=makeSort('risktriage',[{prompt:"How urgent is this risk?",teach:"Triage by **impact on the [[criticalpath|critical path]]**. Long-lead power and energization permits are almost always **High** — they gate everything. Parallel or cosmetic items are Low.",buckets:[{k:'high',name:"High"},{k:'med',name:"Medium"},{k:'low',name:"Low"}],items:[{t:"Main transformer is 18 months out and not ordered",k:'high',why:"[[longlead|Long-lead]] power gates energization — top priority."},{t:"A lobby finish material is back-ordered",k:'low',why:"Cosmetic, off the critical path."},{t:"Energization permit stuck at the utility",k:'high',why:"No permit, no power — it gates go-live."},{t:"One of three landscape subs is slow",k:'low',why:"Parallel, non-critical."},{t:"MEP/structure clash on a key floor",k:'med',why:"Real, but resolvable before it hits the critical path."}]}],{obj:"Rank each risk by its impact on the schedule.",sub:"Triage by the critical path, not by who's loudest."});
 MODULES.redundancy=makePick('redundancy',[
@@ -1592,6 +1595,39 @@ MODULES.critpath=makePick('critpath',[
   {q:"Best way to show schedule command in the interview:",opts:[{t:"\"I drove [[cpm|CPM]] master schedules (MS Project) across Brightwater's phases and 35+ concurrent Applegreen sites — managing by [[float]] and the critical path against a frozen [[baseline]].\"",ok:1,why:"Owner-side PMs own the master schedule and hold the GC to it. Quantify the tool, the scale, and that you measure against a [[baseline]]."},{t:"\"I check in with the super when I can.\""},{t:"\"Scheduling is the GC's job, not mine.\""}]}
 ],{obj:"Make the critical-path calls an owner's rep is expected to own.",sub:"P6/CPM schedule fluency shows up in most of these postings — speak it cold.",recap:["The [[criticalpath|critical path]] is the longest path; its tasks have zero [[float]].","Watch [[nearcritical|near-critical]] paths — they flip with one slip.","[[crashing|Crash]] (add cost) vs [[fasttrack|fast-track]] (add risk) to recover time; measure everything against the [[baseline]]."]});
 
+MODULES.contractstructure=makePick('contractstructure',[
+  {q:"A hyperscaler needs a data center fast — one integrated team for design and construction. Best delivery model?",opts:[
+    {t:"[[designbuild|Design-build]] — one entity owns both design and construction",ok:1,why:"Design-build collapses the gap between design and field execution — single point of accountability, fastest delivery. The model Ben ran at Applegreen across 35+ PPP-contract sites."},
+    {t:"Design-bid-build — design it fully, then bid to market"},
+    {t:"[[epcm|EPCM]] — separate the management layer from the trades"}
+  ]},
+  {q:"Scope is 60% defined and the owner needs cost certainty. Best contract structure?",opts:[
+    {t:"[[gmp|GMP]] — caps the owner's cost; contractor manages the contingency",ok:1,why:"A [[gmp|GMP]] lets scope finish developing without runaway budget risk. The cap protects the owner; open-book access lets the owner audit actual cost vs. the ceiling."},
+    {t:"[[lumpsum|Lump-sum]] — fixed price is always best when scope is incomplete"},
+    {t:"No contract — agree on price at the end"}
+  ]},
+  {q:"A GMP closes out with $800K of unused contingency. As owner you…",opts:[
+    {t:"Review the savings-sharing clause — most GMPs split unused [[contingency]] back to the owner",ok:1,why:"Unused [[contingency]] in a well-structured [[gmp|GMP]] is shared per the contract. Knowing this clause is basic owner-side financial literacy."},
+    {t:"Let the GC keep it all — that's standard"},
+    {t:"Ignore it — contingency is never returned"}
+  ]},
+  {q:"\"Open-book\" in a GMP contract means…",opts:[
+    {t:"The contractor shares all trade bids, invoices and overhead so the owner can audit actual cost vs. the cap",ok:1,why:"Open-book transparency turns the [[gmp|GMP]] from a blind bet into an auditable budget — the right arrangement when the owner's rep is engaged."},
+    {t:"The owner controls all design decisions"},
+    {t:"The GC builds without a defined budget"}
+  ]},
+  {q:"Under an [[epcm|EPCM]] arrangement, trade contracts sit with…",opts:[
+    {t:"The **owner** — the EPCM firm manages but does not hold the trade contracts",ok:1,why:"In [[epcm|EPCM]] the owner retains direct contracts with trades: more pricing transparency and control, but the owner absorbs more cost risk than under a lump-sum or [[gmp|GMP]]."},
+    {t:"The EPCM contractor — they hold all cost risk"},
+    {t:"The architect — they manage procurement"}
+  ]},
+  {q:"How do you frame your design-build record in the interview?",opts:[
+    {t:"\"I delivered [[designbuild|design-build]] under six-state PPP contracts — single accountability from design through energization across 35+ concurrent sites.\"",ok:1,why:"Owner-side design-build at program scale is rare. Anchor to the accountability model, the six-state scope, and that you saw it all the way to energization."},
+    {t:"\"I had little involvement in contract structures.\""},
+    {t:"\"Design-build isn't relevant to data-center roles.\""}
+  ]}
+],{obj:"Pick the right contract structure for each data center owner scenario.",sub:"GMP, lump-sum, design-build, EPCM — owners who know the levers control cost and risk.",recap:["[[designbuild|Design-build]]: one entity, fastest delivery, single accountability.","[[gmp|GMP]]: capped cost + open-book transparency — right when scope isn't fully baked.","[[epcm|EPCM]]: owner holds trade contracts, gains transparency, absorbs cost risk."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1606,7 +1642,8 @@ MOD_META.push(
   {id:'clash',name:'Stakeholder Clash',tag:'Judgment',emoji:'⚔️',color:'#A78BFA',skill:'story',cat:'Stories & Interview'},
   {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'},
   {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
-  {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
+  {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
+  {id:'contractstructure',name:'🔥 Contract Structure',tag:'Judgment',emoji:'📝',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

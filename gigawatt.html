@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
 <title>GIGAWATT — Benjamin Yacker's Interview Arena</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -489,7 +489,14 @@ const GLOSSARY = {
   forecourt:{t:"Forecourt",d:"The fuel/EV/retail apron of a service station — dispensers, chargers, canopy and store.",u:"Frame Applegreen as a full retail site build, not just chargers."},
   ust:{t:"Underground storage tank (UST)",d:"Buried fuel tanks — environmentally sensitive and permitting-heavy.",u:"USTs show the environmental/permitting complexity you managed at Applegreen."},
   canopy:{t:"Forecourt canopy",d:"The structural roof over the fueling and charging positions of a travel center.",u:"Part of the full forecourt structure you delivered."},
-  submittal:{t:"Submittal",d:"A product sample, shop drawing or data sheet the contractor submits for the design team's approval before fabrication or install.",u:"You ran hundreds of these alongside 400+ RFIs — name the workflow."}
+  submittal:{t:"Submittal",d:"A product sample, shop drawing or data sheet the contractor submits for the design team's approval before fabrication or install.",u:"You ran hundreds of these alongside 400+ RFIs — name the workflow."},
+  bim:{t:"BIM — Building Information Model",d:"A 3D digital model integrating architectural, structural, and MEP data — the shared source of truth for coordinating clashes before the field.",u:"Owner-side PMs require a BIM Execution Plan (BEP) at contract to mandate LOD and clash-resolution workflow."},
+  navisworks:{t:"Navisworks (clash detection)",d:"Autodesk's tool that combines discipline models into a federated view to surface hard and soft clashes before fabrication.",u:"Say 'federated-model clash reviews in Navisworks' to show owner-side BIM command."},
+  hardclash:{t:"Hard clash",d:"A BIM conflict where two elements physically occupy the same space — a duct through a beam, a pipe through a column. Must be resolved before fabrication.",u:"Catch hard clashes in Navisworks before trades go to the field — field fixes cost 10× or more."},
+  softclash:{t:"Soft clash",d:"A BIM clearance violation — no physical overlap, but insufficient maintenance or code-required clearance around equipment.",u:"Soft-clash review on MEP rooms catches maintainability gaps that become lifetime ops problems."},
+  bep:{t:"BIM Execution Plan (BEP)",d:"The owner's document issued at contract that specifies BIM Level of Development (LOD), discipline-model ownership, and clash-resolution workflow.",u:"Issue the BEP at contract — before design starts — to hold every party to the same BIM standard."},
+  fedmodel:{t:"Federated model",d:"A combined BIM model stitched from separate architectural, structural, and MEP models — the aggregate used for clash detection in Navisworks.",u:"Say 'federated-model clash reviews' to show you ran coordination across all disciplines."},
+  lod:{t:"LOD — Level of Development",d:"BIM specification for how detailed and reliable each model element must be — from LOD 100 (massing) to LOD 400 (fabrication-ready). Defined in the BEP.",u:"Require LOD 300 by end of Design Development so structural and MEP teams can coordinate properly."}
 };
 
 /* ---------------------- STAR PLAYBOOK (Benjamin's real stories) -------------- */
@@ -1628,6 +1635,39 @@ MODULES.contractstructure=makePick('contractstructure',[
   ]}
 ],{obj:"Pick the right contract structure for each data center owner scenario.",sub:"GMP, lump-sum, design-build, EPCM — owners who know the levers control cost and risk.",recap:["[[designbuild|Design-build]]: one entity, fastest delivery, single accountability.","[[gmp|GMP]]: capped cost + open-book transparency — right when scope isn't fully baked.","[[epcm|EPCM]]: owner holds trade contracts, gains transparency, absorbs cost risk."]});
 
+MODULES.bimclash=makePick('bimclash',[
+  {q:"A duct route passes through a structural beam at the same coordinates in the [[fedmodel|federated model]]. This is a…",opts:[
+    {t:"[[hardclash|Hard clash]] — two elements physically occupy the same space; must be resolved before fabrication",ok:1,why:"A [[hardclash|hard clash]] in the [[bim|BIM]] is a literal physical conflict. Catch it in [[navisworks|Navisworks]] before fabrication — field rework on custom ductwork costs 10×+ the model fix."},
+    {t:"[[softclash|Soft clash]] — a maintenance clearance violation"},
+    {t:"Not an issue — BIM models are just drawings"}
+  ]},
+  {q:"A chiller needs 36\" of tube-pull clearance but the adjacent wall leaves only 18\". In Navisworks this registers as a…",opts:[
+    {t:"[[softclash|Soft clash]] — a clearance violation; no physical overlap, but the equipment becomes unmaintainable",ok:1,why:"[[softclash|Soft clashes]] are maintenance or code-clearance violations. No physical conflict, but they create lifetime ops problems — especially on critical data-center [[mep|MEP]]."},
+    {t:"[[hardclash|Hard clash]] — the wall is touching the chiller"},
+    {t:"Not worth flagging — clearance is the operator's problem"}
+  ]},
+  {q:"As the owner, what document defines your BIM standards for the design team and GC at contract?",opts:[
+    {t:"The [[bep|BIM Execution Plan (BEP)]] — specifies model [[lod|LOD]], discipline ownership, and clash-resolution rules",ok:1,why:"The [[bep|BEP]] is the owner's BIM contract. Issue it before design starts so every party works to the same standard — not whoever has the loudest voice at the first [[oac|OAC]]."},
+    {t:"A verbal request at the first OAC meeting"},
+    {t:"The GC writes all BIM rules — the owner has no role"}
+  ]},
+  {q:"The design team delivers separate arch, structural, and MEP models. To run clash detection you build a…",opts:[
+    {t:"[[fedmodel|Federated model]] in [[navisworks|Navisworks]] — discipline models combined into one coordinated view",ok:1,why:"[[navisworks|Navisworks]] stitches each discipline's native model into a [[fedmodel|federated model]] so clashes across trades — duct vs beam, conduit vs sprinkler — surface before fabrication starts."},
+    {t:"Just the architectural model — other trades rarely clash"},
+    {t:"Print all drawings and overlay them by hand"}
+  ]},
+  {q:"On a data-center build, which BIM clash zone is most critical to clear before MEP fabrication?",opts:[
+    {t:"The overhead plenum where chilled-water mains, bus-duct, and cable trays compete for the same corridor",ok:1,why:"The data-hall overhead is the tightest coordination zone. A clash there means rework on custom-fabricated [[mep|MEP]] — likely on the [[criticalpath|critical path]] and very expensive."},
+    {t:"Color-coding on the BIM key plan"},
+    {t:"Furniture placement in the break room"}
+  ]},
+  {q:"How do you frame BIM coordination experience in the interview?",opts:[
+    {t:"\"I required a [[bep|BEP]] at contract, ran [[fedmodel|federated-model]] clash reviews in [[navisworks|Navisworks]] with MEP, structural, and fire-protection subs, and eliminated field conflicts before fabrication across a 600K sq ft program.\"",ok:1,why:"Owner-side BIM mandate + federated clash coordination + quantified program scale. That's the right frame — you drove it, not just attended the meetings."},
+    {t:"\"BIM is the architect's job — I focus on the field.\""},
+    {t:"\"I've seen Revit before.\""}
+  ]}
+],{obj:"Make the right BIM and clash-detection calls on a data-center build.",sub:"BIM coordination fluency is increasingly required on hyperscaler and data-center PM postings in 2026.",recap:["[[hardclash|Hard clash]]: two elements overlap — fix before fabrication.","[[softclash|Soft clash]]: clearance violation — catch it before ops inherits the problem.","Owner issues the [[bep|BEP]]; [[navisworks|Navisworks]] runs the [[fedmodel|federated]] review."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1643,7 +1683,8 @@ MOD_META.push(
   {id:'curveball',name:'The Curveball',tag:'Judgment',emoji:'🎲',color:'#FB7185',skill:'story',cat:'Stories & Interview'},
   {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
   {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
-  {id:'contractstructure',name:'🔥 Contract Structure',tag:'Judgment',emoji:'📝',color:'#FBBF24',skill:'story',cat:'Delivery & PM'}
+  {id:'contractstructure',name:'🔥 Contract Structure',tag:'Judgment',emoji:'📝',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
+  {id:'bimclash',name:'🔥 BIM Clash',tag:'Judgment',emoji:'🏗️',color:'#FBBF24',skill:'power',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

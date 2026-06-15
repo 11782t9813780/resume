@@ -1668,6 +1668,39 @@ MODULES.bimclash=makePick('bimclash',[
   ]}
 ],{obj:"Make the right BIM and clash-detection calls on a data-center build.",sub:"BIM coordination fluency is increasingly required on hyperscaler and data-center PM postings in 2026.",recap:["[[hardclash|Hard clash]]: two elements overlap — fix before fabrication.","[[softclash|Soft clash]]: clearance violation — catch it before ops inherits the problem.","Owner issues the [[bep|BEP]]; [[navisworks|Navisworks]] runs the [[fedmodel|federated]] review."]});
 
+MODULES.scopechanges=makePick('scopechanges',[
+  {q:"Mid-phase at Brightwater, a trade requests a finishes upgrade — marble instead of tile — adding $300K. First move:",opts:[
+    {t:"Get it in writing, confirm it's out of original scope, price the cost and [[contingency]] impact against the [[proforma|pro forma]], then escalate with a formal [[changeorder|change order]] for owner approval",ok:1,why:"Document it, quantify the impact, get approval in writing. That's how scope stays controlled across 25+ trades — nothing shifts without a signed change order."},
+    {t:"Tell the trade no — stop every scope request cold"},
+    {t:"Let the GC absorb it — that's their job"}
+  ]},
+  {q:"Your GC says a permit delay cost him $400K in crew idle time. Now he's asking you to absorb it. You…",opts:[
+    {t:"Review the original contract and the permit timeline baseline — was this risk his or the owner's? Determine responsibility, then decide",ok:1,why:"Every cost starts with who bore the risk. If the baseline assumed permits were owner-level, owner may absorb it. If GC was responsible, they hold it. Know your contract."},
+    {t:"Pay it immediately — they'll leave otherwise"},
+    {t:"Refuse outright — the GC must eat every cost"}
+  ]},
+  {q:"Scope creep across 35+ concurrent Applegreen sites. A few regions are requesting non-standard equipment. You…",opts:[
+    {t:"Create a change order template, price each request, create a controlled log, and hold a 'change board' meeting monthly — no request gets built without approval",ok:1,why:"At scale, scope control is a process, not just vigilance. Standardized change orders, a log, and monthly board gates prevent chaos and protect the baseline across 35 sites."},
+    {t:"Let each site manager handle their own changes"},
+    {t:"Reject every non-standard request"}
+  ]},
+  {q:"Close-out is 30 days away and a design team says they missed a major system in the CDs. It'll take 8 weeks and $200K to add. You tell the owner…",opts:[
+    {t:"We have three choices: slip [[contingency]] and schedule to accommodate, value-engineer elsewhere to find budget and schedule, or defer to a Phase 2. Here's the impact of each.",ok:1,why:"Bad news + options. Show the owner the trade-offs and let them decide. That's how you keep trust when scope surprises hit late."},
+    {t:"It's the architect's fault — not our problem"},
+    {t:"We'll figure it out — no need to worry them"}
+  ]},
+  {q:"A contractor claims work outside the [[changeorder|change-order]] process is a 'verbal approval' by your junior PM. Best response:",opts:[
+    {t:"Acknowledge the work, but no payment without a signed change order retroactively documenting scope, cost, and approval",ok:1,why:"'Verbal approval' costs projects. Every change order must be signed — that protects both parties and proves intent. No signature = no agreement."},
+    {t:"Pay them since they did the work"},
+    {t:"Escalate to your CEO immediately"}
+  ]},
+  {q:"How do you frame scope management in the interview?",opts:[
+    {t:"\"I controlled scope across 35+ sites with [[contingency]] reserves and a formal [[changeorder|change-order]] process — 400+ RFI decisions at Brightwater proved that early scope clarity saves cost and schedule.\"",ok:1,why:"Quantified scale + a process + tied to your real record (RFIs are scope queries). That's how an owner-side PM shows they prevent the 70% scope-creep failure rate."},
+    {t:"\"Scope management isn't really my responsibility.\""},
+    {t:"\"We just let the GC manage scope changes.\""}
+  ]}
+],{obj:"Control scope creep and manage change orders like an owner's rep — across one site or thirty-five.",sub:"Over 70% of construction projects experience scope creep. Your baseline and change-order process prevent you from being one of them.",recap:["Every scope change must be a formal [[changeorder|change order]]: written, priced, and signed.","Document who bears the risk (owner vs. GC) — it determines who pays for delays, surprises, and scope gaps.","At scale, scope control is a **process** (change board, templates, log) — not just reactive vigilance."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1684,7 +1717,8 @@ MOD_META.push(
   {id:'designreview',name:'🔥 Owner Design Review',tag:'Judgment',emoji:'📐',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
   {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
   {id:'contractstructure',name:'🔥 Contract Structure',tag:'Judgment',emoji:'📝',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
-  {id:'bimclash',name:'🔥 BIM Clash',tag:'Judgment',emoji:'🏗️',color:'#FBBF24',skill:'power',cat:'Delivery & PM'}
+  {id:'bimclash',name:'🔥 BIM Clash',tag:'Judgment',emoji:'🏗️',color:'#FBBF24',skill:'power',cat:'Delivery & PM'},
+  {id:'scopechanges',name:'🔥 Scope & Changes',tag:'Judgment',emoji:'📋',color:'#FB923C',skill:'power',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

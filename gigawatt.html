@@ -496,7 +496,10 @@ const GLOSSARY = {
   softclash:{t:"Soft clash",d:"A BIM clearance violation — no physical overlap, but insufficient maintenance or code-required clearance around equipment.",u:"Soft-clash review on MEP rooms catches maintainability gaps that become lifetime ops problems."},
   bep:{t:"BIM Execution Plan (BEP)",d:"The owner's document issued at contract that specifies BIM Level of Development (LOD), discipline-model ownership, and clash-resolution workflow.",u:"Issue the BEP at contract — before design starts — to hold every party to the same BIM standard."},
   fedmodel:{t:"Federated model",d:"A combined BIM model stitched from separate architectural, structural, and MEP models — the aggregate used for clash detection in Navisworks.",u:"Say 'federated-model clash reviews' to show you ran coordination across all disciplines."},
-  lod:{t:"LOD — Level of Development",d:"BIM specification for how detailed and reliable each model element must be — from LOD 100 (massing) to LOD 400 (fabrication-ready). Defined in the BEP.",u:"Require LOD 300 by end of Design Development so structural and MEP teams can coordinate properly."}
+  lod:{t:"LOD — Level of Development",d:"BIM specification for how detailed and reliable each model element must be — from LOD 100 (massing) to LOD 400 (fabrication-ready). Defined in the BEP.",u:"Require LOD 300 by end of Design Development so structural and MEP teams can coordinate properly."},
+  fat:{t:"FAT — Factory Acceptance Test",d:"The test of equipment (transformer, UPS, generator, gear) at the factory before it ships to the job. Governs whether the unit is fit for the field and will perform as spec'd.",u:"Witness or review FAT results — a failed FAT on a long-lead item can slip the entire schedule if you don't surface it early."},
+  sat:{t:"SAT — Site Acceptance Test",d:"The final field test of an installed system to verify it performs as designed and commissioned specs before handover to operations.",u:"SAT closure is the gate to [[substantial|substantial]] completion — don't handover until you've proven it works."},
+  targetcost:{t:"Target cost",d:"The owner-set budget baseline for a project, established at Schematic Design with contingency, that drives all design and procurement trade-offs.",u:"Setting and protecting the target cost at SD is exactly how owners control hyperscaler program costs."}
 };
 
 /* ---------------------- STAR PLAYBOOK (Benjamin's real stories) -------------- */
@@ -1701,6 +1704,82 @@ MODULES.scopechanges=makePick('scopechanges',[
   ]}
 ],{obj:"Control scope creep and manage change orders like an owner's rep — across one site or thirty-five.",sub:"Over 70% of construction projects experience scope creep. Your baseline and change-order process prevent you from being one of them.",recap:["Every scope change must be a formal [[changeorder|change order]]: written, priced, and signed.","Document who bears the risk (owner vs. GC) — it determines who pays for delays, surprises, and scope gaps.","At scale, scope control is a **process** (change board, templates, log) — not just reactive vigilance."]});
 
+MODULES.cxmgmt=makePick('cxmgmt',[
+  {q:"During [[fat|FAT]], the transformer supplier fails a voltage-tolerance test. The utility connection is tight on the schedule. You…",opts:[
+    {t:"Stop everything and demand rework or replacement — FAT failure means a critical system won't perform in the field. We can't sign off and hide it.",ok:1,why:"FAT is the gate. If gear fails factory acceptance, it will fail on site. Never bypass it. Either fix the root cause, rework the unit, or engineer a verified mitigation before energization."},
+    {t:"Sign off with a waiver — the field will prove it works anyway"},
+    {t:"Call the utility and ask them to re-tune the incoming voltage to match"}
+  ]},
+  {q:"You're in [[ist|IST]] (pull-the-plug test, full-load verification). The [[ups|UPS]] battery bank undershoots its carry-time spec by 8 seconds. Energization is in 48 hours. Your call…",opts:[
+    {t:"Halt [[sat|SAT]] until the battery vendor characterizes the issue, engineers a fix, and you re-run IST. Undersized [[ups|UPS]] is a go-no-go.",ok:1,why:"IST failure = real. A UPS that can't carry load for its rated duration is mission-critical. Don't hide it; don't defer it to ops. Stop, fix it, and prove it works before handover."},
+    {t:"Keep going; we can tell ops to limit peak loads until we upgrade the batteries later"},
+    {t:"Run IST again tomorrow and hope it performs better this time"}
+  ]},
+  {q:"The punch list has 180 items. [[fat|FAT]]s, [[sat|SAT]]s, and closeout are running in parallel. Your burn order…",opts:[
+    {t:"Punch items that block [[cx|commissioning]] phases first (FAT-gating equipment, [[ist|IST]]-critical items), then [[sat|SAT]]-blocking items, then cosmetic — follow the critical path.",ok:1,why:"Punch-list burn is a schedule sequencing problem. Items blocking commissioning = go-no-go risk. Cosmetic items can slip without delaying go-live."},
+    {t:"Hit everything equally — we'll just work harder"},
+    {t:"Cosmetic first so the owner sees visible progress"}
+  ]},
+  {q:"Design docs missed one critical HVAC setpoint in the O&M manual. You find it 4 days before [[substantial|substantial]] completion. Your response…",opts:[
+    {t:"Recreate the setpoint from design intent, verify it works in the field during final [[sat|SAT]], document it in the O&M manual, and hand over complete — [[substantial|substantial]] completion waits for full O&M handover.",ok:1,why:"Ops can't run a building without the manual. Incomplete O&M = incomplete handover. Find and close these gaps now, not after residents or IT move in."},
+    {t:"Hand over with a note that ops will reconstruct it"},
+    {t:"Skip that HVAC system's documentation if we can't find the setpoint"}
+  ]},
+  {q:"How would you position commissioning leadership in a data-center PM interview?",opts:[
+    {t:"\"I've managed [[cx|commissioning]] on [[mv|utility-interconnection]] and equipment scales — witnessed [[fat|FAT]]s, run [[ist|IST]] under full load, owned punch-list burn, and handed systems over with complete O&M. [[cx|Commissioning]] is not a phase you rush; it's the gate before go-live.\"",ok:1,why:"You own the quality commitment + know the language (FAT, IST, O&M) + understand it's a go-no-go event, not a sign-off + grounded in real experience."},
+    {t:"\"Commissioning is mostly the design team and contractor's job.\""},
+    {t:"\"I leave commissioning details to the ops team after handoff.\""}
+  ]}
+],{obj:"Manage commissioning scenarios like a PM protecting go-live quality — [[fat|FAT]] failures, [[ist|IST]] stops, punch-list priorities, and O&M completeness.",sub:"Commissioning is where construction meets operations. Interviewers probe whether you protect quality or cut corners under schedule pressure.",recap:["[[fat|FAT]] and [[ist|IST]] failures are real gates — never hide them or hope they'll resolve. Surface them, engineer the fix, re-test, and sign off.","Punch-list burn follows the critical path: commissioning-blocking items first, cosmetic last — don't waste time on visible-but-safe items when go-live is at risk.","[[substantial|Substantial]] completion requires complete O&M documentation and verified system handover — it's ops' playbook from day one."]});
+
+MODULES.projectcontrols=makePick('projectcontrols',[
+  {q:"You inherit a data-center build with a [[baseline|baseline schedule]] in P6. First step to own the controls program…",opts:[
+    {t:"Validate the [[baseline|baseline]] against the actual scope, long-lead orders, and permit gates — confirm it's realistic and defensible, or re-plan it now",ok:1,why:"A bad [[baseline|baseline]] from day one poisons all future reporting. Spend the upfront effort to confirm it's real: scope is fully defined, long-leads are costed, critical gates are locked."},
+    {t:"Trust the baseline that was handed to me — it came from the GC, so it must be solid"},
+    {t:"Start recording actual progress and calculate variance without validating the plan first"}
+  ]},
+  {q:"Your project is 12 weeks in. Planned completion is week 52. You're 30% done (scope) but only 20% through schedule. This signals…",opts:[
+    {t:"Schedule slippage: actual progress (20% of time elapsed) lags planned (30% of work done) — you're running behind. Forecast when you'll finish and escalate the gap now.",ok:1,why:"Early variance detection — even small gaps — gives you time to crash critical activities or negotiate scope cuts. Waiting until week 40 to surface a 12-week slip is a career mistake."},
+    {t:"Good cost efficiency — the team is doing more with less time"},
+    {t:"Not enough information yet — wait until halfway through to assess"}
+  ]},
+  {q:"You track [[evm|EVM]] metrics: SPI (Schedule Performance Index) = 0.85. What does that mean?",opts:[
+    {t:"You're earning schedule at 85% of the rate you planned — one week of planned work takes ~1.18 weeks to complete. On a 52-week project, you're burning extra time.",ok:1,why:"SPI < 1.0 = behind schedule. SPI = 0.85 means every dollar of planned schedule yields only $0.85 of earned progress. Multiply your original duration by 1/SPI to forecast the finish: 52 ÷ 0.85 ≈ week 61."},
+    {t:"You're spending 85 cents for every dollar budgeted — good cost control"},
+    {t:"85% of the team is productive; 15% is overhead"}
+  ]},
+  {q:"Mid-phase, you spot a critical-path long-lead item (ductwork) shipping 6 weeks late due to a supplier issue. The [[baseline|baseline]] has 2 weeks of float on that path. You…",opts:[
+    {t:"Immediately assess if the delay flips the critical path or forces a rebaseline: 6-week slip > 2-week float = critical. Escalate the risk, crash concurrent activities, or negotiate a scope trade to absorb the delay without slipping go-live.",ok:1,why:"Late detection of critical-path slippage is how schedules blow out. The moment long-lead risk surfaces — even 12 weeks before impact — you cascade options up to leadership: add crews, cut scope, or reset expectations."},
+    {t:"Keep the current baseline and absorb the slip into contingency"},
+    {t:"Wait and see if the supplier recovers before making any changes"}
+  ]},
+  {q:"Your schedule forecast now shows go-live slipping from week 52 to week 60. Do you update (rebaseline) the plan of record?",opts:[
+    {t:"Yes — if the slip is due to scope changes, long-lead delays, or permit gates that are now locked, rebaseline to capture the new reality. Owners and lenders need the true forecast, and a stale baseline creates false health metrics.",ok:1,why:"A rebaseline (approved by leadership) updates the plan of record so future variance is measured against reality, not hope. If you don't rebaseline, SPI stays artificially low and hides whether you're executing the new plan well."},
+    {t:"No — keep the original plan and explain the variance with narrative risk updates"},
+    {t:"Rebaseline only if you can recover the time within 2 weeks"}
+  ]},
+  {q:"In an interview, how would you frame your project-controls mindset?",opts:[
+    {t:"\"I validate the [[baseline|baseline]] upfront, track [[evm|EVM]] health (SPI, CPI) weekly, forecast finish early, and escalate variance before it becomes crisis. [[baseline|Baseline]] and forecast discipline separates owners who stay on schedule from those who discover problems too late.\"",ok:1,why:"This proves you think like an owner: real data, early warning, and leadership visibility. You're not hoping — you're managing by metrics and controlling the narrative."},
+    {t:"\"I focus on keeping the team moving and deal with schedule issues as they come up.\""},
+    {t:"\"Schedule management is mostly the GC's job — I check in at monthly meetings.\""}
+  ]}
+],{obj:"Own project controls: validate the baseline, track earned value health, forecast risk early, and rebaseline when reality changes.",sub:"Data-center and hyperscale owners require schedule defensibility and early warning. Controls discipline is a strategic competency in 2026.",recap:["Validate the [[baseline|baseline]]: lock scope, cost long-leads, confirm permit gates. A shaky baseline poisons all future reporting.","Track [[evm|EVM]] — SPI < 1.0 = behind schedule; forecast finish by dividing original duration by SPI.","Escalate critical-path variance immediately — 6-week slip with 2 weeks of float is a go-live threat. Crash activities or negotiate scope cuts now.","Rebaseline when scope, long-leads, or permit gates change and lock the new reality. A current [[baseline|baseline]] is better than a stale one."]});
+
+MODULES.preconstruction=makePick('preconstruction',[
+  {q:"At [[sd|Schematic Design]], the owner needs a realistic cost estimate. As the owner's rep, your first step is…",opts:[{t:"Work with estimators to build a [[targetcost|target cost]] from scope + complexity, then set [[contingency|contingency]] based on design maturity — this becomes your budget lock at [[dd|DD]]",ok:1,why:"[[targetcost|Target cost]] and [[contingency]] are set early by the owner. This baseline protects budget throughout design and procurement — the right discipline for hyperscaler builds."},{t:"Wait for the GC to bid after design is final"},{t:"Assume the owner has unlimited budget"}]},
+  {q:"The [[dd|Design Development]] estimate is $15M over [[targetcost|target cost]]. The owner won't increase budget. Best move:",opts:[{t:"Run [[valueeng|value engineering]] targeting non-critical systems (finishes, fit-out) and defer nice-to-haves; protect power, cooling and [[mep|MEP]] capacity",ok:1,why:"VE trade-offs: cut cosmetics and deferrable scope, but never silently cut redundancy or capacity — the owner chooses what to defer, you protect performance."},{t:"Cut [[redundancy]] levels to hit the number"},{t:"Reject the design outright"}]},
+  {q:"A [[longlead|long-lead]] transformer is normally $400K and 6 months. A faster (crasher) version costs $600K + 3 months. [[contingency|Contingency]] is tight. You…",opts:[{t:"Calculate the cost of the 3-month schedule slip (crew idle time, financing cost) against the $200K delta — if the slip costs more, crash the order",ok:1,why:"Procurement trade-offs are financial: compare the cost of crashing against the cost of delay. Owner-side PMs make this math explicit to leadership."},{t:"Always crash to protect the schedule"},{t:"Never crash — it's wasteful"}]},
+  {q:"During procurement, the top-bid GC comes in at 80% of [[targetcost|target cost]]. Red flag?",opts:[{t:"Yes — confirm they understood the full scope, [[mep|MEP]] capacity, [[contingency|contingency]] placement, and [[longlead|long-lead]] risk. Too-low bids often hide scope ambiguity.",ok:1,why:"A 20% gap signals either scope misalignment or risk-shifting. Align procurement assumptions early before a low bid becomes a change-order war."},{t:"No — it's just a good deal"},{t:"Take it and let them figure it out"}]},
+  {q:"Your preconstruction strategy at data-center scale:",opts:[{t:"\"I set a defensible [[targetcost|target cost]] at SD with [[contingency]], run [[valueeng|VE]] to protect the budget, and pull [[longlead|long-lead]] procurement before [[cd|CDs]] close — managing cost and schedule hand-in-hand from the start.\"",ok:1,why:"Owner-side preconstruction fluency: target cost discipline + VE strategy + early long-lead calls = you control the project arc from day one."},{t:"\"The GC manages preconstruction — I come in after design.\""},{t:"\"Budget and schedule aren't really my job.\""}]}
+],{obj:"Own preconstruction and value engineering like an owner's PM — target cost, trade-offs, and long-lead strategy.",sub:"CoreWeave and other hyperscalers need preconstruction PMs. This is what the role demands.",recap:["Set [[targetcost|target cost]] and [[contingency]] at [[sd|SD]] — lock the budget baseline before detail multiplies the cost of change.","[[valueeng|VE]] protects performance: cut cosmetics and deferrable scope, never silently cut power, cooling or [[mep|MEP]] capacity.","Procurement trade-offs are financial: crash long-lead orders only if the cost of schedule slip exceeds the crash cost.","Confirm every GC bid aligns with full scope and [[contingency]] placement — a 20%+ low gap signals scope ambiguity."]});
+
+MODULES.modular=makePick('modular',[
+  {q:"Your data-center build has a standard electrical room design you'll replicate across four sites. Is this a [[modular|modular]] candidate?",opts:[{t:"Yes — standardized design, repeatability, and multi-site demand make [[modular|modular]] electrical rooms ideal: pre-tested factory assemblies cut on-site termination work by ~44%.",ok:1,why:"Modular works when the design is repeatable and the site constraints let you use it off-the-shelf. Four identical sites = four identical electrical rooms."},{t:"No — all electrical work should be field-built"},{t:"Only if the sites are next to each other"}]},
+  {q:"Your site has tight logistics — limited staging area, urban constraints, and a jammed utility cabinet. Is [[modular|modular]] cooling skids still the right call?",opts:[{t:"Reassess — [[modular|modular]] works when design repeatability matches site constraints. If logistics or permits force customization, prefab loses its advantage and costs more than field-build.",ok:1,why:"Modular is not a silver bullet. If the site can't accept off-the-shelf modules without rework, you've just paid for prefab AND custom adaptation — the worst of both. Field-build might be cheaper."},{t:"Always go [[modular|modular]] to save schedule"},{t:"Modular is only for small sites"}]},
+  {q:"[[modular|Modular]] electrical and cooling modules arrive as factory-tested assemblies. Why does that matter to you as the owner's PM?",opts:[{t:"Quality gates on-site termination early — fewer variables on schedule-critical energization work. You've already proven the gear works before it ships.",ok:1,why:"Factory testing = fewer field unknowns. You're not debugging a panel on your critical path; you're integrating a known-good subsystem."},{t:"It doesn't matter — testing happens anywhere"},{t:"It means fewer people on site"}]},
+  {q:"You're selling a [[modular|modular]] strategy to an owner worried about loss of customization. Your framing:",opts:[{t:"\"Modular cuts build time ~30% and locks cost certainty — but only when the design is repeatable. We standardize the cage, but IT still chooses the load. Customization happens where it adds value; modularity handles the commodity systems.\"",ok:1,why:"Modular is a spectrum. You keep design flexibility where it matters; you eliminate it where it's waste. Tie modularity to speed and cost, not to loss of control."},{t:"\"Modular means you give up any choice.\""},{t:"\"Modularity is only for cheap projects.\""}]}
+],{obj:"Know when [[modular|modular]] construction wins — and when it's a cost trap.",sub:"Modular is hot in 2026 data-center hiring, but the real skill is knowing when repeatability and site fit justify the upfront prefab cost.",recap:["Modular works when design is **repeatable** and site constraints allow standard modules. Multi-site standardization = [[modular|modular]] gains.","If customization forces rework after delivery, you've paid for prefab AND adaptation — worst of both. Know the site constraints upfront.","Factory testing ([[fat|FAT]]) on [[modular|modular]] gear proves quality early; fewer field unknowns on the critical path to energization.","Modular cuts schedule ~30% — but only when you don't lose that gain to site logistics or permit workarounds."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1718,7 +1797,10 @@ MOD_META.push(
   {id:'critpath',name:'🔥 Critical Path',tag:'Judgment',emoji:'🗓️',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
   {id:'contractstructure',name:'🔥 Contract Structure',tag:'Judgment',emoji:'📝',color:'#FBBF24',skill:'story',cat:'Delivery & PM'},
   {id:'bimclash',name:'🔥 BIM Clash',tag:'Judgment',emoji:'🏗️',color:'#FBBF24',skill:'power',cat:'Delivery & PM'},
-  {id:'scopechanges',name:'🔥 Scope & Changes',tag:'Judgment',emoji:'📋',color:'#FB923C',skill:'power',cat:'Delivery & PM'}
+  {id:'scopechanges',name:'🔥 Scope & Changes',tag:'Judgment',emoji:'📋',color:'#FB923C',skill:'power',cat:'Delivery & PM'},
+  {id:'cxmgmt',name:'🔥 Commissioning Ready',tag:'Judgment',emoji:'✅',color:'#34D399',skill:'story',cat:'Delivery & PM'},
+  {id:'projectcontrols',name:'🔥 Project Controls',tag:'Judgment',emoji:'📊',color:'#38BDF8',skill:'power',cat:'Delivery & PM'},
+  {id:'preconstruction',name:'🔥 Preconstruction & VE',tag:'Judgment',emoji:'💰',color:'#FBBF24',skill:'power',cat:'Delivery & PM'}
 );
 
 /* =====================  BOOT  ===================== */

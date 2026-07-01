@@ -499,7 +499,8 @@ const GLOSSARY = {
   lod:{t:"LOD — Level of Development",d:"BIM specification for how detailed and reliable each model element must be — from LOD 100 (massing) to LOD 400 (fabrication-ready). Defined in the BEP.",u:"Require LOD 300 by end of Design Development so structural and MEP teams can coordinate properly."},
   fat:{t:"FAT — Factory Acceptance Test",d:"The test of equipment (transformer, UPS, generator, gear) at the factory before it ships to the job. Governs whether the unit is fit for the field and will perform as spec'd.",u:"Witness or review FAT results — a failed FAT on a long-lead item can slip the entire schedule if you don't surface it early."},
   sat:{t:"SAT — Site Acceptance Test",d:"The final field test of an installed system to verify it performs as designed and commissioned specs before handover to operations.",u:"SAT closure is the gate to [[substantial|substantial]] completion — don't handover until you've proven it works."},
-  targetcost:{t:"Target cost",d:"The owner-set budget baseline for a project, established at Schematic Design with contingency, that drives all design and procurement trade-offs.",u:"Setting and protecting the target cost at SD is exactly how owners control hyperscaler program costs."}
+  targetcost:{t:"Target cost",d:"The owner-set budget baseline for a project, established at Schematic Design with contingency, that drives all design and procurement trade-offs.",u:"Setting and protecting the target cost at SD is exactly how owners control hyperscaler program costs."},
+  mepprog:{t:"MEP program management",d:"Owner-side oversight of mechanical, electrical and plumbing delivery across all phases — from design coordination through commissioning. Includes load forecasting, trade sequencing, supply-chain management and clash prevention.",u:"Frame a multi-site [[mep|MEP]] program as unified standards, coordinated [[longlead|long-lead]] procurement, and zero field conflicts."}
 };
 
 /* ---------------------- STAR PLAYBOOK (Benjamin's real stories) -------------- */
@@ -1790,6 +1791,39 @@ MODULES.gccoord=makePick('gccoord',[
   {q:"How do you position GC coordination leadership in an interview?",opts:[{t:"\"I own trade coordination at the owner level — when [[mep|MEP]] and structural hit impasse, I broker the resolution. I track the GC's performance on deadlines and escalate slippage to schedule risk before it hits the critical path. 35+ concurrent sites taught me the playbook: clarity on lanes, early escalation, and standing authority.\"",ok:1,why:"You own a high-leverage piece of the chain: unblocking when the GC's subs deadlock. Tie it to scale (35+ sites) and real examples (trades, utilities, design conflicts)."},{t:"\"GC coordination is the GC's job — I just monitor.\""},{t:"\"Conflicts are the builder's problem; I don't get involved.\""}]}
 ],{obj:"Navigate owner-side GC coordination — trade conflicts, budget decisions, critical-path management, and escalation.",sub:"Hyperscale builds (CoreWeave, Google, Amazon, Oracle) demand GC oversight fluency. This is a core interview skill in 2026 data-center hiring.",recap:["**Your lane:** unblock sub conflicts by bringing parties together, reframing around the owner's gate, and brokering documented resolution.","**Budget**: verify contract risk allocation before approving change orders. Who bore the risk originally?","**Crashing**: cost vs schedule trade. Calculate whether the $280K is worth 3 weeks of acceleration.","**Escalation**: when third parties (utility, municipality) become critical-path, owner authority often unblocks faster than the GC can. Step in.","**Performance**: name the gap, reset expectations, give the GC one chance to correct — then escalate if patterns repeat."]});
 
+MODULES.mepmasters=makePick('mepmasters',[
+  {q:"At Schematic Design on a 50MW data-center build, the [[mep|MEP]] engineer submits a load forecast: 15MW cooling + 12MW electrical. Your first coordination move:",opts:[
+    {t:"Verify that electrical and mechanical are coordinated on the same IT load assumptions — if they're sizing to different device densities or PUEs, the downstream capacity mismatches will cascade into field rework",ok:1,why:"MEP systems must share the same load forecast. A mismatch between electrical (12 MW) and cooling (15 MW) means either over-design or under-capacity — both expensive. Sync the baseline at SD before drawings diverge."},
+    {t:"Accept the engineer's numbers and move forward"},
+    {t:"Tell the MEP team one number is right and the other is wrong"}
+  ]},
+  {q:"A [[longlead|long-lead]] chiller order has a 18-month lead time but your critical path is 20 months (design + build). Your early move:",opts:[
+    {t:"Order the chiller now, at Schematic Design, with a hold/defer clause so the exact capacity locks at DD when loads are confirmed — buy schedule, manage cost risk later",ok:1,why:"Long-lead [[mep|MEP]] gear (chillers, transformers, generators) must be ordered early or they'll gate the whole project. A hold clause lets you buy schedule without over-committing capacity until design crystallizes."},
+    {t:"Wait until Design Development to finalize and order"},
+    {t:"Use a temporary rental chiller instead"}
+  ]},
+  {q:"At Brightwater's high-rise, the [[mep|MEP]] [[roughin|rough-in]] is occupying the same space as the [[formwork|formwork]] crew's staging area — each needs 6 weeks and they overlap. Critical-path impact: 6 weeks. You…",opts:[
+    {t:"Map the trade sequence: which actually must start first? Can formwork staging move to a different zone? Can [[roughin|rough-in]] sub-phases (mechanical → electrical → plumbing)? Broker a sequence that doesn't sacrifice either crew's safety or quality",ok:1,why:"Space and sequence conflicts are where owner-side value appears. You don't force one to lose — you sequence them smartly or find an alternate staging zone. That's the problem-solving that saves 6 weeks."},
+    {t:"Tell one crew they have to wait"},
+    {t:"Extend the timeline by 6 weeks"}
+  ]},
+  {q:"The electrical contractor submits [[submittal|submittals]] for transformer and switchgear, but the mechanical team flags that the transformer location blocks their chiller connection path. Your process:",opts:[
+    {t:"Reject the submittal with a 'revise and resubmit' note citing the clash, coordinate a meeting with electrical and mechanical to find a solution (move transformer, re-route chiller, or coordinate new equipment), then re-approve — don't let trades fabricate to a conflict",ok:1,why:"Catch [[mep|MEP]] clashes at the submittal stage, not in the field. A rejected submittal costs days; a field rework costs weeks and budget. This is owner-side QA."},
+    {t:"Approve the submittal and let the field sort it out"},
+    {t:"Tell mechanical to move their chiller connection"}
+  ]},
+  {q:"Your 35-site Applegreen program uses standardized [[mep|MEP]] equipment across all locations — one transformer spec, one chiller model, one genset type. A new site asks for non-standard electrical due to site-specific constraints. You…",opts:[
+    {t:"Require the GC to design within the standard spec first — what trade-offs (footprint, efficiency, installation sequence) force the deviation? Only approve non-standard if you've exhausted options and documented the cost + schedule impact to the [[changeorder|change order]] baseline",ok:1,why:"Standards at scale (35 sites) unlock procurement clout, spares interchangeability, and crew cross-training. Non-standard deviations compound. Make them earn it through a formal [[changeorder|change order]] with full cost impact."},
+    {t:"Approve the non-standard spec immediately"},
+    {t:"Reject the deviation outright"}
+  ]},
+  {q:"How do you frame [[mep|MEP]] program leadership in an interview for a data-center PM role?",opts:[
+    {t:"\"I manage [[mepprog|MEP program]] at the owner level — coordinating design loads across electrical, mechanical, and plumbing so they're synchronized. I order [[longlead|long-lead]] gear early, track [[submittal|submittal]] approvals to prevent field conflicts, sequence [[roughin|rough-in]] to avoid spatial clashes, and hold the standard across multi-site programs. At Applegreen's 35+ locations, unified [[mep|MEP]] specs meant zero field conflicts and procurement leverage across 500+ chargers.\"",ok:1,why:"You own a critical, high-leverage piece of the chain: MEP coordination at the owner level. Sync loads, order long-lead early, manage submittals, sequence trades, standardize at scale. That's the exact role these postings are hunting for."},
+    {t:"\"MEP coordination is the design engineer's job — I just review their work.\""},
+    {t:"\"I focus on construction schedule — MEP systems are the GC's responsibility.\""}
+  ]}
+],{obj:"Master owner-side [[mepprog|MEP program]] coordination — load sync, [[longlead|long-lead]] procurement, [[submittal|submittal]] approval, and trade sequencing.",sub:"MEP Construction Program Manager roles (Cologix, Vantage, CoreWeave, others) are growing 2026 hiring focus. This game teaches the owner-side decisions that prevent $100K+ field conflicts.",recap:["**Load sync:** Electrical and mechanical must share the same IT [[density|density]] and [[pue|PUE]] baseline — a mismatch cascades into over/under-capacity.","**Long-lead ordering:** Order chillers, transformers, generators at SD with hold clauses to buy schedule while managing cost.","**Submittal review:** Catch [[mep|MEP]] clashes (transformer blocking chiller connection) at approval time, not in the field.","**Spatial sequencing:** Map which [[roughin|rough-in]] phases can't overlap, find alternate staging zones, broker the sequence.","**Standards at scale:** Multi-site programs live or die by consistent equipment specs — standardization unlocks procurement clout and field efficiency."]});
+
 MOD_META.push(
   {id:'commission',name:'Commission It',tag:'Sequence',emoji:'🔌',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
   {id:'outage',name:'Outage Response',tag:'Sequence',emoji:'⚡',color:'#FBBF24',skill:'power',cat:'Power & Cooling'},
@@ -1811,7 +1845,8 @@ MOD_META.push(
   {id:'cxmgmt',name:'🔥 Commissioning Ready',tag:'Judgment',emoji:'✅',color:'#34D399',skill:'story',cat:'Delivery & PM'},
   {id:'projectcontrols',name:'🔥 Project Controls',tag:'Judgment',emoji:'📊',color:'#38BDF8',skill:'power',cat:'Delivery & PM'},
   {id:'preconstruction',name:'🔥 Preconstruction & VE',tag:'Judgment',emoji:'💰',color:'#FBBF24',skill:'power',cat:'Delivery & PM'},
-  {id:'gccoord',name:'🔥 GC Coordination',tag:'Judgment',emoji:'🤝',color:'#FB923C',skill:'story',cat:'Delivery & PM'}
+  {id:'gccoord',name:'🔥 GC Coordination',tag:'Judgment',emoji:'🤝',color:'#FB923C',skill:'story',cat:'Delivery & PM'},
+  {id:'mepmasters',name:'🔥 MEP Masters',tag:'Judgment',emoji:'⚙️',color:'#38BDF8',skill:'power',cat:'Power & Cooling'}
 );
 
 /* =====================  BOOT  ===================== */
